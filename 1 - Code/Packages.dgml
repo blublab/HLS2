@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="3 - Util\PersistenceServices.Test" Label="PersistenceServices.Test" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="3 - Util\PersistenceServices" Label="PersistenceServices" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="3 - Util\MessagingServices.Test" Label="MessagingServices.Test" Category="Projekt" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Paket" />
+    <Node Id="RabbitMQ.Client 3.2.1" Label="RabbitMQ.Client 3.2.1" Category="Paket" />
+    <Node Id="3 - Util\MessagingServices" Label="MessagingServices" Category="Projekt" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Paket" />
+    <Node Id="RabbitMQ.Client 3.2.1" Label="RabbitMQ.Client 3.2.1" Category="Paket" />
+    <Node Id="3 - Util\Common" Label="Common" Category="Projekt" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="7 - Verbundtest\Verbundtest" Label="Verbundtest" Category="Projekt" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="Moq 4.2.1312.1615" Label="Moq 4.2.1312.1615" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="5 - Integrationstest\Integrationstest" Label="Integrationstest" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="Microsoft.Bcl 1.1.6" Label="Microsoft.Bcl 1.1.6" Category="Paket" />
+    <Node Id="Microsoft.Bcl.Build 1.0.13" Label="Microsoft.Bcl.Build 1.0.13" Category="Paket" />
+    <Node Id="Microsoft.Net.Http 2.2.18" Label="Microsoft.Net.Http 2.2.18" Category="Paket" />
+    <Node Id="Moq 4.2.1312.1615" Label="Moq 4.2.1312.1615" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="Neo4jClient 1.0.0.642" Label="Neo4jClient 1.0.0.642" Category="Paket" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="0 - Client\HAW Logistics System" Label="HAW Logistics System" Category="Projekt" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="1 - Application Core\UnterbeauftragungKomponente.Test" Label="UnterbeauftragungKomponente.Test" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="1 - Application Core\GeschaeftspartnerKomponente" Label="GeschaeftspartnerKomponente" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="1 - Application Core\AuftragKomponente" Label="AuftragKomponente" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="1 - Application Core\GeschaeftspartnerKomponente.Test" Label="GeschaeftspartnerKomponente.Test" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="1 - Application Core\TransportnetzKomponente" Label="TransportnetzKomponente" Category="Projekt" />
+    <Node Id="Microsoft.Bcl 1.1.6" Label="Microsoft.Bcl 1.1.6" Category="Paket" />
+    <Node Id="Microsoft.Bcl.Build 1.0.13" Label="Microsoft.Bcl.Build 1.0.13" Category="Paket" />
+    <Node Id="Microsoft.Net.Http 2.2.18" Label="Microsoft.Net.Http 2.2.18" Category="Paket" />
+    <Node Id="Neo4jClient 1.0.0.642" Label="Neo4jClient 1.0.0.642" Category="Paket" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Paket" />
+    <Node Id="1 - Application Core\TransportplanungKomponente" Label="TransportplanungKomponente" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="Microsoft.Bcl 1.1.6" Label="Microsoft.Bcl 1.1.6" Category="Paket" />
+    <Node Id="Microsoft.Bcl.Build 1.0.13" Label="Microsoft.Bcl.Build 1.0.13" Category="Paket" />
+    <Node Id="Microsoft.Net.Http 2.2.18" Label="Microsoft.Net.Http 2.2.18" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="Neo4jClient 1.0.0.642" Label="Neo4jClient 1.0.0.642" Category="Paket" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="1 - Application Core\UnterbeauftragungKomponente" Label="UnterbeauftragungKomponente" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+    <Node Id="PDFsharp 1.32.3057.0" Label="PDFsharp 1.32.3057.0" Category="Paket" />
+    <Node Id="1 - Application Core\TransportplanungKomponente.Test" Label="TransportplanungKomponente.Test" Category="Projekt" />
+    <Node Id="FluentNHibernate 1.4.0.0" Label="FluentNHibernate 1.4.0.0" Category="Paket" />
+    <Node Id="Iesi.Collections 3.2.0.4000" Label="Iesi.Collections 3.2.0.4000" Category="Paket" />
+    <Node Id="log4net 2.0.3" Label="log4net 2.0.3" Category="Paket" />
+    <Node Id="Microsoft.Bcl 1.1.6" Label="Microsoft.Bcl 1.1.6" Category="Paket" />
+    <Node Id="Microsoft.Bcl.Build 1.0.13" Label="Microsoft.Bcl.Build 1.0.13" Category="Paket" />
+    <Node Id="Microsoft.Net.Http 2.2.18" Label="Microsoft.Net.Http 2.2.18" Category="Paket" />
+    <Node Id="Moq 4.2.1312.1615" Label="Moq 4.2.1312.1615" Category="Paket" />
+    <Node Id="MySql.Data 6.7.4" Label="MySql.Data 6.7.4" Category="Paket" />
+    <Node Id="Neo4jClient 1.0.0.642" Label="Neo4jClient 1.0.0.642" Category="Paket" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Paket" />
+    <Node Id="NHibernate 3.3.3.4001" Label="NHibernate 3.3.3.4001" Category="Paket" />
+  </Nodes>
+  <Links>
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="3 - Util\PersistenceServices.Test" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="3 - Util\PersistenceServices.Test" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="3 - Util\PersistenceServices.Test" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="3 - Util\PersistenceServices" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="3 - Util\PersistenceServices" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="3 - Util\MessagingServices.Test" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="3 - Util\MessagingServices.Test" Target="Newtonsoft.Json 5.0.8" Category="Installiertes Paket" />
+    <Link Source="3 - Util\MessagingServices.Test" Target="RabbitMQ.Client 3.2.1" Category="Installiertes Paket" />
+    <Link Source="3 - Util\MessagingServices" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="3 - Util\MessagingServices" Target="Newtonsoft.Json 5.0.8" Category="Installiertes Paket" />
+    <Link Source="3 - Util\MessagingServices" Target="RabbitMQ.Client 3.2.1" Category="Installiertes Paket" />
+    <Link Source="3 - Util\Common" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="7 - Verbundtest\Verbundtest" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="7 - Verbundtest\Verbundtest" Target="Moq 4.2.1312.1615" Category="Installiertes Paket" />
+    <Link Source="7 - Verbundtest\Verbundtest" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Bcl 1.1.6" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl 1.1.6" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Microsoft.Net.Http 2.2.18" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Newtonsoft.Json 5.0.8" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="5 - Integrationstest\Integrationstest" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="5 - Integrationstest\Integrationstest" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="5 - Integrationstest\Integrationstest" Target="Moq 4.2.1312.1615" Category="Installiertes Paket" />
+    <Link Source="5 - Integrationstest\Integrationstest" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="5 - Integrationstest\Integrationstest" Target="Neo4jClient 1.0.0.642" Category="Installiertes Paket" />
+    <Link Source="0 - Client\HAW Logistics System" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\UnterbeauftragungKomponente.Test" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\UnterbeauftragungKomponente.Test" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\GeschaeftspartnerKomponente" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\GeschaeftspartnerKomponente" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\GeschaeftspartnerKomponente" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\AuftragKomponente" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\GeschaeftspartnerKomponente.Test" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\GeschaeftspartnerKomponente.Test" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\GeschaeftspartnerKomponente.Test" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="Microsoft.Bcl 1.1.6" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl 1.1.6" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Microsoft.Net.Http 2.2.18" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Newtonsoft.Json 5.0.8" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\TransportnetzKomponente" Target="Neo4jClient 1.0.0.642" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Bcl 1.1.6" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl 1.1.6" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Microsoft.Net.Http 2.2.18" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Newtonsoft.Json 5.0.8" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\TransportplanungKomponente" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente" Target="Neo4jClient 1.0.0.642" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\UnterbeauftragungKomponente" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\UnterbeauftragungKomponente" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\UnterbeauftragungKomponente" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\UnterbeauftragungKomponente" Target="PDFsharp 1.32.3057.0" Category="Installiertes Paket" />
+    <Link Source="FluentNHibernate 1.4.0.0" Target="NHibernate 3.3.3.4001" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Bcl 1.1.6" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl 1.1.6" Category="Paketabhängigkeit" />
+    <Link Source="Microsoft.Net.Http 2.2.18" Target="Microsoft.Bcl.Build 1.0.13" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Microsoft.Net.Http 2.2.18" Category="Paketabhängigkeit" />
+    <Link Source="Neo4jClient 1.0.0.642" Target="Newtonsoft.Json 5.0.8" Category="Paketabhängigkeit" />
+    <Link Source="NHibernate 3.3.3.4001" Target="Iesi.Collections 3.2.0.4000" Category="Paketabhängigkeit" />
+    <Link Source="1 - Application Core\TransportplanungKomponente.Test" Target="FluentNHibernate 1.4.0.0" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente.Test" Target="log4net 2.0.3" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente.Test" Target="Moq 4.2.1312.1615" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente.Test" Target="MySql.Data 6.7.4" Category="Installiertes Paket" />
+    <Link Source="1 - Application Core\TransportplanungKomponente.Test" Target="Neo4jClient 1.0.0.642" Category="Installiertes Paket" />
+  </Links>
+  <Categories>
+    <Category Id="Projekt" />
+    <Category Id="Paket" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Projekt" ValueLabel="True">
+      <Condition Expression="HasCategory('Projekt')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Paketabhängigkeit" ValueLabel="True">
+      <Condition Expression="HasCategory('Paketabhängigkeit')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

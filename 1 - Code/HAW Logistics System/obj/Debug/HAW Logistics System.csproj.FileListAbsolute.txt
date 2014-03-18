@@ -1,0 +1,14 @@
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\bin\Debug\HAW Logistics System.exe.config
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\bin\Debug\HAW Logistics System.exe
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\bin\Debug\HAW Logistics System.pdb
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\bin\Debug\log4net.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\bin\Debug\log4net.xml
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\MainWindow.baml
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\MainWindow.g.cs
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\App.g.cs
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System_MarkupCompile.cache
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.g.resources
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\Client.Properties.Resources.resources
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.csproj.GenerateResource.Cache
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.exe
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.pdb

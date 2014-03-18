@@ -1,6 +1,9 @@
 ﻿namespace HLSServerService
 {
-    partial class ProjectInstaller
+    /// <summary> 
+    /// Installer Design
+    /// </summary>
+    public partial class ProjectInstaller
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -28,32 +31,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.HLSServerServiceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
-            this.HLSServerServiceInstaller = new System.ServiceProcess.ServiceInstaller();
-            // 
-            // HLSServerServiceProcessInstaller
-            // 
-            this.HLSServerServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
-            this.HLSServerServiceProcessInstaller.Password = null;
-            this.HLSServerServiceProcessInstaller.Username = null;
-            this.HLSServerServiceProcessInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.HLSServerServiceProcessInstaller_AfterInstall);
-            // 
-            // HLSServerServiceInstaller
-            // 
-            this.HLSServerServiceInstaller.ServiceName = "HLSServerService";
-            this.HLSServerServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
-            // 
-            // ProjectInstaller
-            // 
-            this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.HLSServerServiceProcessInstaller,
-            this.HLSServerServiceInstaller});
+            this.hlsServerServiceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
+            this.hlsServerServiceInstaller = new System.ServiceProcess.ServiceInstaller();
 
+            // HLSServerServiceProcessInstaller
+            this.hlsServerServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
+            this.hlsServerServiceProcessInstaller.Password = null;
+            this.hlsServerServiceProcessInstaller.Username = null;
+            this.hlsServerServiceProcessInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.HLSServerServiceProcessInstaller_AfterInstall);
+
+            // HLSServerServiceInstaller
+            this.hlsServerServiceInstaller.ServiceName = "HLSServerService";
+            this.hlsServerServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+
+            // ProjectInstaller
+            this.Installers.AddRange(new System.Configuration.Install.Installer[] 
+            {
+                this.hlsServerServiceProcessInstaller,
+                this.hlsServerServiceInstaller
+            });
         }
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller HLSServerServiceProcessInstaller;
-        private System.ServiceProcess.ServiceInstaller HLSServerServiceInstaller;
+        private System.ServiceProcess.ServiceProcessInstaller hlsServerServiceProcessInstaller;
+        private System.ServiceProcess.ServiceInstaller hlsServerServiceInstaller;
     }
 }

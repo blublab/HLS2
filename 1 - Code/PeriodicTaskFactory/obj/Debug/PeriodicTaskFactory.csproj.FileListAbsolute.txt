@@ -1,0 +1,4 @@
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\PeriodicTaskFactory\bin\Debug\PeriodicTaskFactory.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\PeriodicTaskFactory\bin\Debug\PeriodicTaskFactory.pdb
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\PeriodicTaskFactory\obj\Debug\PeriodicTaskFactory.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\PeriodicTaskFactory\obj\Debug\PeriodicTaskFactory.pdb

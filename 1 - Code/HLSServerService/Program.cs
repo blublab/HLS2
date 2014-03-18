@@ -4,14 +4,14 @@ using System.ServiceProcess;
 
 namespace HLSServerService
 {
-    static class Program
+    public static class Program
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
-        static void Main()
+        public static void Main()
         {
             log4net.Config.XmlConfigurator.Configure();
                         
@@ -33,12 +33,12 @@ namespace HLSServerService
             }
             
             Log.Debug("Creating HLS Service.");
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
+            ServiceBase[] servicesToRun;
+            servicesToRun = new ServiceBase[] 
             { 
                 new HLSServerService() 
             };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(servicesToRun);
         }
     }
 }

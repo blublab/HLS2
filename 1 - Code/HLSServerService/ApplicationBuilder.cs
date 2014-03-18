@@ -14,11 +14,11 @@ using Util.TimeServices;
 
 namespace HLSServerService
 {
-    class ApplicationBuilder
+    public class ApplicationBuilder
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static ITransportnetzServices transportnetzServices = null;
         private static IUnterbeauftragungServices unterbeauftragungsServices = null;
-        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static void BuildApplication()
         {

@@ -1,0 +1,15 @@
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\Configurations\ConnectionStrings.config
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\Configurations\Logger.config
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\MessagingServices.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\MessagingServices.pdb
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\Common.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\log4net.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\RabbitMQ.Client.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\Common.pdb
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\log4net.xml
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\bin\Debug\RabbitMQ.Client.xml
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\obj\Debug\MessagingServices.csprojResolveAssemblyReference.cache
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\obj\Debug\MessagingServices.dll
+C:\Users\Luuc\Documents\WP14_Team1\1 - Code\MessagingServices\obj\Debug\MessagingServices.pdb

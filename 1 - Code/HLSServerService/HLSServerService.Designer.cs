@@ -1,6 +1,9 @@
 ﻿namespace HLSServerService
 {
-    partial class HLSServerService
+    /// <summary> 
+    /// Klasse HLSServerService
+    /// </summary>
+    public partial class HLSServerService
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -28,12 +31,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            // 
             // HLSServerService
-            // 
             this.CanPauseAndContinue = true;
             this.ServiceName = "HLSServerService";
-
         }
 
         #endregion

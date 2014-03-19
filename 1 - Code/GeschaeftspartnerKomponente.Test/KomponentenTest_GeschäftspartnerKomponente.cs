@@ -33,7 +33,7 @@ namespace Tests.KomponentenTest.GeschaeftspartnerKomponente
         [TestMethod]
         public void TestCreateGeschaeftspartnerSuccess()
         {
-            GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Max", Nachname = "Mustermann", EMail = new EMailType("sarstedt@acm.org")  };
+            GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Max", Nachname = "Mustermann" };
             Assert.IsTrue(gpDTO.GpNr == 0, "Id of Geschaeftspartner must be null.");
             geschaeftspartnerServices.CreateGeschaeftspartner(ref gpDTO);
             Assert.IsTrue(gpDTO.GpNr > 0, "Id of Geschaeftspartner must not be 0.");
@@ -43,7 +43,7 @@ namespace Tests.KomponentenTest.GeschaeftspartnerKomponente
         [TestMethod]
         public void TestUpdateGeschaeftspartnerSuccess()
         {
-            GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Max", Nachname = "Mustermann", EMail = new EMailType("sarstedt@acm.org") };
+            GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Max", Nachname = "Mustermann" };
             geschaeftspartnerServices.CreateGeschaeftspartner(ref gpDTO);
 
             gpDTO.Vorname = "Maria";
@@ -58,7 +58,7 @@ namespace Tests.KomponentenTest.GeschaeftspartnerKomponente
         [TestMethod]
         public void TestFindGeschaeftspartnerByIdSuccess()
         {
-            GeschaeftspartnerDTO gpDTO1 = new GeschaeftspartnerDTO() { Vorname = "Heinz", Nachname = "Schmidt", EMail = new EMailType("sarstedt@acm.org") };
+            GeschaeftspartnerDTO gpDTO1 = new GeschaeftspartnerDTO() { Vorname = "Heinz", Nachname = "Schmidt"};
             geschaeftspartnerServices.CreateGeschaeftspartner(ref gpDTO1);
             GeschaeftspartnerDTO gpDTO2 = geschaeftspartnerServices.FindGeschaeftspartner(gpDTO1.GpNr);
             Assert.IsTrue(gpDTO1 == gpDTO2, "Geschaeftspartner must be the same.");      
@@ -68,7 +68,7 @@ namespace Tests.KomponentenTest.GeschaeftspartnerKomponente
         [ExpectedException(typeof(Util.PersistenceServices.Exceptions.OptimisticConcurrencyException))]
         public void TestUpdateGeschaeftspartnerFailWegenOptimisticConcurrencyException()
         {
-            GeschaeftspartnerDTO gpDTOOriginal = new GeschaeftspartnerDTO() { Vorname = "Maria", Nachname = "Mustermann", EMail = new EMailType("sarstedt@acm.org") };
+            GeschaeftspartnerDTO gpDTOOriginal = new GeschaeftspartnerDTO() { Vorname = "Maria", Nachname = "Mustermann" };
             geschaeftspartnerServices.CreateGeschaeftspartner(ref gpDTOOriginal);
             Assert.IsTrue(gpDTOOriginal.GpNr > 0, "Id of Geschaeftspartner must not be 0.");
 

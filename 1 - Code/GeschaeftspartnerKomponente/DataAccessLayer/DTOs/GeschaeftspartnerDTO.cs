@@ -15,7 +15,6 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
         public int GpNr { get; set; }
         public string Nachname { get; set; }
         public string Vorname  { get; set; }
-        public EMailType EMail { get; set; }
         public long Version { get; set; }
 
         public virtual Geschaeftspartner ToEntity()
@@ -24,7 +23,6 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             gp.GpNr = this.GpNr;
             gp.Vorname = this.Vorname;
             gp.Nachname = this.Nachname;
-            gp.EMail = this.EMail;
             gp.Version = this.Version;
             return gp;
         }

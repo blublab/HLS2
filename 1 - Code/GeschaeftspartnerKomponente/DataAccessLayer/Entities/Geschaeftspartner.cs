@@ -15,6 +15,7 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
         public virtual string Nachname { get; set; }
         public virtual string Vorname  { get; set; }
         public virtual long Version { get; set; }
+        public virtual EMailType Email { get; set; }
 
         public Geschaeftspartner()
         {
@@ -27,6 +28,7 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             gpDTO.Vorname = this.Vorname;
             gpDTO.Nachname = this.Nachname;
             gpDTO.Version = this.Version;
+            gpDTO.Email = this.Email;
             return gpDTO;
         }
     }
@@ -40,6 +42,7 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             this.Map(x => x.Nachname).Not.Nullable();
             this.Map(x => x.Vorname).Not.Nullable();
             this.Version(x => x.Version);
+            this.Map(x => x.Email).Not.Nullable();
         }
     }
 }

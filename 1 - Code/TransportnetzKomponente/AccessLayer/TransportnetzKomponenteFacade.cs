@@ -17,7 +17,7 @@ namespace ApplicationCore.TransportnetzKomponente.AccessLayer
 
         public void CreateLokation(ref LokationDTO lokDTO)
         {
-            Check.Argument(lokDTO != null, "lokDTO != null"); // Hallo Yavus - jhetyz wirst du in Echtzeit gedinsgtsdzadsf
+            Check.Argument(lokDTO != null, "lokDTO != null");
             Check.Argument(lokDTO.LokNr == -1, "lokDTO.LokNr == -1");
 
             Lokation lok = lokDTO.ToEntity();

@@ -58,7 +58,7 @@ namespace Tests.KomponentenTest.GeschaeftspartnerKomponente
         [TestMethod]
         public void TestFindGeschaeftspartnerByIdSuccess()
         {
-            GeschaeftspartnerDTO gpDTO1 = new GeschaeftspartnerDTO() { Vorname = "Heinz", Nachname = "Schmidt"};
+            GeschaeftspartnerDTO gpDTO1 = new GeschaeftspartnerDTO() { Vorname = "Heinz", Nachname = "Schmidt" };
             geschaeftspartnerServices.CreateGeschaeftspartner(ref gpDTO1);
             GeschaeftspartnerDTO gpDTO2 = geschaeftspartnerServices.FindGeschaeftspartner(gpDTO1.GpNr);
             Assert.IsTrue(gpDTO1 == gpDTO2, "Geschaeftspartner must be the same.");      

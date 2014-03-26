@@ -15,3 +15,6 @@ C:\Users\Luuc\Documents\WP14_Team1\1 - Code\HAW Logistics System\obj\Debug\HAW L
 C:\Users\Luuc\Documents\WP14_Team5\1 - Code\HAW Logistics System\bin\Debug\HAW Logistics System.exe.config
 C:\Users\Luuc\Documents\WP14_Team5\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.exe
 C:\Users\Luuc\Documents\WP14_Team5\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.pdb
+C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\bin\Debug\HAW Logistics System.exe.config
+C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.exe
+C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.pdb

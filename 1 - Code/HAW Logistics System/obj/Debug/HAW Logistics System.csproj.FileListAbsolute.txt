@@ -30,3 +30,6 @@ C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System
 C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.g.resources
 C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\obj\Debug\Client.Properties.Resources.resources
 C:\Users\Yavuz\HLS2\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.csproj.GenerateResource.Cache
+C:\Users\dano\Documents\WP14_Team5\1 - Code\HAW Logistics System\bin\Debug\HAW Logistics System.exe.config
+C:\Users\dano\Documents\WP14_Team5\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.exe
+C:\Users\dano\Documents\WP14_Team5\1 - Code\HAW Logistics System\obj\Debug\HAW Logistics System.pdb

@@ -27,5 +27,21 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.AccessLayer
         /// <returns>Geschaeftspartner; null, falls nicht gefunden.</returns>
         /// <transaction>Optional</transaction>
         GeschaeftspartnerDTO FindGeschaeftspartner(int gpNr);
+
+        /// <summary>
+        /// Speichert eine Adresse.
+        /// </summary>
+        /// <throws>ArgumentException, falls Id <= 0.</throws>
+        /// <returns>Adresse; null, falls nicht gefunden.</returns>
+        /// <transaction>Nicht erlaubt</transaction>
+        void CreateAdresse(ref AdresseDTO adDTO);
+
+        /// <summary>
+        /// Sucht eine Adresse nach Id.
+        /// </summary>
+        /// <throws>ArgumentException, falls Id <= 0.</throws>
+        /// <returns>Adresse; null, falls nicht gefunden.</returns>
+        /// <transaction>Optional</transaction>
+        AdresseDTO FindAdresse(int adId);
     }
 }

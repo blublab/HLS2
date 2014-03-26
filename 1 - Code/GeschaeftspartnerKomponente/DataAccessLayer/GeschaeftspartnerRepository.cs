@@ -12,14 +12,24 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             this.persistenceService = persistenceService;
         }
 
-        public void Save(Geschaeftspartner gp)
+        public void SaveGeschaeftspartner(Geschaeftspartner gp)
         {
             persistenceService.Save(gp);
+        }
+
+        public void SaveAdresse(Adresse ad)
+        {
+            persistenceService.Save(ad);
         }
 
         public Geschaeftspartner FindByGpNr(int gpNr)
         {
             return persistenceService.GetById<Geschaeftspartner, int>(gpNr);
+        }
+
+        public Adresse FindByAdId(int adId)
+        {
+            return persistenceService.GetById<Adresse, int>(adId);
         }
     }
 }

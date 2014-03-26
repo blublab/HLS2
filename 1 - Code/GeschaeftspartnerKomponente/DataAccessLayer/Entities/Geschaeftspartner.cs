@@ -16,9 +16,11 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
         public virtual string Vorname  { get; set; }
         public virtual long Version { get; set; }
         public virtual EMailType Email { get; set; }
+        public virtual IList<Adresse> Adressen { get; set; }
 
         public Geschaeftspartner()
         {
+            this.Adressen = new List<Adresse>();
         }
 
         public virtual GeschaeftspartnerDTO ToDTO()
@@ -29,6 +31,11 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             gpDTO.Nachname = this.Nachname;
             gpDTO.Version = this.Version;
             gpDTO.Email = this.Email;
+            foreach (Adresse ad in this.Adressen)
+            {
+                gpDTO.Adressen.Add(ad.ToDTO());
+            }
+
             return gpDTO;
         }
     }
@@ -43,6 +50,7 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             this.Map(x => x.Vorname).Not.Nullable();
             this.Version(x => x.Version);
             this.Map(x => x.Email).Not.Nullable();
+            this.HasMany(x => x.Adressen).Cascade.All().Not.LazyLoad();
         }
     }
 }

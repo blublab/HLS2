@@ -58,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessLayer\Exceptions\GeschaeftspartnerKomponenteExceptions.cs" />
+    <Compile Include="DataAccessLayer\DTOs\AdresseDTO.cs" />
+    <Compile Include="DataAccessLayer\Entities\Adresse.cs" />
     <Compile Include="DataAccessLayer\Entities\Geschaeftspartner.cs" />
     <Compile Include="AccessLayer\GeschaeftspartnerKomponenteFacade.cs" />
     <Compile Include="DataAccessLayer\DTOs\GeschaeftspartnerDTO.cs" />

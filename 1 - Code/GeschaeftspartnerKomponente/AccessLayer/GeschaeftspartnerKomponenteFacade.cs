@@ -29,7 +29,7 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.AccessLayer
             transactionService.ExecuteTransactional(
                 () => 
                 {
-                    this.gp_REPO.Save(gp);
+                    this.gp_REPO.SaveGeschaeftspartner(gp);
                 });
             gpDTO = this.FindGeschaeftspartner(gp.GpNr);
         }
@@ -51,7 +51,7 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.AccessLayer
             Geschaeftspartner gp = gpDTO.ToEntity();
             transactionService.ExecuteTransactional(() =>
                 {
-                    this.gp_REPO.Save(gp);
+                    this.gp_REPO.SaveGeschaeftspartner(gp);
                 });
             gpDTO = this.FindGeschaeftspartner(gp.GpNr);
         }
@@ -73,6 +73,39 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.AccessLayer
             }
 
             return gp.ToDTO();
+        }
+
+        public AdresseDTO FindAdresse(int adId)
+        {
+            Check.Argument(adId > 0, "adId > 0");
+            
+            Adresse ad = null;
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    ad = this.gp_REPO.FindByAdId(adId);
+                });
+            if (ad == null)
+            {
+                return null;
+            }
+
+            return ad.ToDTO();
+        }
+
+        public void CreateAdresse(ref AdresseDTO adDTO)
+        {
+            Check.Argument(adDTO != null, "adDTO != null");
+            Check.Argument(adDTO.Id == 0, "adDTO.Id == 0");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Adresse ad = adDTO.ToEntity();
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    this.gp_REPO.SaveAdresse(ad);
+                });
+            adDTO = this.FindAdresse(ad.Id);
         }
     }
 }

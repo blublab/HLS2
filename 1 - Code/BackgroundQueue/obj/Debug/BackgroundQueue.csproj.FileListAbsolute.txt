@@ -1,9 +1,0 @@
-C:\Users\Luuc\Documents\WP14_Team1\1 - Code\BackgroundQueue\bin\Debug\BackgroundQueue.dll
-C:\Users\Luuc\Documents\WP14_Team1\1 - Code\BackgroundQueue\bin\Debug\BackgroundQueue.pdb
-C:\Users\Luuc\Documents\WP14_Team1\1 - Code\BackgroundQueue\obj\Debug\BackgroundQueue.dll
-C:\Users\Luuc\Documents\WP14_Team1\1 - Code\BackgroundQueue\obj\Debug\BackgroundQueue.pdb
-C:\Users\Yavuz\HLS2\1 - Code\BackgroundQueue\bin\Debug\BackgroundQueue.dll
-C:\Users\Yavuz\HLS2\1 - Code\BackgroundQueue\bin\Debug\BackgroundQueue.pdb
-C:\Users\Yavuz\HLS2\1 - Code\BackgroundQueue\obj\Debug\BackgroundQueue.csprojResolveAssemblyReference.cache
-C:\Users\Yavuz\HLS2\1 - Code\BackgroundQueue\obj\Debug\BackgroundQueue.dll
-C:\Users\Yavuz\HLS2\1 - Code\BackgroundQueue\obj\Debug\BackgroundQueue.pdb

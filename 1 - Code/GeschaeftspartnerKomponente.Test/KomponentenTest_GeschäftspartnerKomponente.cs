@@ -2,12 +2,12 @@
 using ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer;
 using Common.DataTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NHibernate.Type;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NHibernate.Type;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
-using System.Collections.Generic;
 
 namespace Tests.KomponentenTest.GeschaeftspartnerKomponente
 {

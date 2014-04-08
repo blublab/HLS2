@@ -32,28 +32,6 @@ namespace ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer
             adDTO.Land = this.Land;
             return adDTO;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            if (obj == this)
-                return true;
-
-            Adresse ad = obj as Adresse;
-            if (ad == null)
-                return false;
-
-            return (Strasse == ad.Strasse) && (Hausnummer == ad.Hausnummer) 
-                && (PLZ == ad.PLZ) && (Wohnort == ad.Wohnort) && (Land == ad.Land);
-        }
-
-        public override int GetHashCode()
-        {
-            return Strasse.GetHashCode() ^ Hausnummer.GetHashCode() ^ PLZ.GetHashCode() 
-                ^ Wohnort.GetHashCode() ^ Land.GetHashCode();
-        }
     }
 
     internal class AdresseMap : ClassMap<Adresse>

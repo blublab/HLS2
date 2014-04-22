@@ -39,6 +39,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
         public virtual long FuerTransportAufTransportbeziehung { get; set; }
         public virtual IList<StartzeitDTO> Abfahrtszeiten { get; set; }
         public virtual FrachtfuehrerDTO Frachtfuehrer { get; set; }
+        public virtual Transportmittel Transportmittel { get; set; }
 
         public FrachtfuehrerRahmenvertragDTO()
         {
@@ -62,6 +63,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
             {
                 frv.Abfahrtszeiten.Add(szDTO.ToEntity());
             }
+            frv.Transportmittel = this.Transportmittel;
             return frv;
         }
     }

@@ -9,6 +9,8 @@ using Util.Common.Interfaces;
 
 namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
 {
+    public enum FrachtauftragStatusTyp { NichtAbgeschlossen, Abgeschlossen }
+
     public class Frachtauftrag : ICanConvertToDTO<FrachtauftragDTO>
     {
         public virtual int FraNr { get; set; }
@@ -18,10 +20,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
         public virtual int VerwendeteKapazitaetFEU { get; set; }
         public virtual byte[] Dokument { get; set; }
         public virtual FrachtfuehrerRahmenvertrag FrachtfuehrerRahmenvertrag { get; set; }
-
-        public Frachtauftrag()
-        {
-        }
+        public virtual FrachtauftragStatusTyp Status { get; protected internal set; }
 
         public virtual void CreateDokument()
         {
@@ -51,6 +50,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
             fraDTO.VerwendeteKapazitaetFEU = this.VerwendeteKapazitaetFEU;
             fraDTO.Dokument = this.Dokument;
             fraDTO.FrachtfuehrerRahmenvertrag = this.FrachtfuehrerRahmenvertrag.ToDTO();
+            fraDTO.Status = this.Status;
             return fraDTO;
         }
     }
@@ -66,6 +66,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
             this.Map(x => x.VerwendeteKapazitaetFEU);
             this.Map(x => x.Dokument);
             this.References(x => x.FrachtfuehrerRahmenvertrag);
+            this.Map(x => x.Status);
         }
     }
 }

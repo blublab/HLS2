@@ -7,12 +7,13 @@ using Util.PersistenceServices.Interfaces;
 
 namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
 {
-    public class UnterbeauftragungKomponenteFacade : IUnterbeauftragungServices, IUnterbeauftragungServicesFürTransportplanung
+    public class UnterbeauftragungKomponenteFacade : IUnterbeauftragungServices, IUnterbeauftragungServicesFürTransportplanung, IUnterbeauftragungServicesFuerBuchhaltung
     {
         private readonly ITransactionServices transactionService;
         private readonly FrachtfuehrerRahmenvertragRepository frv_REPO;
         private readonly FrachtfuehrerRepository frf_REPO;
         private readonly UnterbeauftragungKomponenteBusinessLogic ubK_BL;
+        private readonly FrachtauftragRepository fra_REPO;
 
         public UnterbeauftragungKomponenteFacade(IPersistenceServices persistenceService, ITransactionServices transactionService, IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices)
         {
@@ -21,7 +22,8 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
             this.transactionService = transactionService;
             this.frv_REPO = new FrachtfuehrerRahmenvertragRepository(persistenceService);
             this.frf_REPO = new FrachtfuehrerRepository(persistenceService);
-            this.ubK_BL = new UnterbeauftragungKomponenteBusinessLogic(persistenceService, frachtfuehrerServices); 
+            this.ubK_BL = new UnterbeauftragungKomponenteBusinessLogic(persistenceService, frachtfuehrerServices);
+            this.fra_REPO = new FrachtauftragRepository(persistenceService);
         }
 
         public void CreateFrachtfuehrerRahmenvertrag(ref FrachtfuehrerRahmenvertragDTO frvDTO)
@@ -85,5 +87,43 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
                     return this.ubK_BL.BeaufrageTransport(frv, planStartzeit, planEndezeit, verwendeteKapazitaetTEU, verwendeteKapazitaetFEU); 
                 });
         }
+
+        #region IUnterbeauftragungServicesFuerBuchhaltung
+        public void SchliesseFrachtauftragAb(int faufNr)
+        {
+            Check.Argument(faufNr >= 0, "faufNr >= 0");
+
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    Frachtauftrag fauf = this.fra_REPO.FindByFaufNr(faufNr);
+                    fauf.Status = FrachtauftragStatusTyp.Abgeschlossen;
+                    this.fra_REPO.Add(fauf);
+                });
+        }
+
+        public bool PruefeObFrachtauftragVorhanden(int faufNr)
+        {
+            if (faufNr <= 0)
+            {
+                return false;
+            }
+            try
+            {          
+                transactionService.ExecuteTransactional(
+                () =>
+                {
+                    Frachtauftrag fauf = this.fra_REPO.FindByFaufNr(faufNr);
+                    fauf.Status = FrachtauftragStatusTyp.Abgeschlossen;
+                    this.fra_REPO.Add(fauf);
+                });
+            }
+            catch
+            { //TODO check which exception is thrown
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }

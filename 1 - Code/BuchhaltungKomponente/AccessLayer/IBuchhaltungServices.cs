@@ -4,17 +4,34 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
 {
     public interface IBuchhaltungServices
     {
-        // TODO in Unterbeauftragungskomponente auf Frachtauftragsnummer pruefen
-        void createFrachtabrechnung(ref FrachtabrechnungDTO faDTO);
+        /// <summary>
+        /// Erzeugt eine Frachtabrechnung Entität.
+        /// </summary>
+        /// <throws>ArgumenException, falls FrachtauftragDTO == null.</throws>
+        /// <throws>FrachtauftragNichtGefundenException, falls Frachtauftrag nicht exsistiert.</throws>
+        /// <transaction>Nicht erlaubt</transaction>
+        FrachtabrechnungDTO CreateFrachtabrechnung(int faufNr);
 
-        //DTO oder Nummer??
-        void bezahleFrachtabrechnung(ref FrachtabrechnungDTO faDTO);
+        /// <summary>
+        /// Estellt Gutschrift und schliesst Frachtauftrag ab.
+        /// </summary>
+        /// <throws>ArgumentException, falls FrachtauftragDTO == null</throws>
+        /// <post>Frachtauftrag befindet sich im Zustand "Abgeschlossen".</post>
+        void PayFrachtabrechnung(ref FrachtabrechnungDTO fabDTO);
 
-        //DTO oder Nummer??
-        void deleteFrachtabrechnung(int faNr);
+        /// <summary>
+        /// Löscht Frachtabrechnung und ggf. Gutschrift.
+        /// </summary>
+        /// <throws>ArgumentException, falls FrachtauftragDTO == null</throws>
+        void DeleteFrachtabrechnung(ref FrachtabrechnungDTO fabDTO);
 
-        FrachtabrechnungDTO findFrachtabrechnung(int faNr);
-
-
+        /// <summary>
+        /// Liest der Frachtabrechnung aus der DB.
+        /// </summary>
+        /// <param name="fabNr">ID der Frachtabrechnung</param>
+        /// <returns>DTO der Frachtabrechnung</returns>
+        /// <throws>ArgumentException, falls fabNr <= 0</throws>
+        /// <transaction>Nicht erlaubt</transaction>
+        FrachtabrechnungDTO ReadFrachtabrechnungByID(int fabNr);
     }
 }

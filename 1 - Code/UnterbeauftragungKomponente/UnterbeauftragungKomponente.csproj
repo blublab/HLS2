@@ -66,14 +66,17 @@
   <ItemGroup>
     <Compile Include="AccessLayer\Exceptions\UnterbeauftragungKomponenteExceptions.cs" />
     <Compile Include="AccessLayer\IFrachtfuehrerServicesFürUnterbeauftragung.cs" />
+    <Compile Include="AccessLayer\IUnterbeauftragungServicesFuerBuchhaltung.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachtfuehrerRahmenvertragDTO.cs" />
     <Compile Include="AccessLayer\IUnterbeauftragungServicesFürTransportplanung.cs" />
     <Compile Include="AccessLayer\UnterbeauftragungKomponenteFacade.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachtfuehrerDTO.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachtauftragDTO.cs" />
+    <Compile Include="DataAccessLayer\DTOs\TransportmittelDTO.cs" />
     <Compile Include="DataAccessLayer\Entities\FrachtfuehrerRahmenvertrag.cs" />
     <Compile Include="DataAccessLayer\Entities\Frachtauftrag.cs" />
     <Compile Include="DataAccessLayer\Entities\Frachtfuehrer.cs" />
+    <Compile Include="DataAccessLayer\Entities\Transportmittel.cs" />
     <Compile Include="DataAccessLayer\FrachtauftragRepository.cs" />
     <Compile Include="BusinessLogicLayer\UnterbeauftragungKomponenteBusinessLogic.cs" />
     <Compile Include="AccessLayer\IUnterbeauftragungServices.cs" />

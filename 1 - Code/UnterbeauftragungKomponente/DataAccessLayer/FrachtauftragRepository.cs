@@ -15,5 +15,10 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
         {
             persistenceService.Save(fa);
         }
+
+        internal Frachtauftrag FindByFaufNr(int faufNr)
+        {
+            return persistenceService.GetById<Frachtauftrag, int>(faufNr);
+        }
     }
 }

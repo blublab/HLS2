@@ -15,6 +15,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
         public virtual int VerwendeteKapazitaetFEU { get; set; }
         public virtual byte[] Dokument { get; set; }
         public virtual FrachtfuehrerRahmenvertragDTO FrachtfuehrerRahmenvertrag { get; set; }
+        public virtual FrachtauftragStatusTyp Status { get; protected internal set; }
 
         public FrachtauftragDTO()
         {
@@ -30,6 +31,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
             fra.VerwendeteKapazitaetFEU = this.VerwendeteKapazitaetFEU;
             fra.Dokument = this.Dokument;
             fra.FrachtfuehrerRahmenvertrag = this.FrachtfuehrerRahmenvertrag.ToEntity();
+            fra.Status = this.Status;
             return fra;
         }
     }

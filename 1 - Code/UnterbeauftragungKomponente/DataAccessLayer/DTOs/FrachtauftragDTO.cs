@@ -15,7 +15,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
         public virtual int VerwendeteKapazitaetFEU { get; set; }
         public virtual byte[] Dokument { get; set; }
         public virtual FrachtfuehrerRahmenvertragDTO FrachtfuehrerRahmenvertrag { get; set; }
-        public virtual FrachtauftragStatusTyp Status { get; protected internal set; }
+        public virtual FrachtauftragStatusTyp Status { get; set; }
 
         public FrachtauftragDTO()
         {

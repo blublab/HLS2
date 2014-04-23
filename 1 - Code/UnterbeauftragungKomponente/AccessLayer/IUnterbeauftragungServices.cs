@@ -21,5 +21,21 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
         /// <throws>ArgumentException, falls frfDTO.FrfNr != 0.</throws>
         /// <transaction>Nicht erlaubt</transaction>
         void CreateFrachtfuehrer(ref FrachtfuehrerDTO frfDTO);
+
+        /// <summary>
+        /// Erstellt Frachtauftrag.
+        /// </summary>
+        /// <throws>ArgumentException, falls frfDTO == null.</throws>
+        /// <throws>ArgumentException, falls frfDTO.FrfNr != 0.</throws>
+        /// <transaction>Nicht erlaubt</transaction>        
+        void CreateFrachtauftrag(ref FrachtauftragDTO faufDTO);
+
+        /// <summary>
+        /// Liest der Frachtauftrag aus der DB.
+        /// </summary>
+        /// <param name="fabNr">ID des Fracahtauftrages</param>
+        /// <throws>ArgumentException, falls faufNr <= 0</throws>
+        /// <transaction>Nicht erlaubt</transaction>
+        FrachtauftragDTO readFrachtauftragByID(int faufNr);
     }
 }

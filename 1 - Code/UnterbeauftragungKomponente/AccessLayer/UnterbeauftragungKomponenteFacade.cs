@@ -125,5 +125,36 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
             return true;
         }
         #endregion
+
+
+        public void CreateFrachtauftrag(ref FrachtauftragDTO faufDTO)
+        {
+            Check.Argument(faufDTO != null, "frfDTO != null");
+            Check.Argument(faufDTO.FraNr == 0, "frfDTO.FrfNr == 0");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Frachtauftrag fauf = faufDTO.ToEntity();
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    this.fra_REPO.Add(fauf);
+                });
+            faufDTO = fauf.ToDTO();
+        }
+
+
+        public FrachtauftragDTO readFrachtauftragByID(int faufNr)
+        {
+            Check.Argument(faufNr > 0, "faufNr > 0");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Frachtauftrag fauf = null;
+            transactionService.ExecuteTransactional(
+                 () =>
+                 {
+                     fauf = this.fra_REPO.FindByFaufNr(faufNr);
+                 });
+            return fauf.ToDTO();
+        }
     }
 }

@@ -31,8 +31,8 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         {
             this.Id(x => x.GutSchrNr);
 
-            this.Map(x => x.Kontodaten);
-            this.Map(x => x.Betrag);
+            this.Map(x => x.Kontodaten).Not.Nullable();
+            this.Map(x => x.Betrag).Not.Nullable();
         }
     }
 }

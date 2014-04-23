@@ -10,9 +10,6 @@ namespace Util.Common.DataTypes
     [Serializable]
     public class WaehrungsType : ValueType<WaehrungsType>
     {
-        public enum Waehrungen : decimal {
-            Euro = 1,
-        }
         public readonly decimal Wert;
 
         public WaehrungsType(decimal wert)

@@ -37,8 +37,8 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         {
             this.Id(x => x.FabNr);
 
-            this.Map(x => x.IstBestaetigt);
-            this.Map(x => x.Rechnungsbetrag);
+            this.Map(x => x.IstBestaetigt).Not.Nullable();
+            this.Map(x => x.Rechnungsbetrag).Not.Nullable();
             this.Map(x => x.FaufNr).Not.Nullable();
             this.References(x => x.Gutschrift).Cascade.All();
             ////this.Map(x => x.Inhalt)

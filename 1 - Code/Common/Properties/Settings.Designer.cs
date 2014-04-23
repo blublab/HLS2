@@ -22,15 +22,5 @@ namespace Common.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.webservicex.net/CurrencyConvertor.asmx")]
-        public string Common_net_webservicex_www_CurrencyConvertor {
-            get {
-                return ((string)(this["Common_net_webservicex_www_CurrencyConvertor"]));
-            }
-        }
     }
 }

@@ -63,11 +63,6 @@
     <Compile Include="Interfaces\DTOType.cs" />
     <Compile Include="Interfaces\ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Web References\net.webservicex.www\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -83,30 +78,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web References\net.webservicex.www\CurrencyConvertor.wsdl" />
-    <None Include="Web References\net.webservicex.www\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferenceUrl Include="http://www.webservicex.net/CurrencyConvertor.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\net.webservicex.www\</RelPath>
-      <UpdateFromURL>http://www.webservicex.net/CurrencyConvertor.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Common_net_webservicex_www_CurrencyConvertor</CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\net.webservicex.www\CurrencyConvertor.disco" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

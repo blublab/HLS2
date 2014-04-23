@@ -126,7 +126,6 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
         }
         #endregion
 
-
         public void CreateFrachtauftrag(ref FrachtauftragDTO faufDTO)
         {
             Check.Argument(faufDTO != null, "frfDTO != null");
@@ -142,8 +141,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
             faufDTO = fauf.ToDTO();
         }
 
-
-        public FrachtauftragDTO readFrachtauftragByID(int faufNr)
+        public FrachtauftragDTO ReadFrachtauftragByID(int faufNr)
         {
             Check.Argument(faufNr > 0, "faufNr > 0");
             Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");

@@ -36,6 +36,6 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
         /// <param name="fabNr">ID des Fracahtauftrages</param>
         /// <throws>ArgumentException, falls faufNr <= 0</throws>
         /// <transaction>Nicht erlaubt</transaction>
-        FrachtauftragDTO readFrachtauftragByID(int faufNr);
+        FrachtauftragDTO ReadFrachtauftragByID(int faufNr);
     }
 }

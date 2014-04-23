@@ -56,8 +56,7 @@ namespace Test.Integrationtest
             buchhaltungService = new BuchhaltungKomponenteFacade(
             persistenceService,
             transactionService,
-            unterbeauftragungServiceFuerBuchhaltung
-            );
+            unterbeauftragungServiceFuerBuchhaltung);
 
             Mock<FrachtfuehrerRahmenvertragDTO> ffRvDTOMock = new Mock<FrachtfuehrerRahmenvertragDTO>();
             Mock<FrachtfuehrerRahmenvertrag> ffRv = new Mock<FrachtfuehrerRahmenvertrag>();

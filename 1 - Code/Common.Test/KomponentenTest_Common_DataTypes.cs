@@ -54,7 +54,7 @@ namespace Tests.KomponentenTest.Common
         {
             WaehrungsType w1 = new WaehrungsType(3);
             WaehrungsType w2 = new WaehrungsType(4);
-            WaehrungsType w3 = w1+w2;
+            WaehrungsType w3 = w1 + w2;
             decimal erg = 7;
             Assert.IsTrue(w3.Wert == erg);
         }

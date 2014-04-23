@@ -15,6 +15,11 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         public virtual KontodatenType Kontodaten { get; set; }
         public virtual WaehrungsType Betrag { get; set; }
 
+        public Gutschrift()
+        {
+            this.Betrag = new WaehrungsType(0);
+        }
+
         public virtual GutschriftDTO ToDTO()
         {
             GutschriftDTO gutschrDTO = new GutschriftDTO();
@@ -31,7 +36,7 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         {
             this.Id(x => x.GutSchrNr);
 
-            this.Map(x => x.Kontodaten).Not.Nullable();
+            this.Map(x => x.Kontodaten);
             this.Map(x => x.Betrag).Not.Nullable();
         }
     }

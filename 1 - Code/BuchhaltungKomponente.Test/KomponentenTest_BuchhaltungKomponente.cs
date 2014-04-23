@@ -19,7 +19,7 @@ namespace BuchhaltungKomponente.Test
         private static IPersistenceServices persistenceService = null;
         private static ITransactionServices transactionService = null;
         private static IBuchhaltungServices buchhaltungsService = null;
-        private static Mock<IUnterbeauftragungServicesFuerBuchhaltung> unterbeauftragungServiceMock = null;
+        private static Mock<IUnterbeauftragungServicesFuerBuchhaltung> unterbeauftragungServiceMock = null
 
         /// <summary>
         /// Initialize the persistence

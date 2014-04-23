@@ -18,6 +18,13 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         public virtual Gutschrift Gutschrift { get; set; }
         ////public virtual PDFTyp Inhalt {get;set;}
 
+        public Frachtabrechnung()
+        {
+            this.IstBestaetigt = false;
+            this.Rechnungsbetrag = new WaehrungsType(0);
+            this.FaufNr = 0;
+        }
+
         public virtual FrachtabrechnungDTO ToDTO()
         {
             FrachtabrechnungDTO fabDTO = new FrachtabrechnungDTO();

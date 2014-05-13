@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Util.Common.DataTypes;
 using Util.Common.Interfaces;
 using Util.MessagingServices.Implementations;
@@ -10,11 +12,6 @@ using Util.MessagingServices.Interfaces;
 
 namespace FrachtfuehrerExternal
 {
-    // Dummy
-    internal class Gutschrift
-    {
-    }
-
     internal class FrachtauftragDetail : DTOType<FrachtauftragDetail>
     {
         public int FaNr { get; set; }
@@ -33,54 +30,13 @@ namespace FrachtfuehrerExternal
 
     internal class FrachtabrechnungDetail : DTOType<FrachtabrechnungDetail>
     {
-        public virtual int FabNr { get; set; }
         public virtual bool IstBestaetigt { get; set; }
         public virtual WaehrungsType Rechnungsbetrag { get; set; }
         public virtual int FaufNr { get; set; }
-        public virtual Gutschrift Gutschrift { get; set; }
-        public virtual int RechnungsNr { get; set; }
 
         public override string ToString()
         {
-            return "Frachtabrechnung: " + this.FabNr + " Bestätigt: " + this.IstBestaetigt + " FaufNr: " + this.FaufNr + " Betrag: " + this.Rechnungsbetrag + " Rechn. Nr.: " + this.RechnungsNr;
-        }
-    }
-
-    public class FrachtauftragReceiver
-    {
-        private IQueueServices<FrachtauftragDetail> frachtauftragDetailQueue = null;
-
-        public FrachtauftragReceiver(ref IMessagingServices ms)
-        {
-            this.frachtauftragDetailQueue = ms.CreateQueue<FrachtauftragDetail>("HLS.Queue.Frachtauftrag");
-        }
-
-        public void Run()
-        {
-            Console.WriteLine("Warte auf Frachtaufträge in Queue '" + frachtauftragDetailQueue.Queue + "'.");
-            while (true)
-            {
-                FrachtauftragDetail frachtauftragDetailReceived = frachtauftragDetailQueue.ReceiveSync((o) =>
-                {
-                    return MessageAckBehavior.AcknowledgeMessage;
-                });
-                Console.WriteLine("Frachtauftrag empfangen: " + frachtauftragDetailReceived.ToString());
-            }   
-        }
-    }
-
-    internal class FrachtabrechnungSender
-    {
-        private IQueueServices<FrachtabrechnungDetail> frachtabrechnungDetailQueue = null;
-
-        public FrachtabrechnungSender(ref IMessagingServices ms)
-        {
-            frachtabrechnungDetailQueue = ms.CreateQueue<FrachtabrechnungDetail>("HLS.Queue.Frachtabrechnung.Team5");
-        }
-
-        public void Run()
-        {
-            // TODO Frachabrechnungen verschicken
+            return "Frachtabrechnung: " + " Bestätigt: " + this.IstBestaetigt + " FaufNr: " + this.FaufNr + " Betrag: " + this.Rechnungsbetrag;
         }
     }
 
@@ -88,39 +44,50 @@ namespace FrachtfuehrerExternal
     {
         public static void Main(string[] args)
         {
-            IMessagingServices messagingManager = null;
-            int result = 0;
+            var receiver = Task.Factory.StartNew(() => Receiver());
+            var sender = Task.Factory.StartNew(() => Sender());
 
-            messagingManager = MessagingServicesFactory.CreateMessagingServices();
+            Task.WaitAll(receiver, sender);
+        }
 
-            FrachtauftragReceiver receiver = new FrachtauftragReceiver(ref messagingManager);
-            FrachtabrechnungSender sender = new FrachtabrechnungSender(ref messagingManager);
+        private static void Receiver()
+        {
+            System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["FrachtfuehrerExternalFrachtauftrag"];
+            Contract.Assert(connectionSettings != null, "A FrachtfuehrerExternal connection setting needs to be defined in the App.config.");
+            string frachtfuehrerAuftragQueue = connectionSettings.ConnectionString;
+            Contract.Assert(string.IsNullOrEmpty(frachtfuehrerAuftragQueue) == false);
 
-            System.Threading.Thread receiverThread = new Thread(new ThreadStart(receiver.Run));
-            System.Threading.Thread senderThread = new Thread(new ThreadStart(sender.Run));
+            IMessagingServices ms = MessagingServicesFactory.CreateMessagingServices();
+            IQueueServices<FrachtauftragDetail> frachtauftragDetailQueue = ms.CreateQueue<FrachtauftragDetail>(frachtfuehrerAuftragQueue);
+            Console.WriteLine("Warte auf Frachtaufträge in Queue '" + frachtauftragDetailQueue.Queue + "'.");
 
-            try
+            while (true)
             {
-                receiverThread.Start();
-                senderThread.Start();
-
-                receiverThread.Join();
-                senderThread.Join();
+                FrachtauftragDetail frachtauftragDetailReceived = frachtauftragDetailQueue.ReceiveSync((o) =>
+                {
+                    return MessageAckBehavior.AcknowledgeMessage;
+                });
+                Console.WriteLine("Frachtauftrag empfangen: " + frachtauftragDetailReceived.ToString());
             }
-            catch (ThreadStateException e)
+        }
+
+        private static void Sender()
+        {
+            System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["FrachtfuehrerExternalFrachtabrechnung"];
+            Contract.Assert(connectionSettings != null, "A FrachtfuehrerExternal connection setting needs to be defined in the App.config.");
+            string frachtfuehrerAbrechnungQueue = connectionSettings.ConnectionString;
+            Contract.Assert(string.IsNullOrEmpty(frachtfuehrerAbrechnungQueue) == false);
+
+            IMessagingServices ms = MessagingServicesFactory.CreateMessagingServices();
+            IQueueServices<FrachtabrechnungDetail> frachtabrechnungDetailQueue = ms.CreateQueue<FrachtabrechnungDetail>(frachtfuehrerAbrechnungQueue);
+
+            for (int i = 1; i <= 3; i++)
             {
-                Console.WriteLine(e);
-                result = 1;
-            }
-            catch (ThreadInterruptedException e)
-            {
-                Console.WriteLine(e);
-                result = 1;
-            }
-            finally
-            {
-                //TODO dispose messagingServices?
-                Environment.ExitCode = result;
+                Thread.Sleep(500);
+                FrachtabrechnungDetail dummyFrachtabrechnungDetail = new FrachtabrechnungDetail() { IstBestaetigt = true, Rechnungsbetrag = new WaehrungsType(i), FaufNr = i };
+                frachtabrechnungDetailQueue.Send(dummyFrachtabrechnungDetail);
+                Console.WriteLine("Folgende Frachtabrechnung wurde in die Queue " + frachtfuehrerAbrechnungQueue + " geschoben: " + dummyFrachtabrechnungDetail.ToString());
+                Console.Beep();
             }
         }
     }

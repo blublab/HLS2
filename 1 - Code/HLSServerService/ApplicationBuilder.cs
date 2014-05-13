@@ -1,4 +1,6 @@
 ﻿using ApplicationCore.AuftragKomponente.AccessLayer;
+using ApplicationCore.BankAdapter.AccessLayer;
+using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.AccessLayer;
@@ -33,8 +35,11 @@ namespace HLSServerService
             IGeschaeftspartnerServices geschaeftspartnerServices = new GeschaeftspartnerKomponenteFacade(persistenceService, transactionService);
             IAuftragServices auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServices);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
-            IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices = new FrachtfuehrerAdapterFacade();
+            IBankAdapterServicesFuerBuchhaltung bankServices = new BankAdapterFacade();
+            IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsff = new BuchhaltungKomponenteFacade(persistenceService, transactionService, bankServices);
+            IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices = new FrachtfuehrerAdapterFacade(bhsff);
             unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices);
+            bhsff.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);
             ITransportplanungServices transportplanungsServices = new TransportplanungKomponenteFacade(persistenceService, transactionService, auftragsServicesFürTransportplanung, unterbeauftragungsServices as IUnterbeauftragungServicesFürTransportplanung, transportnetzServices as ITransportnetzServicesFürTransportplanung, timeServices);
             auftragsServicesFürTransportplanung.RegisterTransportplanungServiceFürAuftrag(transportplanungsServices as ITransportplanungServicesFürAuftrag);
         }

@@ -12,24 +12,32 @@ using Util.PersistenceServices.Interfaces;
 
 namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
 {
-    public class BuchhaltungKomponenteFacade : IBuchhaltungServices
+    public class BuchhaltungKomponenteFacade : IBuchhaltungServices, IBuchhaltungServicesFuerFrachtfuehrerAdapter
     {
         private readonly BuchhaltungRepository bh_REPO;
         private readonly ITransactionServices transactionService;
         private readonly BuchhaltungKomponenteBusinessLogic bh_BL;
+        private readonly IBankAdapterServicesFuerBuchhaltung bankServices;
 
         public BuchhaltungKomponenteFacade(
                 IPersistenceServices persistenceService,
                 ITransactionServices transactionService,
-                IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungService)
+                IBankAdapterServicesFuerBuchhaltung bankServices)
         {
             Check.Argument(persistenceService != null, "persistenceService != null");
             Check.Argument(transactionService != null, "transactionService != null");
-            Check.Argument(unterbeauftragungService != null, "unterbeauftragungService != null");
+            Check.Argument(bankServices != null, "bankServices != null");
+
 
             this.bh_REPO = new BuchhaltungRepository(persistenceService);
             this.transactionService = transactionService;
-            this.bh_BL = new BuchhaltungKomponenteBusinessLogic(unterbeauftragungService);
+            this.bankServices = bankServices;
+            this.bh_BL = new BuchhaltungKomponenteBusinessLogic();
+        }
+
+        public void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
+        {
+            this.bh_BL.setUnterbeauftragungServices(unterbeauftragungServices);
         }
 
         #region IBuchhaltungServices
@@ -52,25 +60,6 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             return fab.ToDTO();
         }
 
-        public void PayFrachtabrechnung(ref FrachtabrechnungDTO fabDTO)
-        {
-            Check.Argument(fabDTO != null, "fabDTO != null");
-            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
-
-            Frachtabrechnung fab = fabDTO.ToEntity();
-            int faufNr = fab.FaufNr;
-            bh_BL.SchliesseFrachtauftragAb(faufNr);
-            Gutschrift gutschrift = new Gutschrift();
-            fab.Gutschrift = gutschrift;
-            GutschriftDTO gutschriftDTO = gutschrift.ToDTO();
-            transactionService.ExecuteTransactional(
-                () =>
-                {
-                    this.bh_REPO.SaveFrachtabrechnung(fab);
-                });
-            fabDTO = fab.ToDTO();
-        }
-
         public void DeleteFrachtabrechnung(ref FrachtabrechnungDTO fabDTO)
         {
             Frachtabrechnung fab = fabDTO.ToEntity();
@@ -81,6 +70,29 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                 });
         }
         #endregion IBuchhaltungServices
+
+        #region IBuchhaltungServicesFuerFrachtfuehrerAdapter
+        public void PayFrachtabrechnung(ref FrachtabrechnungDTO fabDTO)
+        {
+            Check.Argument(fabDTO != null, "fabDTO != null");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Frachtabrechnung fab = fabDTO.ToEntity();
+            int faufNr = fab.FaufNr;
+            bh_BL.SchliesseFrachtauftragAb(faufNr);
+            Gutschrift gutschrift = new Gutschrift();
+            gutschrift.Betrag = fab.Rechnungsbetrag;
+            fab.Gutschrift = gutschrift;
+            GutschriftDTO gutschriftDTO = gutschrift.ToDTO();
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    this.bh_REPO.SaveFrachtabrechnung(fab);
+                });
+            bankServices.SendeGutschriftAnBank(ref gutschriftDTO);
+            fabDTO = fab.ToDTO();
+        }
+        #endregion
 
         public FrachtabrechnungDTO ReadFrachtabrechnungByID(int fabNr)
         {

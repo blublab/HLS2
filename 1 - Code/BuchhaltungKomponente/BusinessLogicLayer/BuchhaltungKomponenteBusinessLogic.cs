@@ -10,11 +10,10 @@ namespace BuchhaltungKomponente.BusinessLogicLayer
 {
     internal class BuchhaltungKomponenteBusinessLogic
     {
-        private readonly IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungService;
+        private IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungService;
 
-        internal BuchhaltungKomponenteBusinessLogic(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
+        internal BuchhaltungKomponenteBusinessLogic()
         {
-            this.unterbeauftragungService = unterbeauftragungServices;
         }
 
         internal bool PruefeObFrachtauftragVorhanden(int faufNr)
@@ -25,6 +24,11 @@ namespace BuchhaltungKomponente.BusinessLogicLayer
         internal void SchliesseFrachtauftragAb(int faufNr)
         {
             unterbeauftragungService.SchliesseFrachtauftragAb(faufNr);
+        }
+
+        internal void setUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
+        {
+            this.unterbeauftragungService = unterbeauftragungServices;
         }
     }
 }

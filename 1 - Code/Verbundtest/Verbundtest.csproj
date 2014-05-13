@@ -72,6 +72,10 @@
       <Project>{7b60032a-0d25-4a06-9d04-83fd1ff1e946}</Project>
       <Name>AuftragKomponente</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BuchhaltungKomponente\BuchhaltungKomponente.csproj">
+      <Project>{dc6b8ec0-cfff-4986-9a3d-5ecfec903bd8}</Project>
+      <Name>BuchhaltungKomponente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{841af5c4-1281-49f3-853f-3e08cd08aa6a}</Project>
       <Name>Common</Name>

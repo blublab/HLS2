@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
+using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 
 namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
 {
@@ -11,13 +12,6 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         /// <throws>FrachtauftragNichtGefundenException, falls Frachtauftrag nicht exsistiert.</throws>
         /// <transaction>Nicht erlaubt</transaction>
         FrachtabrechnungDTO CreateFrachtabrechnung(int faufNr);
-
-        /// <summary>
-        /// Estellt Gutschrift und schliesst Frachtauftrag ab.
-        /// </summary>
-        /// <throws>ArgumentException, falls FrachtauftragDTO == null</throws>
-        /// <post>Frachtauftrag befindet sich im Zustand "Abgeschlossen".</post>
-        void PayFrachtabrechnung(ref FrachtabrechnungDTO fabDTO);
 
         /// <summary>
         /// Löscht Frachtabrechnung und ggf. Gutschrift.
@@ -33,5 +27,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         /// <throws>ArgumentException, falls fabNr <= 0</throws>
         /// <transaction>Nicht erlaubt</transaction>
         FrachtabrechnungDTO ReadFrachtabrechnungByID(int fabNr);
+
+        void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices);
     }
 }

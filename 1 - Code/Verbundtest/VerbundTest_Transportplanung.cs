@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.AuftragKomponente.AccessLayer;
 using ApplicationCore.AuftragKomponente.DataAccessLayer;
+using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.DataAccessLayer;
@@ -51,8 +52,10 @@ namespace Tests.VerbundTest
             transportnetzServices = new TransportnetzKomponenteFacade();
             auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServicesMock.Object);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
-            frachtfuehrerServices = new FrachtfuehrerAdapterFacade();
+            IBuchhaltungServicesFuerFrachtfuehrerAdapter bsfa = new BuchhaltungKomponenteFacade(persistenceService, transactionService, new Mock<IBankAdapterServicesFuerBuchhaltung>().Object);
+            frachtfuehrerServices = new FrachtfuehrerAdapterFacade(bsfa);
             unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices);
+            bsfa.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);
             transportplanungsServices = new TransportplanungKomponenteFacade(persistenceService, transactionService, auftragsServicesFürTransportplanung, unterbeauftragungsServices as IUnterbeauftragungServicesFürTransportplanung, transportnetzServices as ITransportnetzServicesFürTransportplanung, timeServicesMock.Object);
             auftragsServicesFürTransportplanung.RegisterTransportplanungServiceFürAuftrag(transportplanungsServices as ITransportplanungServicesFürAuftrag);
 

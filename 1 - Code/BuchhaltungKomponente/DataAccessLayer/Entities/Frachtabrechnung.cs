@@ -16,7 +16,6 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         public virtual WaehrungsType Rechnungsbetrag { get; set; }
         public virtual int FaufNr { get; set; }
         public virtual Gutschrift Gutschrift { get; set; }
-        public virtual int RechnungsNr { get; set; }
         ////public virtual PDFTyp Inhalt {get;set;}
 
         public Frachtabrechnung()
@@ -24,7 +23,6 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
             this.IstBestaetigt = false;
             this.Rechnungsbetrag = new WaehrungsType(0);
             this.FaufNr = 0;
-            this.RechnungsNr = 0;
         }
 
         public virtual FrachtabrechnungDTO ToDTO()
@@ -35,7 +33,6 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
             fabDTO.Rechnungsbetrag = this.Rechnungsbetrag;
             fabDTO.FaufNr = this.FaufNr;
             fabDTO.Gutschrift = this.Gutschrift;
-            fabDTO.RechnungsNr = this.RechnungsNr;
             ////fabDTO.Inhalt = this.Inhalt;
             return fabDTO;
         }
@@ -50,7 +47,6 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
             this.Map(x => x.IstBestaetigt).Not.Nullable();
             this.Map(x => x.Rechnungsbetrag).Not.Nullable();
             this.Map(x => x.FaufNr).Not.Nullable();
-            this.Map(x => x.RechnungsNr).Not.Nullable();
             this.References(x => x.Gutschrift).Cascade.All();
             ////this.Map(x => x.Inhalt)
         }

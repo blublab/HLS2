@@ -1,4 +1,5 @@
-﻿using ApplicationCore.FrachtfuehrerAdapter.BusinessLogicLayer;
+﻿using ApplicationCore.BuchhaltungKomponente.AccessLayer;
+using ApplicationCore.FrachtfuehrerAdapter.BusinessLogicLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
 using Common.Implementations;
@@ -9,9 +10,9 @@ namespace ApplicationCore.FrachtfuehrerAdapter.AccessLayer
     {
         private readonly FrachtfuehrerAdapterBusinessLogic ffA_BL;
 
-        public FrachtfuehrerAdapterFacade()
+        public FrachtfuehrerAdapterFacade(IBuchhaltungServicesFuerFrachtfuehrerAdapter buchhaltungServices)
         {
-            this.ffA_BL = new FrachtfuehrerAdapterBusinessLogic(); 
+            this.ffA_BL = new FrachtfuehrerAdapterBusinessLogic(buchhaltungServices);
         }
 
         public void SendeFrachtauftragAnFrachtfuehrer(FrachtauftragDTO fraDTO)
@@ -19,6 +20,11 @@ namespace ApplicationCore.FrachtfuehrerAdapter.AccessLayer
             Check.Argument(fraDTO != null, "fraDTO != null");
 
             this.ffA_BL.SendeFrachtauftragAnFrachtfuehrer(fraDTO);
+        }
+
+        public void StarteEmpfangVonFrachtabrechnungen()
+        {
+            this.ffA_BL.StarteEmpfangVonFrachtabrechnungen();
         }
     }
 }

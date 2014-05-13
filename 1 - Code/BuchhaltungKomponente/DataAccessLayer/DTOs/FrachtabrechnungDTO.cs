@@ -15,7 +15,6 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         public virtual WaehrungsType Rechnungsbetrag { get; set; }
         public virtual int FaufNr { get; set; }
         public virtual Gutschrift Gutschrift { get; set; }
-        public virtual int RechnungsNr { get; set; }
         ////public virtual PDFTyp Inhalt {get;set;}
 
         public virtual Frachtabrechnung ToEntity() 
@@ -26,7 +25,6 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
             fab.Rechnungsbetrag = this.Rechnungsbetrag;
             fab.FaufNr = this.FaufNr;
             fab.Gutschrift = this.Gutschrift;
-            fab.RechnungsNr = this.RechnungsNr;
             ////fab.Inhalte = this.Inhalt
             return fab;
         }

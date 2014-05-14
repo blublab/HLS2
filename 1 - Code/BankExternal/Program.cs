@@ -28,23 +28,23 @@ namespace BankExternal
     {
         public static void Main(string[] args)
         {
-            var gutschrift = Task.Factory.StartNew(() => ReceiveGutschriften());
-
-            Task.WaitAll(gutschrift); //Lässt Console geöffnet
-        }
-
-        private static void ReceiveGutschriften()
-        {
             System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["BankExternal"];
             Contract.Assert(connectionSettings != null, "A BankExternal connection setting needs to be defined in the App.config.");
             string gutschriftQueueID = connectionSettings.ConnectionString;
             Contract.Assert(string.IsNullOrEmpty(gutschriftQueueID) == false);
 
+            var gutschrift = Task.Factory.StartNew(() => ReceiveGutschriften(gutschriftQueueID));
+
+            Task.WaitAll(gutschrift); //Lässt Console geöffnet
+        }
+
+        private static void ReceiveGutschriften(string queueID)
+        {
             IMessagingServices messagingManager = null;
             IQueueServices<GutschriftDetail> gutschriftDetailQueue = null;
 
             messagingManager = MessagingServicesFactory.CreateMessagingServices();
-            gutschriftDetailQueue = messagingManager.CreateQueue<GutschriftDetail>(gutschriftQueueID);
+            gutschriftDetailQueue = messagingManager.CreateQueue<GutschriftDetail>(queueID);
 
             Console.WriteLine("Warte auf Gutschriften in Queue '" + gutschriftDetailQueue.Queue + "'.");
 
@@ -54,10 +54,10 @@ namespace BankExternal
                 {
                     return MessageAckBehavior.AcknowledgeMessage;
                 });
+
                 Console.Beep();
                 Console.WriteLine("<== Gutschrift empfangen.");
             }
         }
     }
 }
-

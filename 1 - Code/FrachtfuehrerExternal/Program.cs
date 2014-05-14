@@ -44,19 +44,24 @@ namespace FrachtfuehrerExternal
     {
         public static void Main(string[] args)
         {
-            var receiver = Task.Factory.StartNew(() => Receiver());
-            var sender = Task.Factory.StartNew(() => Sender());
+            System.Configuration.ConnectionStringSettings auftragConnectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["FrachtfuehrerExternalFrachtauftrag"];
+            Contract.Assert(auftragConnectionSettings != null, "A FrachtfuehrerExternal connection setting needs to be defined in the App.config.");
+            string frachtfuehrerAuftragQueueID = auftragConnectionSettings.ConnectionString;
+            Contract.Assert(string.IsNullOrEmpty(frachtfuehrerAuftragQueueID) == false);
+
+            System.Configuration.ConnectionStringSettings abrechnungConnectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["FrachtfuehrerExternalFrachtabrechnung"];
+            Contract.Assert(abrechnungConnectionSettings != null, "A FrachtfuehrerExternal connection setting needs to be defined in the App.config.");
+            string frachtfuehrerAbrechnungQueueID = abrechnungConnectionSettings.ConnectionString;
+            Contract.Assert(string.IsNullOrEmpty(frachtfuehrerAbrechnungQueueID) == false);
+
+            var receiver = Task.Factory.StartNew(() => Receiver(frachtfuehrerAuftragQueueID));
+            var sender = Task.Factory.StartNew(() => Sender(frachtfuehrerAbrechnungQueueID));
 
             Task.WaitAll(receiver, sender);
         }
 
-        private static void Receiver()
+        private static void Receiver(string frachtfuehrerAuftragQueue)
         {
-            System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["FrachtfuehrerExternalFrachtauftrag"];
-            Contract.Assert(connectionSettings != null, "A FrachtfuehrerExternal connection setting needs to be defined in the App.config.");
-            string frachtfuehrerAuftragQueue = connectionSettings.ConnectionString;
-            Contract.Assert(string.IsNullOrEmpty(frachtfuehrerAuftragQueue) == false);
-
             IMessagingServices ms = MessagingServicesFactory.CreateMessagingServices();
             IQueueServices<FrachtauftragDetail> frachtauftragDetailQueue = ms.CreateQueue<FrachtauftragDetail>(frachtfuehrerAuftragQueue);
             Console.WriteLine("Warte auf Frachtaufträge in Queue '" + frachtauftragDetailQueue.Queue + "'.");
@@ -71,22 +76,17 @@ namespace FrachtfuehrerExternal
             }
         }
 
-        private static void Sender()
+        private static void Sender(string frachtfuehrerAbrechnungQueueID)
         {
-            System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["FrachtfuehrerExternalFrachtabrechnung"];
-            Contract.Assert(connectionSettings != null, "A FrachtfuehrerExternal connection setting needs to be defined in the App.config.");
-            string frachtfuehrerAbrechnungQueue = connectionSettings.ConnectionString;
-            Contract.Assert(string.IsNullOrEmpty(frachtfuehrerAbrechnungQueue) == false);
-
             IMessagingServices ms = MessagingServicesFactory.CreateMessagingServices();
-            IQueueServices<FrachtabrechnungDetail> frachtabrechnungDetailQueue = ms.CreateQueue<FrachtabrechnungDetail>(frachtfuehrerAbrechnungQueue);
+            IQueueServices<FrachtabrechnungDetail> frachtabrechnungDetailQueue = ms.CreateQueue<FrachtabrechnungDetail>(frachtfuehrerAbrechnungQueueID);
 
             for (int i = 1; i <= 3; i++)
             {
                 Thread.Sleep(500);
                 FrachtabrechnungDetail dummyFrachtabrechnungDetail = new FrachtabrechnungDetail() { IstBestaetigt = true, Rechnungsbetrag = new WaehrungsType(i), FaufNr = i };
                 frachtabrechnungDetailQueue.Send(dummyFrachtabrechnungDetail);
-                Console.WriteLine("Folgende Frachtabrechnung wurde in die Queue " + frachtfuehrerAbrechnungQueue + " geschoben: " + dummyFrachtabrechnungDetail.ToString());
+                Console.WriteLine("Folgende Frachtabrechnung wurde in die Queue " + frachtfuehrerAbrechnungQueueID + " geschoben: " + dummyFrachtabrechnungDetail.ToString());
                 Console.Beep();
             }
         }

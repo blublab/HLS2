@@ -37,11 +37,11 @@ namespace ApplicationCore.FrachtfuehrerAdapter.BusinessLogicLayer
 
     internal class FrachtfuehrerAdapterBusinessLogic
     {
-        private IBuchhaltungServicesFuerFrachtfuehrerAdapter BuchhaltungServices = null;
+        private IBuchhaltungServicesFuerFrachtfuehrerAdapter buchhaltungServices = null;
 
         public FrachtfuehrerAdapterBusinessLogic(IBuchhaltungServicesFuerFrachtfuehrerAdapter buchhaltungServices)
         {
-            this.BuchhaltungServices = buchhaltungServices;
+            this.buchhaltungServices = buchhaltungServices;
         }
 
         public void SendeFrachtauftragAnFrachtfuehrer(FrachtauftragDTO fraDTO)
@@ -99,7 +99,7 @@ namespace ApplicationCore.FrachtfuehrerAdapter.BusinessLogicLayer
                     FaufNr = frachtauftragDetailReceived.FaufNr
                 };
 
-                this.BuchhaltungServices.PayFrachtabrechnung(ref faDTO);
+                this.buchhaltungServices.PayFrachtabrechnung(ref faDTO);
             }
         }
 

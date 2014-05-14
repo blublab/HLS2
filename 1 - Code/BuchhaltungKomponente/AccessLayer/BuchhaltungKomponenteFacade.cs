@@ -28,7 +28,6 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             Check.Argument(transactionService != null, "transactionService != null");
             Check.Argument(bankServices != null, "bankServices != null");
 
-
             this.bh_REPO = new BuchhaltungRepository(persistenceService);
             this.transactionService = transactionService;
             this.bankServices = bankServices;

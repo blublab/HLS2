@@ -1,5 +1,5 @@
-﻿using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
-using ApplicationCore.BankAdapter.BusinessLogicLayer;
+﻿using ApplicationCore.BankAdapter.BusinessLogicLayer;
+using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.Common.DataTypes;
 using Util.Common.Interfaces;
-using Util.MessagingServices.Interfaces;
 using Util.MessagingServices.Implementations;
+using Util.MessagingServices.Interfaces;
 
 namespace ApplicationCore.BankAdapter.BusinessLogicLayer
 {
@@ -22,18 +22,23 @@ namespace ApplicationCore.BankAdapter.BusinessLogicLayer
 
     internal class BankAdapterBusinessLogic
     {
+        private string gutschriftQueueID = null;
+
+        internal BankAdapterBusinessLogic()
+        {
+            System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["BankExternal"];
+            Contract.Assert(connectionSettings != null, "A BankExternal connection setting needs to be defined in the App.config.");
+            this.gutschriftQueueID = connectionSettings.ConnectionString;
+            Contract.Assert(string.IsNullOrEmpty(gutschriftQueueID) == false);
+        }
+
         internal void SendeGutschriftAnBank(GutschriftDTO gDTO)
         {
             IMessagingServices messagingManager = null;
             IQueueServices<GutschriftDetailDTO> gutschriftDetailQueue = null;
 
-            System.Configuration.ConnectionStringSettings connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings["BankExternal"];
-            Contract.Assert(connectionSettings != null, "A BankExternal connection setting needs to be defined in the App.config.");
-            string gutschriftQueue = connectionSettings.ConnectionString;
-            Contract.Assert(string.IsNullOrEmpty(gutschriftQueue) == false);
-
             messagingManager = MessagingServicesFactory.CreateMessagingServices();
-            gutschriftDetailQueue = messagingManager.CreateQueue<GutschriftDetailDTO>(gutschriftQueue);
+            gutschriftDetailQueue = messagingManager.CreateQueue<GutschriftDetailDTO>(gutschriftQueueID);
 
             GutschriftDetailDTO gdDTO = new GutschriftDetailDTO()
             {

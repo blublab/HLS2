@@ -1,15 +1,15 @@
-﻿using ApplicationCore.BuchhaltungKomponente.AccessLayer;
+﻿using ApplicationCore.BankAdapter.AccessLayer;
+using ApplicationCore.BuchhaltungKomponente.AccessLayer;
+using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
+using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Util.PersistenceServices.Interfaces;
 using Util.PersistenceServices.Implementations;
-using ApplicationCore.BankAdapter.AccessLayer;
-using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
-using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
+using Util.PersistenceServices.Interfaces;
 
 namespace Client.HLS_Konsole
 {
@@ -19,7 +19,7 @@ namespace Client.HLS_Konsole
         private static ITransactionServices transactionServices = null;
 
         // BuchhaltungKomponente
-        private static IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsfffa= null;
+        private static IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsfffa = null;
 
         //BankAdapter
         private static IBankAdapterServicesFuerBuchhaltung basfbh = null;
@@ -31,21 +31,21 @@ namespace Client.HLS_Konsole
         //UnterbeauftragungKomponente
         private static IUnterbeauftragungServicesFuerBuchhaltung ubsfbh = null;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Initializing...");
-            init();
+            Init();
             Console.WriteLine("Initializing complete");
 
             Console.WriteLine("Filling DB with data...");
-            fillDB();
+            PopulateDB();
             Console.WriteLine("Filling DB done.");
             
             Console.WriteLine("Start reading from FrachtabrechnungQueue: \n");
             ffaf.StarteEmpfangVonFrachtabrechnungen();
         }
 
-        private static void init()
+        private static void Init()
         {
             PersistenceServicesFactory.CreateSimpleMySQLPersistenceService(out persistenceServices, out transactionServices);
 
@@ -56,7 +56,7 @@ namespace Client.HLS_Konsole
             bhsfffa.SetzeUnterbeauftragungServices(ubsfbh);
         }
 
-        private static void fillDB()
+        private static void PopulateDB()
         {
             IUnterbeauftragungServices unterbeauftragungServices = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf);
             FrachtfuehrerRahmenvertragDTO frv_hh_bhv;

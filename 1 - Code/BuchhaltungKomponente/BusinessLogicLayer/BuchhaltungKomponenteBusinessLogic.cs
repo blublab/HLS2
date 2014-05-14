@@ -26,7 +26,7 @@ namespace BuchhaltungKomponente.BusinessLogicLayer
             unterbeauftragungService.SchliesseFrachtauftragAb(faufNr);
         }
 
-        internal void setUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
+        internal void SetUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
         {
             this.unterbeauftragungService = unterbeauftragungServices;
         }

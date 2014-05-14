@@ -36,12 +36,14 @@ namespace BuchhaltungKomponente.Test
                 persistenceService,
                 transactionService,
                 new Mock<IBankAdapterServicesFuerBuchhaltung>().Object);
+            buchhaltungsService.SetzeUnterbeauftragungServices(unterbeauftragungServiceMock.Object as IUnterbeauftragungServicesFuerBuchhaltung);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FrachtauftragNichtGefundenException))]
         public void TestCreateFrachtabrechnungFail()
         {
+            unterbeauftragungServiceMock.Setup(unterbeauftragungService => unterbeauftragungService.PruefeObFrachtauftragVorhanden(1)).Returns(false);
             buchhaltungsService.CreateFrachtabrechnung(1);
         }
 
@@ -62,10 +64,11 @@ namespace BuchhaltungKomponente.Test
         {
             Frachtabrechnung fab = new Frachtabrechnung() { Rechnungsbetrag = new WaehrungsType(50), IstBestaetigt = true };
             FrachtabrechnungDTO fabDTO = fab.ToDTO();
-            //buchhaltungsService.PayFrachtabrechnung(ref fabDTO);
             unterbeauftragungServiceMock.Setup(IUnterbeauftragungServices => IUnterbeauftragungServices.SchliesseFrachtauftragAb(fab.FaufNr));
+            (buchhaltungsService as IBuchhaltungServicesFuerFrachtfuehrerAdapter).PayFrachtabrechnung(ref fabDTO);
             unterbeauftragungServiceMock.Verify(IUnterbeauftragungServices => IUnterbeauftragungServices.SchliesseFrachtauftragAb(fab.FaufNr));
             fab = fabDTO.ToEntity();
+
             //Assert.IsTrue(fab.Gutschrift != null);
         }
 

@@ -68,6 +68,52 @@ namespace ApplicationCore.TransportnetzKomponente.DataAccessLayer
             return lok;
         }
 
+        public Lokation FindByLokName(string lokName)
+        {
+            Contract.Requires(lokName != null);
+
+            return gc.Cypher
+                .Match("(n)")
+                .Where((Lokation n) => n.Name == lokName)
+                .Return(n => n.As<Lokation>())
+                .Results
+                .FirstOrDefault();
+        }
+
+        public Transportbeziehung FindByStartZielName(string start, string ziel)
+        {
+            Contract.Requires(start != null && ziel != null);
+
+            var ret = gc.Cypher
+                .Match("(a)-[r]->(b)")
+                .Where((Lokation a, Lokation b) => a.Name == start && b.Name == ziel)
+                .Return(r => r.As<RelationshipInstance<Transportbeziehung>>())
+                .Results
+                .FirstOrDefault();
+            if (ret == null)
+            {
+                return null;
+            }
+            return FindByTbNr(ret.Reference.Id);
+        }
+
+        public IEnumerable<Transportbeziehung> FindTbByLokNr(long lokNr)
+        {
+            Contract.Requires(lokNr >= 0);
+
+            var ret = gc.Cypher
+                .Match("(a)<-[r]->(b)")
+                .Where((Lokation a, Lokation b) => a.LokNr == lokNr)
+                .Return(r => r.As<RelationshipInstance<Transportbeziehung>>())
+                .Results;
+            ISet<Transportbeziehung> set = new HashSet<Transportbeziehung>();
+            foreach (var t in ret)
+            {
+                set.Add(FindByTbNr(t.Reference.Id));
+            }
+            return set;
+        } 
+
         public Transportbeziehung FindByTbNr(long tbNr)
         {
             Contract.Requires(tbNr >= 0);
@@ -107,6 +153,20 @@ namespace ApplicationCore.TransportnetzKomponente.DataAccessLayer
                         {
                             { "n", "node(*)" }
                         })
+                .OptionalMatch("n-[r]-()")
+                .Delete("n,r")
+                .ExecuteWithoutResults();
+        }
+
+        public void DeleteTransportnetz(string regExp)
+        {
+            gc.Cypher
+                .Start(new Dictionary<string, object>
+                        {
+                            { "n", "node(*)" }
+                        })
+                .Match("n")
+                .Where("n.Name =~ '" + regExp + "'")
                 .OptionalMatch("n-[r]-()")
                 .Delete("n,r")
                 .ExecuteWithoutResults();

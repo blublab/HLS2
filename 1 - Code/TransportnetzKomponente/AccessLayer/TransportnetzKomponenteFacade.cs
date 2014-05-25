@@ -47,6 +47,50 @@ namespace ApplicationCore.TransportnetzKomponente.AccessLayer
             return lok.ToDTO();
         }
 
+        public LokationDTO FindLokation(string lokName)
+        {
+            Check.Argument(lokName != null, "lokName != null");
+
+            Lokation lok = this.tn_REPO.FindByLokName(lokName);
+            return lok != null ? lok.ToDTO() : null;
+        }
+
+        public TransportbeziehungDTO FindTransportbeziehung(string start, string ziel)
+        {
+            Check.Argument(start != null, "start != null");
+            Check.Argument(ziel != null, "ziel != null");
+
+            Transportbeziehung tb = this.tn_REPO.FindByStartZielName(start, ziel);
+            if (tb == null)
+            {
+                return null;
+            }
+            return tb.ToDTO();
+        }
+
+        public IEnumerable<TransportbeziehungDTO> FindTransportbeziehungen(long lokNr)
+        {
+            Check.Argument(lokNr >= 0, "lokNr >= 0");
+            ISet<TransportbeziehungDTO> set = new HashSet<TransportbeziehungDTO>();
+            foreach (var tb in this.tn_REPO.FindTbByLokNr(lokNr))
+            {
+                set.Add(tb.ToDTO());
+            }
+            return set;
+        }
+
+        public IEnumerable<TransportbeziehungDTO> FindTransportbeziehungen(string lokName)
+        {
+            Check.Argument(lokName != null, "lokName != null");
+
+            LokationDTO lokDTO = FindLokation(lokName);
+            if (lokDTO == null)
+            {
+                return new HashSet<TransportbeziehungDTO>();
+            }
+            return FindTransportbeziehungen(lokDTO.LokNr);
+        }
+
         public TransportbeziehungDTO FindTransportbeziehung(long tbNr)
         {
             Check.Argument(tbNr >= 0, "tbNr >= 0");
@@ -62,6 +106,11 @@ namespace ApplicationCore.TransportnetzKomponente.AccessLayer
         public void DeleteTransportnetz()
         {
             this.tn_REPO.DeleteTransportnetz();
+        }
+
+        public void DeleteTransportnetz(string regExp)
+        {
+            this.tn_REPO.DeleteTransportnetz(regExp);
         }
 
         public List<List<Transportbeziehung>> GeneriereAllePfadeVonBis(long startLokation, long zielLokation)

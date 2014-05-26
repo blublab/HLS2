@@ -35,5 +35,20 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         {
             return persistenceService.GetById<Frachtabrechnung, int>(fabNr);
         }
+
+        public void SpeichereKundenrechnung(Kundenrechnung kr)
+        {
+            persistenceService.Save(kr);
+        }
+
+        public Kundenrechnung GetKundenrechnungById(int krNr)
+        {
+            return persistenceService.GetById<Kundenrechnung, int>(krNr);
+        }
+
+        public void SpeichereZahlungseingang(Zahlungseingang ze)
+        {
+            persistenceService.Save(ze);
+        }
     }
 }

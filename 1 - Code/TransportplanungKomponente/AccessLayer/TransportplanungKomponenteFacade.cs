@@ -15,7 +15,7 @@ using Util.TimeServices;
 
 namespace ApplicationCore.TransportplanungKomponente.AccessLayer
 {
-    public class TransportplanungKomponenteFacade : ITransportplanungServices, ITransportplanungServicesFürAuftrag
+    public class TransportplanungKomponenteFacade : ITransportplanungServices, ITransportplanungServicesFürAuftrag, ITransportplanServicesFuerBuchhaltung
     {
         private readonly ITransactionServices transactionService;
         private readonly IAuftragServicesFürTransportplanung auftragServices;
@@ -88,6 +88,20 @@ namespace ApplicationCore.TransportplanungKomponente.AccessLayer
             Check.Argument(saNr > 0, "saNr > 0");
 
             this.tpK_BL.LöscheTransportpläneAsync(saNr);
+        }
+        #endregion
+
+        #region ITransportplanServicesFuerBuchhaltung
+        public TransportplanDTO FindeTransportplanUeberTpNr(int tpNr)
+        {
+            Check.Argument(tpNr > 0, "tpNr > 0");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            return transactionService.ExecuteTransactional(() =>
+            {
+                Transportplan gewählterPlan = this.tp_REPO.FindByTpNr(tpNr);
+                return gewählterPlan.ToDTO();
+            });
         }
         #endregion
     }

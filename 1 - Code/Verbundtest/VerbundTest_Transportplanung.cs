@@ -2,6 +2,7 @@
 using ApplicationCore.AuftragKomponente.DataAccessLayer;
 using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.DataAccessLayer;
 using ApplicationCore.TransportplanungKomponente.AccessLayer;
@@ -52,7 +53,14 @@ namespace Tests.VerbundTest
             transportnetzServices = new TransportnetzKomponenteFacade();
             auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServicesMock.Object);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
-            IBuchhaltungServicesFuerFrachtfuehrerAdapter bsfa = new BuchhaltungKomponenteFacade(persistenceService, transactionService, new Mock<IBankAdapterServicesFuerBuchhaltung>().Object);
+            IBuchhaltungServicesFuerFrachtfuehrerAdapter bsfa = new BuchhaltungKomponenteFacade(
+                persistenceService, 
+                transactionService, 
+                new Mock<IBankAdapterServicesFuerBuchhaltung>().Object,
+                new Mock<ITransportplanServicesFuerBuchhaltung>().Object,
+                new Mock<IAuftragServicesFuerBuchhaltung>().Object,
+                new Mock<IGeschaeftspartnerServices>().Object,
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
             frachtfuehrerServices = new FrachtfuehrerAdapterFacade(bsfa);
             unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices);
             bsfa.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);

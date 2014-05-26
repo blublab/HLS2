@@ -19,6 +19,8 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
         public virtual long StartLokation { get; set; }
         public virtual long ZielLokation { get; set; }
 
+        public virtual int AuftrageberNr { get; set; }
+
         public Sendungsanfrage()
         {
             this.Sendungspositionen = new List<Sendungsposition>();
@@ -76,6 +78,7 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
             saDTO.Status = this.Status;
             saDTO.StartLokation = this.StartLokation;
             saDTO.ZielLokation = this.ZielLokation;
+            saDTO.AuftrageberNr = this.AuftrageberNr;
             foreach (Sendungsposition sp in this.Sendungspositionen)
             {
                 saDTO.Sendungspositionen.Add(sp.ToDTO());
@@ -115,6 +118,7 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
             this.Map(x => x.StartLokation);
             this.Map(x => x.ZielLokation);
             this.HasMany(x => x.Sendungspositionen).Cascade.All().Not.LazyLoad();
+            this.Map(x => x.AuftrageberNr);
         }
     }
 

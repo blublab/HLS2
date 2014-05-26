@@ -53,19 +53,33 @@
     <Compile Include="AccessLayer\IBankAdapterServicesFuerBuchhaltung.cs" />
     <Compile Include="AccessLayer\IBuchhaltungServices.cs" />
     <Compile Include="AccessLayer\IBuchhaltungServicesFuerFrachtfuehrerAdapter.cs" />
+    <Compile Include="AccessLayer\IBuchhaltungsServicesFuerBank.cs" />
+    <Compile Include="AccessLayer\IPDFErzeugungsServicesFuerBuchhaltung.cs" />
     <Compile Include="BusinessLogicLayer\BuchhaltungKomponenteBusinessLogic.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachtabrechnungDTO.cs" />
     <Compile Include="DataAccessLayer\DTOs\GutschriftDTO.cs" />
+    <Compile Include="DataAccessLayer\DTOs\KundenrechnungDTO.cs" />
+    <Compile Include="DataAccessLayer\DTOs\ZahlungseingangDTO.cs" />
     <Compile Include="DataAccessLayer\Entities\Frachtabrechnung.cs" />
     <Compile Include="DataAccessLayer\Entities\Gutschrift.cs" />
     <Compile Include="DataAccessLayer\BuchhaltungRepository.cs" />
+    <Compile Include="DataAccessLayer\Entities\Kundenrechnung.cs" />
+    <Compile Include="DataAccessLayer\Entities\Zahlungseingang.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\AuftragKomponente\AuftragKomponente.csproj">
+      <Project>{7b60032a-0d25-4a06-9d04-83fd1ff1e946}</Project>
+      <Name>AuftragKomponente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{841af5c4-1281-49f3-853f-3e08cd08aa6a}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeschaeftspartnerKomponente\GeschaeftspartnerKomponente.csproj">
+      <Project>{18292c25-d2d5-4537-bb46-92ec366b1f85}</Project>
+      <Name>GeschaeftspartnerKomponente</Name>
     </ProjectReference>
     <ProjectReference Include="..\PersistenceServices\PersistenceServices.csproj">
       <Project>{4a905506-3375-4cb6-a065-3b9d63c545db}</Project>
@@ -74,6 +88,10 @@
     <ProjectReference Include="..\TimeServices\TimeServices.csproj">
       <Project>{85abe358-27f3-4fa7-a9ab-1cd28dfa198d}</Project>
       <Name>TimeServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TransportplanungKomponente\TransportplanungKomponente.csproj">
+      <Project>{fe0b1af0-6b33-49a9-badd-0163cd0d4543}</Project>
+      <Name>TransportplanungKomponente</Name>
     </ProjectReference>
     <ProjectReference Include="..\UnterbeauftragungKomponente\UnterbeauftragungKomponente.csproj">
       <Project>{e53bb22a-3e99-4eb7-ba09-ee1621d8085e}</Project>

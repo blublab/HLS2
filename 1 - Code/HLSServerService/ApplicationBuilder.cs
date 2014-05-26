@@ -9,6 +9,7 @@ using ApplicationCore.TransportplanungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
 using log4net;
+using Moq;
 using System;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
@@ -36,7 +37,14 @@ namespace HLSServerService
             IAuftragServices auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServices);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
             IBankAdapterServicesFuerBuchhaltung bankServices = new BankAdapterFacade();
-            IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsff = new BuchhaltungKomponenteFacade(persistenceService, transactionService, bankServices);
+            IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsff = new BuchhaltungKomponenteFacade(
+                persistenceService,
+                transactionService,
+                new Mock<IBankAdapterServicesFuerBuchhaltung>().Object,
+                new Mock<ITransportplanServicesFuerBuchhaltung>().Object,
+                new Mock<IAuftragServicesFuerBuchhaltung>().Object,
+                new Mock<IGeschaeftspartnerServices>().Object,
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
             IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices = new FrachtfuehrerAdapterFacade(bhsff);
             unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices);
             bhsff.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);

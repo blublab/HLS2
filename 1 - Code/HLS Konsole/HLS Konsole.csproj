@@ -94,6 +94,14 @@
       <Project>{18292c25-d2d5-4537-bb46-92ec366b1f85}</Project>
       <Name>GeschaeftspartnerKomponente</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MailServices\MailServices.csproj">
+      <Project>{c039c2b7-c671-460f-ad2d-7aa7edf45810}</Project>
+      <Name>MailServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PDFErzeugungsKomponente\PDFErzeugungsKomponente.csproj">
+      <Project>{38c5e46d-b36a-4a3f-a77d-6f05b165f7c0}</Project>
+      <Name>PDFErzeugungsKomponente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PersistenceServices\PersistenceServices.csproj">
       <Project>{4a905506-3375-4cb6-a065-3b9d63c545db}</Project>
       <Name>PersistenceServices</Name>

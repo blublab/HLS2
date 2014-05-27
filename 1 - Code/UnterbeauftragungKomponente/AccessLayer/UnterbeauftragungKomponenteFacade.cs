@@ -14,6 +14,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
         private readonly FrachtfuehrerRepository frf_REPO;
         private readonly UnterbeauftragungKomponenteBusinessLogic ubK_BL;
         private readonly FrachtauftragRepository fra_REPO;
+        private readonly FrachtbriefRepository frb_REPO;
 
         public UnterbeauftragungKomponenteFacade(IPersistenceServices persistenceService, ITransactionServices transactionService, IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices)
         {
@@ -24,6 +25,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
             this.frf_REPO = new FrachtfuehrerRepository(persistenceService);
             this.ubK_BL = new UnterbeauftragungKomponenteBusinessLogic(persistenceService, frachtfuehrerServices);
             this.fra_REPO = new FrachtauftragRepository(persistenceService);
+            this.frb_REPO = new FrachtbriefRepository(persistenceService);
         }
 
         public void CreateFrachtfuehrerRahmenvertrag(ref FrachtfuehrerRahmenvertragDTO frvDTO)
@@ -139,6 +141,22 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
                     this.fra_REPO.Add(fauf);
                 });
             faufDTO = fauf.ToDTO();
+        }
+
+        public void CreateFrachtbrief(ref FrachtbriefDTO frbDTO)
+        {
+            Check.Argument(frbDTO != null, "frbDTO != null");
+            Check.Argument(frbDTO.FrbNr == 0, "frbDTO.FrbNr == 0");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Frachtbrief frb = frbDTO.ToEntity();
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    this.frb_REPO.Add(frb);
+                });
+            frbDTO = frb.ToDTO();
+
         }
 
         public FrachtauftragDTO ReadFrachtauftragByID(int faufNr)

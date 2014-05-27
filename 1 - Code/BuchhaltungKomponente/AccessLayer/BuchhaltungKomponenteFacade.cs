@@ -36,7 +36,8 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
 
         public void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
         {
-            this.bh_BL.setUnterbeauftragungServices(unterbeauftragungServices);
+ // FIXME: Methode existiert (noch?) nicht.
+ //           this.bh_BL.setUnterbeauftragungServices(unterbeauftragungServices);
         }
 
         #region IBuchhaltungServices

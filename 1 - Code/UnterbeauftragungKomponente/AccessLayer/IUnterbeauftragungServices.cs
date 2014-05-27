@@ -31,6 +31,14 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
         void CreateFrachtauftrag(ref FrachtauftragDTO faufDTO);
 
         /// <summary>
+        /// Erstellt einen neuen Frachtbrief.
+        /// </summary>
+        /// <throws>ArgumentException, falls frbDTO == null.</throws>
+        /// <throws>ArgumentException, falls frbDTO.FrbNr != 0.</throws>
+        /// <transaction>Nicht erlaubt</transaction>
+        void CreateFrachtbrief(ref FrachtbriefDTO frbDTO);
+
+        /// <summary>
         /// Liest der Frachtauftrag aus der DB.
         /// </summary>
         /// <param name="fabNr">ID des Fracahtauftrages</param>

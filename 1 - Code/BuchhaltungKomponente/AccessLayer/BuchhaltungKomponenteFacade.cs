@@ -1,43 +1,66 @@
-﻿using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
+﻿using ApplicationCore.AuftragKomponente.AccessLayer;
+using ApplicationCore.AuftragKomponente.DataAccessLayer;
+using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer;
+using ApplicationCore.TransportplanungKomponente.AccessLayer;
+using ApplicationCore.TransportplanungKomponente.DataAccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 using BuchhaltungKomponente.BusinessLogicLayer;
-using Common.DataTypes;
 using Common.Implementations;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Util.Common.DataTypes;
 using Util.PersistenceServices.Interfaces;
 
 namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
 {
-    public class BuchhaltungKomponenteFacade : IBuchhaltungServices, IBuchhaltungServicesFuerFrachtfuehrerAdapter
+    public class BuchhaltungKomponenteFacade : IBuchhaltungServices, IBuchhaltungServicesFuerFrachtfuehrerAdapter, IBuchhaltungsServicesFuerBank
     {
         private readonly BuchhaltungRepository bh_REPO;
         private readonly ITransactionServices transactionService;
         private readonly BuchhaltungKomponenteBusinessLogic bh_BL;
         private readonly IBankAdapterServicesFuerBuchhaltung bankServices;
+        private readonly ITransportplanServicesFuerBuchhaltung transportplanServiceFuerBuchhaltung;
+        private readonly IAuftragServicesFuerBuchhaltung auftragServiceFuerBuchhaltung;
+        private readonly IGeschaeftspartnerServices geschaeftspartnerService;
+        private readonly IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServiceFuerBuchhaltung;
 
         public BuchhaltungKomponenteFacade(
                 IPersistenceServices persistenceService,
                 ITransactionServices transactionService,
-                IBankAdapterServicesFuerBuchhaltung bankServices)
+                IBankAdapterServicesFuerBuchhaltung bankServices,
+                ITransportplanServicesFuerBuchhaltung transportplanServicesFuerBuchhaltung,
+                IAuftragServicesFuerBuchhaltung auftragServicesFuerBuchhaltung,
+                IGeschaeftspartnerServices geschaeftspartnerServices,
+                IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServicesFuerBuchhaltung)
         {
             Check.Argument(persistenceService != null, "persistenceService != null");
             Check.Argument(transactionService != null, "transactionService != null");
             Check.Argument(bankServices != null, "bankServices != null");
-
+            Check.Argument(transportplanServicesFuerBuchhaltung != null, "transportplanServicesFuerBuchhaltung != null");
+            Check.Argument(auftragServicesFuerBuchhaltung != null, "auftragServicesFuerBuchhaltung != null");
+            Check.Argument(geschaeftspartnerServices != null, "geschaeftspartnerServices != null");
+            Check.Argument(pdfErzeugungsServicesFuerBuchhaltung != null, "pdfErzeugungsServicesFuerBuchhaltung != null");
+            
             this.bh_REPO = new BuchhaltungRepository(persistenceService);
             this.transactionService = transactionService;
             this.bankServices = bankServices;
             this.bh_BL = new BuchhaltungKomponenteBusinessLogic();
+            this.transportplanServiceFuerBuchhaltung = transportplanServicesFuerBuchhaltung;
+            this.auftragServiceFuerBuchhaltung = auftragServicesFuerBuchhaltung;
+            this.geschaeftspartnerService = geschaeftspartnerServices;
+            this.pdfErzeugungsServiceFuerBuchhaltung = pdfErzeugungsServicesFuerBuchhaltung;
         }
 
         public void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
         {
+<<<<<<< HEAD
  // FIXME: Methode existiert (noch?) nicht.
  //           this.bh_BL.setUnterbeauftragungServices(unterbeauftragungServices);
+=======
+            this.bh_BL.SetUnterbeauftragungServices(unterbeauftragungServices);
+>>>>>>> 510c3a8fe9a407c5243890af452d76e094d6900e
         }
 
         #region IBuchhaltungServices
@@ -69,6 +92,43 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                     this.bh_REPO.DeleteFrachtabrechnung(fab);
                 });
         }
+
+        public KundenrechnungDTO ErstelleKundenrechnung(int tpNr, int saNr)
+        {
+            Check.Argument(tpNr > 0, "TpNr > 0");
+            Check.Argument(saNr > 0, "saNr > 0");
+
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Kundenrechnung kr = new Kundenrechnung();
+            kr.RechnungBezahlt = false;
+            TransportplanDTO tpDTO = transportplanServiceFuerBuchhaltung.FindeTransportplanUeberTpNr(tpNr);
+            IList<TransportplanSchrittDTO> tpSchritte = tpDTO.TransportplanSchritte;
+
+            decimal kostenSumme = 0;
+            foreach (TransportplanSchrittDTO tpsDTO in tpSchritte)
+            {
+                kostenSumme += tpsDTO.Kosten;
+            }
+
+            kr.Rechnungsbetrag = new WaehrungsType(kostenSumme);
+            kr.Sendungsanfrage = saNr;
+            SendungsanfrageDTO saDTO = auftragServiceFuerBuchhaltung.FindeSendungsanfrageUeberSaNr(saNr);
+            GeschaeftspartnerDTO gpDTO = geschaeftspartnerService.FindGeschaeftspartner(saDTO.AuftrageberNr);
+            if (gpDTO.Adressen.Count > 0)
+            {
+                kr.Rechnungsadresse = gpDTO.Adressen.First<AdresseDTO>().Id;
+            }
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    bh_REPO.SpeichereKundenrechnung(kr);
+                });
+            KundenrechnungDTO krDTO = kr.ToDTO();
+            pdfErzeugungsServiceFuerBuchhaltung.ErstelleKundenrechnungPDF(ref krDTO, tpSchritte, ref gpDTO);
+            ////TODO Email
+            return kr.ToDTO();
+        }
         #endregion IBuchhaltungServices
 
         #region IBuchhaltungServicesFuerFrachtfuehrerAdapter
@@ -92,7 +152,6 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             bankServices.SendeGutschriftAnBank(ref gutschriftDTO);
             fabDTO = fab.ToDTO();
         }
-        #endregion
 
         public FrachtabrechnungDTO ReadFrachtabrechnungByID(int fabNr)
         {
@@ -107,5 +166,37 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                  });
             return fab.ToDTO();
         }
+        #endregion
+
+        #region IBuchhaltungsServicesFuerBank
+        public KundenrechnungDTO VerarbeiteZahlungseingang(ref ZahlungseingangDTO zeDTO)
+        {
+            Kundenrechnung kr = null;
+
+            Zahlungseingang ze = zeDTO.ToEntity();
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    bh_REPO.SpeichereZahlungseingang(ze);
+                });
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    kr = bh_REPO.GetKundenrechnungById(ze.KrNr);
+                });
+            kr.Rechnungsbetrag -= ze.Zahlungsbetrag;
+            if (kr.Rechnungsbetrag.Wert <= 0)
+            {
+                kr.RechnungBezahlt = true;
+                auftragServiceFuerBuchhaltung.SchliesseSendungsanfrageAb(kr.Sendungsanfrage);
+            }
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    bh_REPO.SpeichereKundenrechnung(kr);
+                });
+            return kr.ToDTO();
+        }
+        #endregion
     }
 }

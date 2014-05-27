@@ -10,7 +10,7 @@ using Util.TimeServices;
 
 namespace ApplicationCore.AuftragKomponente.AccessLayer
 {
-    public class AuftragKomponenteFacade : IAuftragServices, IAuftragServicesFürTransportplanung
+    public class AuftragKomponenteFacade : IAuftragServices, IAuftragServicesFürTransportplanung, IAuftragServicesFuerBuchhaltung
     {
         private readonly SendungsanfrageRepository sa_REPO;
         private readonly ITransactionServices transactionService;
@@ -191,5 +191,40 @@ namespace ApplicationCore.AuftragKomponente.AccessLayer
             });
             return sa;
         }
+
+        #region IAuftragServicesFuerBuchhaltung
+        public SendungsanfrageDTO FindeSendungsanfrageUeberSaNr(int saNr)
+        {
+            Check.OperationCondition(this.transportplanungsServiceInitialized == true, "AuftragsKomponente wurde nicht korrekt initialisiert. Rückverbindung zur Komponente TransportPlanung muss hergestellt sein (Methode RegisterTransportplanungServiceFürAuftrag).");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+            Check.Argument(saNr > 0, "SaNr muss größer als 0 sein.");
+
+            Sendungsanfrage sa = null;
+            transactionService.ExecuteTransactional(() =>
+            {
+                sa = this.sa_REPO.FindBySaNr(saNr);
+            });
+
+            if (sa == null)
+            {
+                return null;
+            }
+
+            return sa.ToDTO();
+        }
+
+        public void SchliesseSendungsanfrageAb(int saNr)
+        {
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+            Check.Argument(saNr > 0, "SaNr muss größer als 0 sein.");
+
+            transactionService.ExecuteTransactionalIfNoTransactionProvided(() =>
+            {
+                Sendungsanfrage sa = this.sa_REPO.FindBySaNr(saNr);
+                this.aufK_BL.UpdateSendungsanfrageStatus(sa, SendungsanfrageStatusTyp.Abgeschlossen);
+                this.sa_REPO.Save(sa);
+            });
+        }
+        #endregion
     }
 }

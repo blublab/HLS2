@@ -120,6 +120,10 @@
       <Project>{82e80abd-0d9f-447c-9d20-4b967664ea2d}</Project>
       <Name>FrachtfuehrerAdapter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GeschaeftspartnerKomponente\GeschaeftspartnerKomponente.csproj">
+      <Project>{18292c25-d2d5-4537-bb46-92ec366b1f85}</Project>
+      <Name>GeschaeftspartnerKomponente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PersistenceServices\PersistenceServices.csproj">
       <Project>{4a905506-3375-4cb6-a065-3b9d63c545db}</Project>
       <Name>PersistenceServices</Name>

@@ -1,8 +1,13 @@
-﻿using ApplicationCore.BankAdapter.AccessLayer;
+﻿using ApplicationCore.AuftragKomponente.AccessLayer;
+using ApplicationCore.BankAdapter.AccessLayer;
 using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
+using ApplicationCore.TransportnetzKomponente.AccessLayer;
+using ApplicationCore.TransportplanungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
+using Util.TimeServices;
 
 namespace Client.HLS_Konsole
 {
@@ -17,18 +23,19 @@ namespace Client.HLS_Konsole
     {
         private static IPersistenceServices persistenceServices = null;
         private static ITransactionServices transactionServices = null;
+        private static IAuftragServices auftragsServices = null;
+        private static IUnterbeauftragungServices unterbeauftragungsServices = null;
+        private static Mock<IFrachtfuehrerServicesFürUnterbeauftragung> frachtfuehrerServicesMock = null;
+        private static ITransportnetzServices transportnetzServices = null;
 
-        // BuchhaltungKomponente
         private static IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsfffa = null;
+        private static ITransportplanServicesFuerBuchhaltung tpsfbh = null;
 
-        //BankAdapter
         private static IBankAdapterServicesFuerBuchhaltung basfbh = null;
         private static BankAdapterFacade baf = null;
-
-        //FrachtfueherAdapter
+        
         private static FrachtfuehrerAdapterFacade ffaf = null;
 
-        //UnterbeauftragungKomponente
         private static IUnterbeauftragungServicesFuerBuchhaltung ubsfbh = null;
 
         public static void Main(string[] args)
@@ -48,9 +55,31 @@ namespace Client.HLS_Konsole
         private static void Init()
         {
             PersistenceServicesFactory.CreateSimpleMySQLPersistenceService(out persistenceServices, out transactionServices);
+            ITimeServices timeServices = new TimeServices();
 
             baf = new BankAdapterFacade();
-            bhsfffa = new BuchhaltungKomponenteFacade(persistenceServices, transactionServices, baf);
+            auftragsServices = new AuftragKomponenteFacade(persistenceServices, transactionServices, timeServices);
+            IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
+
+            unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, frachtfuehrerServicesMock.Object);
+            transportnetzServices = new TransportnetzKomponenteFacade();
+
+            tpsfbh = new TransportplanungKomponenteFacade(
+                persistenceServices,
+                transactionServices,
+                auftragsServicesFürTransportplanung,
+                unterbeauftragungsServices as IUnterbeauftragungServicesFürTransportplanung,
+                transportnetzServices as ITransportnetzServicesFürTransportplanung,
+                timeServices);
+
+            bhsfffa = new BuchhaltungKomponenteFacade(
+                persistenceServices,
+                transactionServices,
+                baf,
+                tpsfbh,
+                new Mock<IAuftragServicesFuerBuchhaltung>().Object,
+                new Mock<IGeschaeftspartnerServices>().Object,
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
             ffaf = new FrachtfuehrerAdapterFacade(bhsfffa);
             ubsfbh = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf as IFrachtfuehrerServicesFürUnterbeauftragung);
             bhsfffa.SetzeUnterbeauftragungServices(ubsfbh);

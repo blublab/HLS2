@@ -29,5 +29,13 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         FrachtabrechnungDTO ReadFrachtabrechnungByID(int fabNr);
 
         void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices);
+
+        /// <summary>
+        /// Erstellt Kundenrechnung.
+        /// </summary>
+        /// <throws>ArgumentException, falls tpNr <= 0</throws>
+        /// <throws>ArgumentException, falls SaNr <= 0</throws>
+        /// <transaction>Keine aktiven Transaktionen erlaubt.</transaction>
+        KundenrechnungDTO ErstelleKundenrechnung(int tpNr, int saNr);
     }
 }

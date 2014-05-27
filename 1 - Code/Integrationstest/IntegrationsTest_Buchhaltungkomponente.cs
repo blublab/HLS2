@@ -1,5 +1,7 @@
-﻿using ApplicationCore.BuchhaltungKomponente.AccessLayer;
+﻿using ApplicationCore.AuftragKomponente.AccessLayer;
+using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.TransportplanungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
@@ -54,9 +56,13 @@ namespace Test.Integrationtest
             unterbeauftragungServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServicesFürUnterbeauftragung.Object);
             unterbeauftragungServiceFuerBuchhaltung = unterbeauftragungServices as IUnterbeauftragungServicesFuerBuchhaltung;
             buchhaltungService = new BuchhaltungKomponenteFacade(
-            persistenceService,
-            transactionService,
-            new Mock<IBankAdapterServicesFuerBuchhaltung>().Object);
+                persistenceService,
+                transactionService,
+                new Mock<IBankAdapterServicesFuerBuchhaltung>().Object,
+                new Mock<ITransportplanServicesFuerBuchhaltung>().Object,
+                new Mock<IAuftragServicesFuerBuchhaltung>().Object,
+                new Mock<IGeschaeftspartnerServices>().Object,
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
             buchhaltungService.SetzeUnterbeauftragungServices(unterbeauftragungServiceFuerBuchhaltung);
             Mock<FrachtfuehrerRahmenvertragDTO> ffRvDTOMock = new Mock<FrachtfuehrerRahmenvertragDTO>();
             Mock<FrachtfuehrerRahmenvertrag> ffRv = new Mock<FrachtfuehrerRahmenvertrag>();

@@ -16,6 +16,8 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
         public long StartLokation { get; set; }
         public long ZielLokation { get; set; }
 
+        public virtual int AuftrageberNr { get; set; }
+
         public SendungsanfrageDTO()
         {
             this.Sendungspositionen = new List<SendungspositionDTO>();
@@ -36,6 +38,7 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
             {
                 sa.Sendungspositionen.Add(spDTO.ToEntity());
             }
+            sa.AuftrageberNr = this.AuftrageberNr;
             return sa;
         }
     }

@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessLayer\Exceptions\TransportplanungKomponenteExceptions.cs" />
+    <Compile Include="AccessLayer\ITransportplanServicesFuerBuchhaltung.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachteinheitDTO.cs" />
     <Compile Include="DataAccessLayer\DTOs\TransportplanDTO.cs" />
     <Compile Include="DataAccessLayer\Entities\Frachteinheit.cs" />

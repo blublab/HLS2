@@ -1,13 +1,19 @@
-﻿using ApplicationCore.UnterbeauftragungKomponente.BusinessLogicLayer;
+﻿using ApplicationCore.AuftragKomponente.AccessLayer;
+using ApplicationCore.AuftragKomponente.DataAccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer;
+using ApplicationCore.UnterbeauftragungKomponente.BusinessLogicLayer;
 using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
 using Common.Implementations;
 using System;
 using System.Collections.Generic;
+using System.Net.Mail;
+using Util.MailServices.Interfaces;
 using Util.PersistenceServices.Interfaces;
 
 namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
 {
-    public class UnterbeauftragungKomponenteFacade : IUnterbeauftragungServices, IUnterbeauftragungServicesFürTransportplanung, IUnterbeauftragungServicesFuerBuchhaltung
+    public class UnterbeauftragungKomponenteFacade : IUnterbeauftragungServices, IUnterbeauftragungServicesFürTransportplanung, IUnterbeauftragungServicesFuerBuchhaltung, IUnterbeauftragungServicesFuerAuftrag
     {
         private readonly ITransactionServices transactionService;
         private readonly FrachtfuehrerRahmenvertragRepository frv_REPO;
@@ -15,8 +21,17 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
         private readonly UnterbeauftragungKomponenteBusinessLogic ubK_BL;
         private readonly FrachtauftragRepository fra_REPO;
         private readonly FrachtbriefRepository frb_REPO;
+        private readonly IGeschaeftspartnerServices geschaeftspartnerService;
+        private readonly IPDFErzeugungsServicesFuerUnterbeauftragung pdfService;
+        private readonly IMailServices mailService;
 
-        public UnterbeauftragungKomponenteFacade(IPersistenceServices persistenceService, ITransactionServices transactionService, IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices)
+        public UnterbeauftragungKomponenteFacade(
+            IPersistenceServices persistenceService, 
+            ITransactionServices transactionService, 
+            IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices, 
+            IGeschaeftspartnerServices geschaeftspartnerServices,
+            IPDFErzeugungsServicesFuerUnterbeauftragung pdfServices,
+            IMailServices mailServices)
         {
             Check.Argument(persistenceService != null, "persistenceService != null");
             Check.Argument(transactionService != null, "transactionService != null");
@@ -26,6 +41,9 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
             this.ubK_BL = new UnterbeauftragungKomponenteBusinessLogic(persistenceService, frachtfuehrerServices);
             this.fra_REPO = new FrachtauftragRepository(persistenceService);
             this.frb_REPO = new FrachtbriefRepository(persistenceService);
+            this.geschaeftspartnerService = geschaeftspartnerServices;
+            this.pdfService = pdfServices;
+            this.mailService = mailServices;
         }
 
         public void CreateFrachtfuehrerRahmenvertrag(ref FrachtfuehrerRahmenvertragDTO frvDTO)
@@ -171,5 +189,35 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
                  });
             return fauf.ToDTO();
         }
+
+        #region IUnterbeauftragungServicesFuerAuftrag
+        public void ErstelleFrachtbriefUndVerschickeIhn(SendungsanfrageDTO saDTO)
+        {
+            Frachtbrief frbr = new Frachtbrief();
+            frbr.AbsenderAnschrift = new Adresse() { Land = "Deutschland", Wohnort = "Hamburg", PLZ = "20099", Strasse = "Berliner Tor", Hausnummer = "7" };
+            frbr.AbsenderName = "HAW Logistic System";
+            frbr.AusstellungsZeit = DateTime.Now;
+            GeschaeftspartnerDTO gpDTO = geschaeftspartnerService.FindGeschaeftspartner(saDTO.AuftrageberNr);
+            frbr.EmpfaengerName = gpDTO.Vorname + " " + gpDTO.Nachname;
+            frbr.EmpfaengerAnschrift = gpDTO.Adressen[0].ToEntity();
+            long start = saDTO.StartLokation;
+            long ziel = saDTO.ZielLokation;
+            transactionService.ExecuteTransactional(
+                 () =>
+                 {
+                    this.frb_REPO.Add(frbr);
+                 });
+            string pdfPath = pdfService.ErzeugeFrachtbriefPDF(frbr.ToDTO());
+            if (pdfPath != null)
+            {
+                MailMessage msg = new MailMessage();
+                Attachment atchmnt = new Attachment(pdfPath);
+                msg.Attachments.Add(atchmnt);
+                msg.Body = "Guten Tag,\n anbei der Frachtbrief.\n\n Viele Grüsse,\n Ihr HLS-TEAM";
+                msg.Subject = "HLS: Frachtbrief";
+                mailService.SendMail(msg);
+            }
+        }
+        #endregion
     }
 }

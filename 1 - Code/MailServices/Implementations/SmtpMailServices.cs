@@ -12,10 +12,11 @@ namespace Util.MailServices.Implementations
     {
         private SmtpClient client;
 
-        public SmtpMailServices(NetworkCredential credentials)
+        public SmtpMailServices()
         {
             client = new SmtpClient(Settings.Default.SMTPHost, Settings.Default.SMTPPort);
-            client.Credentials = credentials;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
         }
 
         public void SendMail(MailMessage message)
@@ -24,6 +25,9 @@ namespace Util.MailServices.Implementations
             {
                 throw new ArgumentNullException("message");
             }
+            message.Sender = new MailAddress("yavuz.arslan@haw-hamburg.de");
+            message.From = new MailAddress("yavuz.arslan@haw-hamburg.de");
+            message.To.Add(new MailAddress("daniel.kirchner@zmaw.de"));
             client.Send(message);
         }
 
@@ -37,6 +41,11 @@ namespace Util.MailServices.Implementations
             {
                 SendMail(message);
             }
+        }
+
+        public void SetCredentials(NetworkCredential nc)
+        {
+            client.Credentials = nc;
         }
     }
 }

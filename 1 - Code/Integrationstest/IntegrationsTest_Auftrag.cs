@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.AuftragKomponente.AccessLayer;
 using ApplicationCore.AuftragKomponente.DataAccessLayer;
+using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.AccessLayer;
 using ApplicationCore.TransportnetzKomponente.DataAccessLayer;
 using ApplicationCore.TransportplanungKomponente.AccessLayer;
@@ -9,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading;
+using Util.MailServices.Interfaces;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
 using Util.TimeServices;
@@ -45,10 +47,10 @@ namespace Tests.IntegrationsTest
                .Returns(DateTime.Parse("31.08.2013 12:00"));
 
             transportnetzServices = new TransportnetzKomponenteFacade();
-            auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServicesMock.Object);
+            auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServicesMock.Object, new Mock<IMailServices>().Object, new Mock<IUnterbeauftragungServicesFuerAuftrag>().Object);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
             frachtfuehrerServicesMock = new Mock<IFrachtfuehrerServicesFürUnterbeauftragung>();
-            IUnterbeauftragungServices unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServicesMock.Object);
+            IUnterbeauftragungServices unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServicesMock.Object, new Mock<IGeschaeftspartnerServices>().Object, new Mock<IPDFErzeugungsServicesFuerUnterbeauftragung>().Object, new Mock<IMailServices>().Object);
             transportplanungsServices = new TransportplanungKomponenteFacade(persistenceService, transactionService, auftragsServicesFürTransportplanung, unterbeauftragungsServices as IUnterbeauftragungServicesFürTransportplanung, transportnetzServices as ITransportnetzServicesFürTransportplanung, timeServicesMock.Object);
             auftragsServicesFürTransportplanung.RegisterTransportplanungServiceFürAuftrag(transportplanungsServices as ITransportplanungServicesFürAuftrag);
 

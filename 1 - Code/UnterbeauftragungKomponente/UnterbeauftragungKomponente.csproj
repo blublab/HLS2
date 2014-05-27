@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="AccessLayer\Exceptions\UnterbeauftragungKomponenteExceptions.cs" />
     <Compile Include="AccessLayer\IFrachtfuehrerServicesFürUnterbeauftragung.cs" />
+    <Compile Include="AccessLayer\IPDFErzeugungsServicesFuerUnterbeauftragung.cs" />
     <Compile Include="AccessLayer\IUnterbeauftragungServicesFuerBuchhaltung.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachtbriefDTO.cs" />
     <Compile Include="DataAccessLayer\DTOs\FrachtfuehrerRahmenvertragDTO.cs" />
@@ -91,6 +92,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuftragKomponente\AuftragKomponente.csproj">
+      <Project>{7b60032a-0d25-4a06-9d04-83fd1ff1e946}</Project>
+      <Name>AuftragKomponente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{841af5c4-1281-49f3-853f-3e08cd08aa6a}</Project>
       <Name>Common</Name>
@@ -98,6 +103,10 @@
     <ProjectReference Include="..\GeschaeftspartnerKomponente\GeschaeftspartnerKomponente.csproj">
       <Project>{18292C25-D2D5-4537-BB46-92EC366B1F85}</Project>
       <Name>GeschaeftspartnerKomponente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailServices\MailServices.csproj">
+      <Project>{c039c2b7-c671-460f-ad2d-7aa7edf45810}</Project>
+      <Name>MailServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\PersistenceServices\PersistenceServices.csproj">
       <Project>{4a905506-3375-4cb6-a065-3b9d63c545db}</Project>

@@ -11,11 +11,11 @@ namespace Util.MailServices.Implementations
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static IMailServices instance = null;
 
-        public static IMailServices CreateMailServices(NetworkCredential credentials = null)
+        public static IMailServices CreateMailServices()
         {
             try
             {
-                return instance ?? (instance = new SmtpMailServices(credentials));
+                return instance ?? (instance = new SmtpMailServices());
             }
             catch (Exception ex)
             {

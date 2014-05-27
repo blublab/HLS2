@@ -48,7 +48,7 @@ namespace Test.KomponentenTest.PDFErzeugungsKomponente
             Adresse kundenadresse = new Adresse() { Strasse = "ABC-Strasse", Hausnummer = "123", Land = "Nimmerland", PLZ = "xyz", Wohnort = "hinterm Baum" };
             gpDTO.Adressen.Add(kundenadresse.ToDTO());
 
-            pdf.ErstelleKundenrechnungPDF(ref krDTO, tpSchritte, ref gpDTO);
+            pdf.ErstelleKundenrechnungPDF(krDTO, tpSchritte, gpDTO);
             ////Assert.IsTrue(File.Exists(file), "Datei existiert nicht");
 
             ////Adresse kundenadresse = new Adresse() { Strasse = "ABC-Strasse", Hausnummer = "123", Land = "Nimmerland", PLZ = "xyz", Wohnort = "hinterm Baum" }; 

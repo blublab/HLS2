@@ -16,7 +16,7 @@ namespace ApplicationCore.TransportplanungKomponente.DataAccessLayer
         public virtual int SaNr { get; set; }
         public virtual TransportplanStatusTyp Status { get; set; }
         public virtual List<TransportplanMeldungTyp> Meldungen { get; set; }
-        public virtual IList<TransportplanSchrittDTO> TransportplanSchritte { get; set; }
+        public virtual List<TransportplanSchrittDTO> TransportplanSchritte { get; set; }
         public virtual IList<FrachteinheitDTO> Frachteinheiten { get; set; }
         public virtual decimal Kosten { get; set; }
         public virtual TimeSpan Dauer { get; set; }

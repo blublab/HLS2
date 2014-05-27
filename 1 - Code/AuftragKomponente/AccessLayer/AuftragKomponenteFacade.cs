@@ -3,7 +3,9 @@ using ApplicationCore.AuftragKomponente.DataAccessLayer;
 using Common.Implementations;
 using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 using System.Threading;
+using Util.MailServices.Interfaces;
 using Util.PeriodicTaskFactory;
 using Util.PersistenceServices.Interfaces;
 using Util.TimeServices;
@@ -16,9 +18,11 @@ namespace ApplicationCore.AuftragKomponente.AccessLayer
         private readonly ITransactionServices transactionService;
         private readonly AuftragKomponenteBusinessLogic aufK_BL;
         private readonly CancellationTokenSource perdiodicGültigkeitsprüfungTaskCancellationTokenSource;
+        private readonly IMailServices mailService;
+        private readonly IUnterbeauftragungServicesFuerAuftrag unterbeauftragungService;
         private bool transportplanungsServiceInitialized = false;
 
-        public AuftragKomponenteFacade(IPersistenceServices persistenceService, ITransactionServices transactionService, ITimeServices timeServices)
+        public AuftragKomponenteFacade(IPersistenceServices persistenceService, ITransactionServices transactionService, ITimeServices timeServices, IMailServices mails, IUnterbeauftragungServicesFuerAuftrag unterbeauftragungServices)
         {
             Check.Argument(persistenceService != null, "persistenceService != null");
             Check.Argument(transactionService != null, "transactionService != null");
@@ -28,6 +32,8 @@ namespace ApplicationCore.AuftragKomponente.AccessLayer
             this.aufK_BL = new AuftragKomponenteBusinessLogic(this.sa_REPO, timeServices);
             this.transactionService = transactionService;
             this.perdiodicGültigkeitsprüfungTaskCancellationTokenSource = new CancellationTokenSource();
+            this.mailService = mails;
+            this.unterbeauftragungService = unterbeauftragungServices;
         }
 
         #region IAuftragServices
@@ -124,6 +130,11 @@ namespace ApplicationCore.AuftragKomponente.AccessLayer
                 sa = this.FindSendungsanfrageEntity(saNr);
                 this.aufK_BL.NimmAngebotAn(sa);
             });
+            MailMessage msg = new MailMessage();
+            msg.Body = "Guten Tag,\n Ihre Anfrage Nr." + saNr + " wurde angenommen.\n\n Viele Grüsse,\n Ihr HLS-TEAM";
+            msg.Subject = "HLS: Auftragsbestätigung";
+            mailService.SendMail(msg);
+            unterbeauftragungService.ErstelleFrachtbriefUndVerschickeIhn(sa.ToDTO());
         }
 
         public void LehneAngebotAb(int saNr)

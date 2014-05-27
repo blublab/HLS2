@@ -3,6 +3,7 @@ using ApplicationCore.BankAdapter.AccessLayer;
 using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.FrachtfuehrerAdapter.AccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
+using ApplicationCore.PDFErzeugungsKomponente.AccesLayer;
 using ApplicationCore.TransportnetzKomponente.AccessLayer;
 using ApplicationCore.TransportplanungKomponente.AccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
@@ -13,6 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util.MailServices.Implementations;
+using Util.MailServices.Interfaces;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
 using Util.TimeServices;
@@ -31,12 +34,14 @@ namespace Client.HLS_Konsole
         private static IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsfffa = null;
         private static ITransportplanServicesFuerBuchhaltung tpsfbh = null;
 
-        private static IBankAdapterServicesFuerBuchhaltung basfbh = null;
         private static BankAdapterFacade baf = null;
         
         private static FrachtfuehrerAdapterFacade ffaf = null;
 
         private static IUnterbeauftragungServicesFuerBuchhaltung ubsfbh = null;
+        private static IGeschaeftspartnerServices gps = null;
+        private static PDFErzeugungKomponenteFacade pdfFacade = null;
+        private static IMailServices mailService = null;
 
         public static void Main(string[] args)
         {
@@ -57,11 +62,14 @@ namespace Client.HLS_Konsole
             PersistenceServicesFactory.CreateSimpleMySQLPersistenceService(out persistenceServices, out transactionServices);
             ITimeServices timeServices = new TimeServices();
 
+            mailService = MailServicesFactory.CreateMailServices();
             baf = new BankAdapterFacade();
-            auftragsServices = new AuftragKomponenteFacade(persistenceServices, transactionServices, timeServices);
+            pdfFacade = new PDFErzeugungKomponenteFacade();
+            gps = new GeschaeftspartnerKomponenteFacade(persistenceServices, transactionServices);
+            unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, frachtfuehrerServicesMock.Object, gps, pdfFacade as IPDFErzeugungsServicesFuerUnterbeauftragung, mailService);
+            auftragsServices = new AuftragKomponenteFacade(persistenceServices, transactionServices, timeServices, mailService, unterbeauftragungsServices as IUnterbeauftragungServicesFuerAuftrag);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
 
-            unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, frachtfuehrerServicesMock.Object);
             transportnetzServices = new TransportnetzKomponenteFacade();
 
             tpsfbh = new TransportplanungKomponenteFacade(
@@ -79,15 +87,16 @@ namespace Client.HLS_Konsole
                 tpsfbh,
                 new Mock<IAuftragServicesFuerBuchhaltung>().Object,
                 new Mock<IGeschaeftspartnerServices>().Object,
-                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
-            ffaf = new FrachtfuehrerAdapterFacade(bhsfffa);
-            ubsfbh = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf as IFrachtfuehrerServicesFürUnterbeauftragung);
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object,
+                new Mock<IMailServices>().Object);
+            ffaf = new FrachtfuehrerAdapterFacade(ref bhsfffa);
+            ubsfbh = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf as IFrachtfuehrerServicesFürUnterbeauftragung, gps, pdfFacade as IPDFErzeugungsServicesFuerUnterbeauftragung, mailService);
             bhsfffa.SetzeUnterbeauftragungServices(ubsfbh);
         }
 
         private static void PopulateDB()
         {
-            IUnterbeauftragungServices unterbeauftragungServices = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf);
+            IUnterbeauftragungServices unterbeauftragungServices = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf, gps, pdfFacade as IPDFErzeugungsServicesFuerUnterbeauftragung, mailService);
             FrachtfuehrerRahmenvertragDTO frv_hh_bhv;
             FrachtfuehrerDTO frfHH_BHV = new FrachtfuehrerDTO();
             unterbeauftragungServices.CreateFrachtfuehrer(ref frfHH_BHV);

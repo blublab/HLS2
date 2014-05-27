@@ -140,6 +140,10 @@
       <Project>{18292c25-d2d5-4537-bb46-92ec366b1f85}</Project>
       <Name>GeschaeftspartnerKomponente</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MailServices\MailServices.csproj">
+      <Project>{c039c2b7-c671-460f-ad2d-7aa7edf45810}</Project>
+      <Name>MailServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessagingServices\MessagingServices.csproj">
       <Project>{b8241aa9-bcbd-4fb2-bee1-abd2ca71ecda}</Project>
       <Name>MessagingServices</Name>

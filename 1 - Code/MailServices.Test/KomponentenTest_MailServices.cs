@@ -17,7 +17,9 @@ namespace Tests.KomponentenTest.MailServices
         {
             log4net.Config.XmlConfigurator.Configure();
 
-            mailServices = MailServicesFactory.CreateMailServices(new NetworkCredential("abj798", "dieHAWsucks2013"));
+            NetworkCredential nc = new NetworkCredential("abj798", "blub");
+            mailServices = MailServicesFactory.CreateMailServices();
+            mailServices.SetCredentials(nc);
         }
 
         [TestMethod]

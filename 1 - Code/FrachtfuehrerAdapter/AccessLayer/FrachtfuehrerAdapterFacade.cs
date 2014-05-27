@@ -10,7 +10,7 @@ namespace ApplicationCore.FrachtfuehrerAdapter.AccessLayer
     {
         private readonly FrachtfuehrerAdapterBusinessLogic ffA_BL;
 
-        public FrachtfuehrerAdapterFacade(IBuchhaltungServicesFuerFrachtfuehrerAdapter buchhaltungServices)
+        public FrachtfuehrerAdapterFacade(ref IBuchhaltungServicesFuerFrachtfuehrerAdapter buchhaltungServices)
         {
             this.ffA_BL = new FrachtfuehrerAdapterBusinessLogic(buchhaltungServices);
         }

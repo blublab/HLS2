@@ -49,6 +49,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Moq, Version=4.2.1312.1622, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
@@ -96,6 +97,7 @@
   <ItemGroup>
     <Compile Include="IntegrationsTest_Auftrag.cs" />
     <Compile Include="IntegrationsTest_Buchhaltungkomponente.cs" />
+    <Compile Include="IntegrationsTest_PdfUndMail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntegrationsTest_Transportplanung.cs" />
   </ItemGroup>
@@ -107,6 +109,10 @@
     <ProjectReference Include="..\AuftragKomponente\AuftragKomponente.csproj">
       <Project>{7b60032a-0d25-4a06-9d04-83fd1ff1e946}</Project>
       <Name>AuftragKomponente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BankAdapter\BankAdapter.csproj">
+      <Project>{852d9a71-6c0c-49c3-bba0-6c059c2c07f0}</Project>
+      <Name>BankAdapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\BuchhaltungKomponente\BuchhaltungKomponente.csproj">
       <Project>{dc6b8ec0-cfff-4986-9a3d-5ecfec903bd8}</Project>
@@ -123,6 +129,14 @@
     <ProjectReference Include="..\GeschaeftspartnerKomponente\GeschaeftspartnerKomponente.csproj">
       <Project>{18292c25-d2d5-4537-bb46-92ec366b1f85}</Project>
       <Name>GeschaeftspartnerKomponente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailServices\MailServices.csproj">
+      <Project>{c039c2b7-c671-460f-ad2d-7aa7edf45810}</Project>
+      <Name>MailServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PDFErzeugungsKomponente\PDFErzeugungsKomponente.csproj">
+      <Project>{38c5e46d-b36a-4a3f-a77d-6f05b165f7c0}</Project>
+      <Name>PDFErzeugungsKomponente</Name>
     </ProjectReference>
     <ProjectReference Include="..\PersistenceServices\PersistenceServices.csproj">
       <Project>{4a905506-3375-4cb6-a065-3b9d63c545db}</Project>

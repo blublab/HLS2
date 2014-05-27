@@ -60,6 +60,7 @@
     <Compile Include="AccessLayer\ITransportplanungServicesFürAuftrag.cs" />
     <Compile Include="AccessLayer\ITransportplanungJob.cs" />
     <Compile Include="AccessLayer\IAuftragServicesFürTransportplanung.cs" />
+    <Compile Include="AccessLayer\IUnterbeauftragungServicesFuerAuftrag.cs" />
     <Compile Include="BusinessLogicLayer\AuftragKomponenteBusinessLogic.cs" />
     <Compile Include="DataAccessLayer\Entities\Sendungsanfrage.cs" />
     <Compile Include="DataAccessLayer\DTOs\SendungsanfrageDTO.cs" />
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{841af5c4-1281-49f3-853f-3e08cd08aa6a}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailServices\MailServices.csproj">
+      <Project>{c039c2b7-c671-460f-ad2d-7aa7edf45810}</Project>
+      <Name>MailServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\PeriodicTaskFactory\PeriodicTaskFactory.csproj">
       <Project>{2945908d-87a9-492a-8a4f-f95a591cfa95}</Project>

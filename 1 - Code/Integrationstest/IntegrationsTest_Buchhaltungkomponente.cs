@@ -12,6 +12,7 @@ using System;
 using System.Threading;
 using Util.Common.DataTypes;
 using Util.Common.Interfaces;
+using Util.MailServices.Interfaces;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
 using Util.TimeServices;
@@ -53,7 +54,7 @@ namespace Test.Integrationtest
             var timeServicesMock = new Mock<ITimeServices>();
 
             Mock<IFrachtfuehrerServicesFürUnterbeauftragung> frachtfuehrerServicesFürUnterbeauftragung = new Mock<IFrachtfuehrerServicesFürUnterbeauftragung>();
-            unterbeauftragungServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServicesFürUnterbeauftragung.Object);
+            unterbeauftragungServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServicesFürUnterbeauftragung.Object, new Mock<IGeschaeftspartnerServices>().Object, new Mock<IPDFErzeugungsServicesFuerUnterbeauftragung>().Object, new Mock<IMailServices>().Object);
             unterbeauftragungServiceFuerBuchhaltung = unterbeauftragungServices as IUnterbeauftragungServicesFuerBuchhaltung;
             buchhaltungService = new BuchhaltungKomponenteFacade(
                 persistenceService,
@@ -62,7 +63,8 @@ namespace Test.Integrationtest
                 new Mock<ITransportplanServicesFuerBuchhaltung>().Object,
                 new Mock<IAuftragServicesFuerBuchhaltung>().Object,
                 new Mock<IGeschaeftspartnerServices>().Object,
-                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object,
+                new Mock<IMailServices>().Object);
             buchhaltungService.SetzeUnterbeauftragungServices(unterbeauftragungServiceFuerBuchhaltung);
             Mock<FrachtfuehrerRahmenvertragDTO> ffRvDTOMock = new Mock<FrachtfuehrerRahmenvertragDTO>();
             Mock<FrachtfuehrerRahmenvertrag> ffRv = new Mock<FrachtfuehrerRahmenvertrag>();

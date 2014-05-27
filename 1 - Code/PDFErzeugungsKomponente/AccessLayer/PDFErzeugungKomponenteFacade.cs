@@ -3,6 +3,7 @@ using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer;
 using ApplicationCore.TransportplanungKomponente.DataAccessLayer;
+using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 using Common.DataTypes;
 using Common.Implementations;
 using PdfSharp.Drawing;
@@ -18,7 +19,7 @@ using Util.Common.DataTypes;
 
 namespace ApplicationCore.PDFErzeugungsKomponente.AccesLayer
 {
-    public class PDFErzeugungKomponenteFacade : IPDFErzeugungsServicesFuerBuchhaltung
+    public class PDFErzeugungKomponenteFacade : IPDFErzeugungsServicesFuerBuchhaltung, IPDFErzeugungsServicesFuerUnterbeauftragung
     {
         private static string logoPath = @"PdfData\HLS-Logo.png";
 
@@ -52,7 +53,7 @@ namespace ApplicationCore.PDFErzeugungsKomponente.AccesLayer
             return result;
         }
 
-        private void SpeicherePDF(KundenrechnungDTO krDTO, string[] kundenadresse, string gesamtsumme, string erstellungsdatum, string[] tpSchritte)
+        private string SpeichereKundenRechnungPDF(KundenrechnungDTO krDTO, string[] kundenadresse, string gesamtsumme, string erstellungsdatum, string[] tpSchritte)
         {
             // Dokument
             PdfDocument pdfDocument = new PdfDocument();
@@ -114,14 +115,16 @@ namespace ApplicationCore.PDFErzeugungsKomponente.AccesLayer
             gfx.DrawString("Gesamtkosten: " + gesamtsumme.ToString() + "€", font2, XBrushes.Black, new XRect(-100, 220, pdfPage.Width, pdfPage.Height), XStringFormats.Center);
 
             // Speichere das Dokument
-            pdfDocument.Save(Environment.CurrentDirectory + @"\BLUB.pdf");
+            string savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Kundenrechnung.pdf";
+            pdfDocument.Save(savePath);
 
-            // Öffne das PDF mit dem default pdfViewer
-            //Process.Start(target);   
+            return savePath;
+            //// Öffne das PDF mit dem default pdfViewer
+            ////Process.Start(target);   
         }
 
         #region IPDFErzeugungsServicesFuerBuchhaltung
-        public void ErstelleKundenrechnungPDF(ref KundenrechnungDTO krDTO, IList<TransportplanSchrittDTO> tpSchritte, ref GeschaeftspartnerDTO gpDTO)
+        public string ErstelleKundenrechnungPDF(KundenrechnungDTO krDTO, IList<TransportplanSchrittDTO> tpSchritte, GeschaeftspartnerDTO gpDTO)
         {
             AdresseDTO adrDTO = gpDTO.Adressen.First<AdresseDTO>();
             WaehrungsType gesamtKosten = krDTO.Rechnungsbetrag;
@@ -130,7 +133,14 @@ namespace ApplicationCore.PDFErzeugungsKomponente.AccesLayer
 
             string[] kundenadresse = ErstelleKundenanschrift(adrDTO);
             string[] tpsStr = ErstelleTransportplanschrittkosten(tpSchritte);
-            SpeicherePDF(krDTO, kundenadresse, gkosten.ToString(), erstellungsDatum.ToString(), tpsStr);
+            return SpeichereKundenRechnungPDF(krDTO, kundenadresse, gkosten.ToString(), erstellungsDatum.ToString(), tpsStr);
+        }
+        #endregion
+
+        #region IPDFErzeugungsServicesFuerUnterbeauftragung
+        public string ErzeugeFrachtbriefPDF(UnterbeauftragungKomponente.DataAccessLayer.FrachtbriefDTO fbDTO)
+        {
+            return null;
         }
         #endregion
     }

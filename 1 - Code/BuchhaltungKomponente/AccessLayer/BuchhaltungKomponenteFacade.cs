@@ -10,7 +10,9 @@ using BuchhaltungKomponente.BusinessLogicLayer;
 using Common.Implementations;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using Util.Common.DataTypes;
+using Util.MailServices.Interfaces;
 using Util.PersistenceServices.Interfaces;
 
 namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
@@ -25,6 +27,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         private readonly IAuftragServicesFuerBuchhaltung auftragServiceFuerBuchhaltung;
         private readonly IGeschaeftspartnerServices geschaeftspartnerService;
         private readonly IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServiceFuerBuchhaltung;
+        private readonly IMailServices mailService;
 
         public BuchhaltungKomponenteFacade(
                 IPersistenceServices persistenceService,
@@ -33,7 +36,8 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                 ITransportplanServicesFuerBuchhaltung transportplanServicesFuerBuchhaltung,
                 IAuftragServicesFuerBuchhaltung auftragServicesFuerBuchhaltung,
                 IGeschaeftspartnerServices geschaeftspartnerServices,
-                IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServicesFuerBuchhaltung)
+                IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServicesFuerBuchhaltung,
+                IMailServices mailServices)
         {
             Check.Argument(persistenceService != null, "persistenceService != null");
             Check.Argument(transactionService != null, "transactionService != null");
@@ -42,7 +46,8 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             Check.Argument(auftragServicesFuerBuchhaltung != null, "auftragServicesFuerBuchhaltung != null");
             Check.Argument(geschaeftspartnerServices != null, "geschaeftspartnerServices != null");
             Check.Argument(pdfErzeugungsServicesFuerBuchhaltung != null, "pdfErzeugungsServicesFuerBuchhaltung != null");
-            
+            Check.Argument(mailServices != null, "mailServices != null");
+
             this.bh_REPO = new BuchhaltungRepository(persistenceService);
             this.transactionService = transactionService;
             this.bankServices = bankServices;
@@ -51,6 +56,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             this.auftragServiceFuerBuchhaltung = auftragServicesFuerBuchhaltung;
             this.geschaeftspartnerService = geschaeftspartnerServices;
             this.pdfErzeugungsServiceFuerBuchhaltung = pdfErzeugungsServicesFuerBuchhaltung;
+            this.mailService = mailServices;
         }
 
         public void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
@@ -120,8 +126,16 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                     bh_REPO.SpeichereKundenrechnung(kr);
                 });
             KundenrechnungDTO krDTO = kr.ToDTO();
-            pdfErzeugungsServiceFuerBuchhaltung.ErstelleKundenrechnungPDF(ref krDTO, tpSchritte, ref gpDTO);
-            ////TODO Email
+            string pdfPath = pdfErzeugungsServiceFuerBuchhaltung.ErstelleKundenrechnungPDF(krDTO, tpSchritte, gpDTO);
+            if (pdfPath != null)
+            {
+                MailMessage msg = new MailMessage();
+                Attachment atchmnt = new Attachment(pdfPath);
+                msg.Attachments.Add(atchmnt);
+                msg.Body = "Guten Tag,\n anbei die Kundenrechnung.\n\n Viele Grüsse,\n Ihr HLS-TEAM";
+                msg.Subject = "HLS: Kundenrechnung";
+                mailService.SendMail(msg);
+            }
             return kr.ToDTO();
         }
         #endregion IBuchhaltungServices

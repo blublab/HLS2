@@ -68,6 +68,10 @@
       <Project>{fe0b1af0-6b33-49a9-badd-0163cd0d4543}</Project>
       <Name>TransportplanungKomponente</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UnterbeauftragungKomponente\UnterbeauftragungKomponente.csproj">
+      <Project>{e53bb22a-3e99-4eb7-ba09-ee1621d8085e}</Project>
+      <Name>UnterbeauftragungKomponente</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="PdfData\HLS-Logo.png" />

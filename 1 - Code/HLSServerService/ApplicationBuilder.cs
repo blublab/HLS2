@@ -11,6 +11,8 @@ using ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer;
 using log4net;
 using Moq;
 using System;
+using Util.MailServices.Implementations;
+using Util.MailServices.Interfaces;
 using Util.PersistenceServices.Implementations;
 using Util.PersistenceServices.Interfaces;
 using Util.TimeServices;
@@ -33,8 +35,9 @@ namespace HLSServerService
             ITimeServices timeServices = new TimeServices();
 
             transportnetzServices = new TransportnetzKomponenteFacade();
+            IMailServices mailService = MailServicesFactory.CreateMailServices();
             IGeschaeftspartnerServices geschaeftspartnerServices = new GeschaeftspartnerKomponenteFacade(persistenceService, transactionService);
-            IAuftragServices auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServices);
+            IAuftragServices auftragsServices = new AuftragKomponenteFacade(persistenceService, transactionService, timeServices, mailService, new Mock<IUnterbeauftragungServicesFuerAuftrag>().Object);
             IAuftragServicesFürTransportplanung auftragsServicesFürTransportplanung = auftragsServices as IAuftragServicesFürTransportplanung;
             IBankAdapterServicesFuerBuchhaltung bankServices = new BankAdapterFacade();
             IBuchhaltungServicesFuerFrachtfuehrerAdapter bhsff = new BuchhaltungKomponenteFacade(
@@ -44,9 +47,10 @@ namespace HLSServerService
                 new Mock<ITransportplanServicesFuerBuchhaltung>().Object,
                 new Mock<IAuftragServicesFuerBuchhaltung>().Object,
                 new Mock<IGeschaeftspartnerServices>().Object,
-                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object);
-            IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices = new FrachtfuehrerAdapterFacade(bhsff);
-            unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices);
+                new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object,
+                new Mock<IMailServices>().Object);
+            IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices = new FrachtfuehrerAdapterFacade(ref bhsff);
+            unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices, geschaeftspartnerServices, new Mock<IPDFErzeugungsServicesFuerUnterbeauftragung>().Object, mailService);
             bhsff.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);
             ITransportplanungServices transportplanungsServices = new TransportplanungKomponenteFacade(persistenceService, transactionService, auftragsServicesFürTransportplanung, unterbeauftragungsServices as IUnterbeauftragungServicesFürTransportplanung, transportnetzServices as ITransportnetzServicesFürTransportplanung, timeServices);
             auftragsServicesFürTransportplanung.RegisterTransportplanungServiceFürAuftrag(transportplanungsServices as ITransportplanungServicesFürAuftrag);

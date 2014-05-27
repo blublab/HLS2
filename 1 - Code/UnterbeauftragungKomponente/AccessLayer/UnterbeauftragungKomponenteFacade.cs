@@ -156,7 +156,6 @@ namespace ApplicationCore.UnterbeauftragungKomponente.AccessLayer
                     this.frb_REPO.Add(frb);
                 });
             frbDTO = frb.ToDTO();
-
         }
 
         public FrachtauftragDTO ReadFrachtauftragByID(int faufNr)

@@ -57,6 +57,7 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
             this.Map(x => x.AbsenderName);
             this.Map(x => x.FrachtfuehrerName);
             this.Map(x => x.EmpfaengerName);
+
 //           this.References(x => x.AbsenderAnschrift);
 //            this.References(x => x.FrachtfuehrerAnschrift);
 //            this.References(x => x.EmpfaengerAnschrift);

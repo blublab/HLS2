@@ -22,7 +22,6 @@ namespace ApplicationCore.UnterbeauftragungKomponente.DataAccessLayer
         public virtual WaehrungsType Kosten { get; set; }
         public virtual string FrachtzahlungVermerk { get; set; }
 
-
         public virtual Frachtbrief ToEntity()
         {
             return new Frachtbrief

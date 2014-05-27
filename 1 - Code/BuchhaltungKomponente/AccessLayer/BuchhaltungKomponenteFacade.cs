@@ -55,12 +55,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
 
         public void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
         {
-<<<<<<< HEAD
- // FIXME: Methode existiert (noch?) nicht.
- //           this.bh_BL.setUnterbeauftragungServices(unterbeauftragungServices);
-=======
             this.bh_BL.SetUnterbeauftragungServices(unterbeauftragungServices);
->>>>>>> 510c3a8fe9a407c5243890af452d76e094d6900e
         }
 
         #region IBuchhaltungServices

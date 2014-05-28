@@ -170,8 +170,8 @@ namespace Tests.Integrationtest
             ////user = user.Trim();
             ////string password = Interaction.InputBox("Bitte geben Sie das Passwort ein", "Passwort");
             ////password = password.Trim();
-            string user = "abj798";
-            string password = "dieHAWsucks2013";
+            string user = "bla";
+            string password = "blub";
             NetworkCredential nc = new NetworkCredential(user, password);
             mails.SetCredentials(nc);
             GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Harmut", Nachname = "Hunt", Email = new EMailType("hartmut.hunt@ganzschlechterkunde.de") };
@@ -189,48 +189,48 @@ namespace Tests.Integrationtest
             saDTO.ZielLokation = shanghaiLokation.LokNr;
             saDTO.AuftrageberNr = gpDTO.GpNr;
 
-            aufs.CreateSendungsanfrage(ref saDTO);
-            aufs.PlaneSendungsanfrage(saDTO.SaNr);
-            List<TransportplanDTO> pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
-            Assert.IsTrue(pläne.Count >= 1);
+            //aufs.CreateSendungsanfrage(ref saDTO);
+            //aufs.PlaneSendungsanfrage(saDTO.SaNr);
+            //List<TransportplanDTO> pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
+            //Assert.IsTrue(pläne.Count >= 1);
 
-            TransportplanDTO planÜberBhv = pläne.Find((plan) =>
-            {
-                return plan.TransportplanSchritte.Find((tpa) =>
-                {
-                    TransportAktivitaetDTO ta = tpa as TransportAktivitaetDTO;
-                    if (ta != null)
-                    {
-                        return ta.FuerTransportAufTransportbeziehung == hh_bhv.TbNr;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }) != null;
-            });
-            Assert.IsTrue(planÜberBhv != null);
+            //TransportplanDTO planÜberBhv = pläne.Find((plan) =>
+            //{
+            //    return plan.TransportplanSchritte.Find((tpa) =>
+            //    {
+            //        TransportAktivitaetDTO ta = tpa as TransportAktivitaetDTO;
+            //        if (ta != null)
+            //        {
+            //            return ta.FuerTransportAufTransportbeziehung == hh_bhv.TbNr;
+            //        }
+            //        else
+            //        {
+            //            return false;
+            //        }
+            //    }) != null;
+            //});
+            //Assert.IsTrue(planÜberBhv != null);
 
-            Assert.IsTrue(planÜberBhv.TransportplanSchritte.Count == 2);
-            pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
-            Assert.IsTrue(pläne.Count == 1);
-            Assert.IsTrue(pläne[0].TpNr == planÜberBhv.TpNr);
+            //Assert.IsTrue(planÜberBhv.TransportplanSchritte.Count == 2);
+            //pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
+            //Assert.IsTrue(pläne.Count == 1);
+            //Assert.IsTrue(pläne[0].TpNr == planÜberBhv.TpNr);
 
-            foreach (TransportplanDTO tpDTO in pläne)
-            {
-                Sendungsanfrage sa = aufs.FindSendungsanfrage(tpDTO.SaNr).ToEntity();
-                aufs.NimmAngebotAn(sa.SaNr);
-                tps.FühreTransportplanAus(tpDTO.TpNr);
-            }
+            //foreach (TransportplanDTO tpDTO in pläne)
+            //{
+            //    Sendungsanfrage sa = aufs.FindSendungsanfrage(tpDTO.SaNr).ToEntity();
+            //    aufs.NimmAngebotAn(sa.SaNr);
+            //    tps.FühreTransportplanAus(tpDTO.TpNr);
+            //}
 
-            KundenrechnungDTO krdto = bhs.ErstelleKundenrechnung(1, 1);
-            Assert.IsTrue(krdto.RechnungsNr > 0);
+            //KundenrechnungDTO krdto = bhs.ErstelleKundenrechnung(1, 1);
+            //Assert.IsTrue(krdto.RechnungsNr > 0);
 
-            ZahlungseingangDTO zeDTO = new ZahlungseingangDTO() { KrNr = 1, Zahlungsbetrag = new WaehrungsType(50000) };
-            bhsfb.VerarbeiteZahlungseingang(ref zeDTO);
+            //ZahlungseingangDTO zeDTO = new ZahlungseingangDTO() { KrNr = 1, Zahlungsbetrag = new WaehrungsType(50000) };
+            //bhsfb.VerarbeiteZahlungseingang(ref zeDTO);
 
-            SendungsanfrageDTO saDTO_erg = aufs.FindSendungsanfrage(krdto.Sendungsanfrage);
-            Assert.IsTrue(saDTO_erg.Status == SendungsanfrageStatusTyp.Abgeschlossen);
+            //SendungsanfrageDTO saDTO_erg = aufs.FindSendungsanfrage(krdto.Sendungsanfrage);
+            //Assert.IsTrue(saDTO_erg.Status == SendungsanfrageStatusTyp.Abgeschlossen);
         }
     }
 }

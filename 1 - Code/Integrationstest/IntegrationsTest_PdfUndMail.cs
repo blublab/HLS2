@@ -28,7 +28,7 @@ using Util.PersistenceServices.Interfaces;
 using Util.TimeServices;
 
 namespace Tests.Integrationtest
-{    
+{
     [TestClass]
     [DeploymentItem("Configurations/ConnectionStrings.config", "Configurations")]
     [DeploymentItem("Mysql.Data.dll")]
@@ -94,15 +94,16 @@ namespace Tests.Integrationtest
                 timeServicesMock.Object);
             aufsftp.RegisterTransportplanungServiceFürAuftrag(tps as ITransportplanungServicesFürAuftrag);
             bhs = new BuchhaltungKomponenteFacade(
-                persistenceService, 
-                transactionService, 
-                basfbh, 
+                persistenceService,
+                transactionService,
+                basfbh,
                 tps as ITransportplanServicesFuerBuchhaltung,
                 aufs as IAuftragServicesFuerBuchhaltung,
                 gps,
                 pdfsfb,
-                mails);
-            
+                mails,
+                tpns);
+
             bhs.SetzeUnterbeauftragungServices(ubs as IUnterbeauftragungServicesFuerBuchhaltung);
             bhsfb = bhs as IBuchhaltungsServicesFuerBank;
 
@@ -162,75 +163,75 @@ namespace Tests.Integrationtest
             frv_bhv_sh.Zeitvorgabe = TimeSpan.Parse("5"); // 5 Tage
             ubs.CreateFrachtfuehrerRahmenvertrag(ref frv_bhv_sh);
         }
-
-        [TestMethod, TestCategory("IntegrationsTest")]
-        public void TestErstelleKundenrechnungUndVerchickeUndBezahleSuccess()
-        {
-            ////string user = Interaction.InputBox("Bitte geben Sie einen Benutzername ein", "Benutzername");
-            ////user = user.Trim();
-            ////string password = Interaction.InputBox("Bitte geben Sie das Passwort ein", "Passwort");
-            ////password = password.Trim();
-            string user = "bla";
-            string password = "blub";
-            NetworkCredential nc = new NetworkCredential(user, password);
-            mails.SetCredentials(nc);
-            GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Harmut", Nachname = "Hunt", Email = new EMailType("hartmut.hunt@ganzschlechterkunde.de") };
-            AdresseDTO adrDTO = new AdresseDTO() { Land = "Trinidad & Tobago", Wohnort = "Hinter der Mühle", PLZ = "12345", Strasse = "Kaputte Straße", Hausnummer = "2" };
-            gpDTO.Adressen.Add(adrDTO);
-            gps.CreateGeschaeftspartner(ref gpDTO);
-            SendungsanfrageDTO saDTO = new SendungsanfrageDTO();
-
-            SendungspositionDTO sp1 = new SendungspositionDTO();
-            saDTO.Sendungspositionen.Add(sp1);
-            saDTO.AbholzeitfensterStart = DateTime.Parse("01.09.2013");
-            saDTO.AbholzeitfensterEnde = DateTime.Parse("10.09.2013");
-            saDTO.AngebotGültigBis = DateTime.Now.AddHours(1);
-            saDTO.StartLokation = hamburgLokation.LokNr;
-            saDTO.ZielLokation = shanghaiLokation.LokNr;
-            saDTO.AuftrageberNr = gpDTO.GpNr;
-
-            //aufs.CreateSendungsanfrage(ref saDTO);
-            //aufs.PlaneSendungsanfrage(saDTO.SaNr);
-            //List<TransportplanDTO> pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
-            //Assert.IsTrue(pläne.Count >= 1);
-
-            //TransportplanDTO planÜberBhv = pläne.Find((plan) =>
-            //{
-            //    return plan.TransportplanSchritte.Find((tpa) =>
-            //    {
-            //        TransportAktivitaetDTO ta = tpa as TransportAktivitaetDTO;
-            //        if (ta != null)
-            //        {
-            //            return ta.FuerTransportAufTransportbeziehung == hh_bhv.TbNr;
-            //        }
-            //        else
-            //        {
-            //            return false;
-            //        }
-            //    }) != null;
-            //});
-            //Assert.IsTrue(planÜberBhv != null);
-
-            //Assert.IsTrue(planÜberBhv.TransportplanSchritte.Count == 2);
-            //pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
-            //Assert.IsTrue(pläne.Count == 1);
-            //Assert.IsTrue(pläne[0].TpNr == planÜberBhv.TpNr);
-
-            //foreach (TransportplanDTO tpDTO in pläne)
-            //{
-            //    Sendungsanfrage sa = aufs.FindSendungsanfrage(tpDTO.SaNr).ToEntity();
-            //    aufs.NimmAngebotAn(sa.SaNr);
-            //    tps.FühreTransportplanAus(tpDTO.TpNr);
-            //}
-
-            //KundenrechnungDTO krdto = bhs.ErstelleKundenrechnung(1, 1);
-            //Assert.IsTrue(krdto.RechnungsNr > 0);
-
-            //ZahlungseingangDTO zeDTO = new ZahlungseingangDTO() { KrNr = 1, Zahlungsbetrag = new WaehrungsType(50000) };
-            //bhsfb.VerarbeiteZahlungseingang(ref zeDTO);
-
-            //SendungsanfrageDTO saDTO_erg = aufs.FindSendungsanfrage(krdto.Sendungsanfrage);
-            //Assert.IsTrue(saDTO_erg.Status == SendungsanfrageStatusTyp.Abgeschlossen);
-        }
     }
 }
+
+//        [TestMethod, TestCategory("IntegrationsTest")]
+//        public void TestErstelleKundenrechnungUndVerchickeUndBezahleSuccess()
+//        {
+//            string user = Interaction.InputBox("Bitte geben Sie einen Benutzername ein", "Benutzername");
+//            user = user.Trim();
+//            string password = Interaction.InputBox("Bitte geben Sie das Passwort ein", "Passwort");
+//            password = password.Trim();
+//            NetworkCredential nc = new NetworkCredential(user, password);
+//            mails.SetCredentials(nc);
+//            GeschaeftspartnerDTO gpDTO = new GeschaeftspartnerDTO() { Vorname = "Harmut", Nachname = "Hunt", Email = new EMailType("hartmut.hunt@ganzschlechterkunde.de") };
+//            AdresseDTO adrDTO = new AdresseDTO() { Land = "Trinidad & Tobago", Wohnort = "Hinter der Mühle", PLZ = "12345", Strasse = "Kaputte Straße", Hausnummer = "2" };
+//            gpDTO.Adressen.Add(adrDTO);
+//            gps.CreateGeschaeftspartner(ref gpDTO);
+//            SendungsanfrageDTO saDTO = new SendungsanfrageDTO();
+
+//            SendungspositionDTO sp1 = new SendungspositionDTO();
+//            saDTO.Sendungspositionen.Add(sp1);
+//            saDTO.AbholzeitfensterStart = DateTime.Parse("01.09.2013");
+//            saDTO.AbholzeitfensterEnde = DateTime.Parse("10.09.2013");
+//            saDTO.AngebotGültigBis = DateTime.Now.AddHours(1);
+//            saDTO.StartLokation = hamburgLokation.LokNr;
+//            saDTO.ZielLokation = shanghaiLokation.LokNr;
+//            saDTO.AuftrageberNr = gpDTO.GpNr;
+
+//            aufs.CreateSendungsanfrage(ref saDTO);
+//            aufs.PlaneSendungsanfrage(saDTO.SaNr);
+//            List<TransportplanDTO> pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
+//            Assert.IsTrue(pläne.Count >= 1);
+
+//            TransportplanDTO planÜberBhv = pläne.Find((plan) =>
+//            {
+//                return plan.TransportplanSchritte.Find((tpa) =>
+//                {
+//                    TransportAktivitaetDTO ta = tpa as TransportAktivitaetDTO;
+//                    if (ta != null)
+//                    {
+//                        return ta.FuerTransportAufTransportbeziehung == hh_bhv.TbNr;
+//                    }
+//                    else
+//                    {
+//                        return false;
+//                    }
+//                }) != null;
+//            });
+//            Assert.IsTrue(planÜberBhv != null);
+
+//            Assert.IsTrue(planÜberBhv.TransportplanSchritte.Count == 2);
+//            pläne = tps.FindTransportplaeneZuSendungsanfrage(saDTO.SaNr);
+//            Assert.IsTrue(pläne.Count == 1);
+//            Assert.IsTrue(pläne[0].TpNr == planÜberBhv.TpNr);
+
+//            foreach (TransportplanDTO tpDTO in pläne)
+//            {
+//                Sendungsanfrage sa = aufs.FindSendungsanfrage(tpDTO.SaNr).ToEntity();
+//                aufs.NimmAngebotAn(sa.SaNr);
+//                tps.FühreTransportplanAus(tpDTO.TpNr);
+//            }
+
+//            KundenrechnungDTO krdto = bhs.ErstelleKundenrechnung(1, 1);
+//            Assert.IsTrue(krdto.RechnungsNr > 0);
+
+//            ZahlungseingangDTO zeDTO = new ZahlungseingangDTO() { KrNr = 1, Zahlungsbetrag = new WaehrungsType(50000) };
+//            bhsfb.VerarbeiteZahlungseingang(ref zeDTO);
+
+//            SendungsanfrageDTO saDTO_erg = aufs.FindSendungsanfrage(krdto.Sendungsanfrage);
+//            Assert.IsTrue(saDTO_erg.Status == SendungsanfrageStatusTyp.Abgeschlossen);
+//        }
+//    }
+//}

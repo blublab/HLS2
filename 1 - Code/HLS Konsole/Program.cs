@@ -88,7 +88,8 @@ namespace Client.HLS_Konsole
                 new Mock<IAuftragServicesFuerBuchhaltung>().Object,
                 new Mock<IGeschaeftspartnerServices>().Object,
                 new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object,
-                new Mock<IMailServices>().Object);
+                new Mock<IMailServices>().Object,
+                new Mock<ITransportnetzServices>().Object);
             ffaf = new FrachtfuehrerAdapterFacade(ref bhsfffa);
             ubsfbh = new UnterbeauftragungKomponenteFacade(persistenceServices, transactionServices, ffaf as IFrachtfuehrerServicesFürUnterbeauftragung, gps, pdfFacade as IPDFErzeugungsServicesFuerUnterbeauftragung, mailService);
             bhsfffa.SetzeUnterbeauftragungServices(ubsfbh);

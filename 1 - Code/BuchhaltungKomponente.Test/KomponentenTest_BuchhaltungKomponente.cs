@@ -4,6 +4,7 @@ using ApplicationCore.BuchhaltungKomponente.AccessLayer;
 using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer;
+using ApplicationCore.TransportnetzKomponente.AccessLayer;
 using ApplicationCore.TransportplanungKomponente.AccessLayer;
 using ApplicationCore.TransportplanungKomponente.DataAccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
@@ -59,7 +60,8 @@ namespace BuchhaltungKomponente.Test
                 auftragMock.Object,
                 geschaeftspartnerMock.Object,
                 pdfMock.Object,
-                mailMock.Object);
+                mailMock.Object,
+                new Mock<ITransportnetzServices>().Object);
             buchhaltungsService.SetzeUnterbeauftragungServices(unterbeauftragungServiceMock.Object as IUnterbeauftragungServicesFuerBuchhaltung);
             buchhaltungsServiceFuerBank = new BuchhaltungKomponenteFacade(
                 persistenceService,
@@ -69,7 +71,8 @@ namespace BuchhaltungKomponente.Test
                 auftragMock.Object,
                 geschaeftspartnerMock.Object,
                 pdfMock.Object,
-                new Mock<IMailServices>().Object);
+                new Mock<IMailServices>().Object,
+                new Mock<ITransportnetzServices>().Object);
             buchhaltungsService.SetzeUnterbeauftragungServices(unterbeauftragungServiceMock.Object as IUnterbeauftragungServicesFuerBuchhaltung);
         }
 
@@ -126,12 +129,12 @@ namespace BuchhaltungKomponente.Test
             transportplanMock.Setup(ITransportplanServicesFuerBuchhaltung => ITransportplanServicesFuerBuchhaltung.FindeTransportplanUeberTpNr(1)).Returns(new TransportplanDTO());
             auftragMock.Setup(IAuftragServicesFuerBuchhaltung => IAuftragServicesFuerBuchhaltung.FindeSendungsanfrageUeberSaNr(1)).Returns(new SendungsanfrageDTO());
             geschaeftspartnerMock.Setup(IGeschaeftspartnerServices => IGeschaeftspartnerServices.FindGeschaeftspartner(It.IsAny<int>())).Returns(new GeschaeftspartnerDTO());
-            pdfMock.Setup(IPDFErzeugungsServicesFuerBuchhaltung => IPDFErzeugungsServicesFuerBuchhaltung.ErstelleKundenrechnungPDF(It.IsAny<KundenrechnungDTO>(), It.IsAny<IList<TransportplanSchrittDTO>>(), It.IsAny<GeschaeftspartnerDTO>()));
+            pdfMock.Setup(IPDFErzeugungsServicesFuerBuchhaltung => IPDFErzeugungsServicesFuerBuchhaltung.ErstelleKundenrechnungPDF(It.IsAny<KundenrechnungDTO>(), It.IsAny<IList<TransportplanSchrittDTO>>(), It.IsAny<GeschaeftspartnerDTO>(), It.IsAny<List<string>>()));
             KundenrechnungDTO krDTO = buchhaltungsService.ErstelleKundenrechnung(1, 1);
             transportplanMock.Verify(ITransportplanServicesFuerBuchhaltung => ITransportplanServicesFuerBuchhaltung.FindeTransportplanUeberTpNr(1));
             auftragMock.Verify(IAuftragServicesFuerBuchhaltung => IAuftragServicesFuerBuchhaltung.FindeSendungsanfrageUeberSaNr(1));
             geschaeftspartnerMock.Verify(IGeschaeftspartnerServices => IGeschaeftspartnerServices.FindGeschaeftspartner(It.IsAny<int>()));
-            pdfMock.Verify(IPDFErzeugungsServicesFuerBuchhaltung => IPDFErzeugungsServicesFuerBuchhaltung.ErstelleKundenrechnungPDF(It.IsAny<KundenrechnungDTO>(), It.IsAny<IList<TransportplanSchrittDTO>>(), It.IsAny<GeschaeftspartnerDTO>()));
+            pdfMock.Verify(IPDFErzeugungsServicesFuerBuchhaltung => IPDFErzeugungsServicesFuerBuchhaltung.ErstelleKundenrechnungPDF(It.IsAny<KundenrechnungDTO>(), It.IsAny<IList<TransportplanSchrittDTO>>(), It.IsAny<GeschaeftspartnerDTO>(), It.IsAny<List<string>>()));
             Assert.IsTrue(krDTO.RechnungsNr > 0);
         }
 

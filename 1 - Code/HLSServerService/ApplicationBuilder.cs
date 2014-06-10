@@ -48,7 +48,8 @@ namespace HLSServerService
                 new Mock<IAuftragServicesFuerBuchhaltung>().Object,
                 new Mock<IGeschaeftspartnerServices>().Object,
                 new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object,
-                new Mock<IMailServices>().Object);
+                new Mock<IMailServices>().Object,
+                new Mock<ITransportnetzServices>().Object);
             IFrachtfuehrerServicesFürUnterbeauftragung frachtfuehrerServices = new FrachtfuehrerAdapterFacade(ref bhsff);
             unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices, geschaeftspartnerServices, new Mock<IPDFErzeugungsServicesFuerUnterbeauftragung>().Object, mailService);
             bhsff.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);

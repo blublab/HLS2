@@ -27,7 +27,7 @@ namespace Util.MailServices.Implementations
             }
             message.Sender = new MailAddress("yavuz.arslan@haw-hamburg.de");
             message.From = new MailAddress("yavuz.arslan@haw-hamburg.de");
-            message.To.Add(new MailAddress("daniel.kirchner@zmaw.de"));
+            message.To.Add(new MailAddress("torben.koenke@haw-hamburg.de"));
             client.Send(message);
         }
 

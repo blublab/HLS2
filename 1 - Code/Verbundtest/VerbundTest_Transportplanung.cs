@@ -62,7 +62,8 @@ namespace Tests.VerbundTest
                 new Mock<IAuftragServicesFuerBuchhaltung>().Object,
                 new Mock<IGeschaeftspartnerServices>().Object,
                 new Mock<IPDFErzeugungsServicesFuerBuchhaltung>().Object,
-                new Mock<IMailServices>().Object);
+                new Mock<IMailServices>().Object,
+                new Mock<ITransportnetzServices>().Object);
             frachtfuehrerServices = new FrachtfuehrerAdapterFacade(ref bsfa);
             unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(persistenceService, transactionService, frachtfuehrerServices, new Mock<IGeschaeftspartnerServices>().Object, new Mock<IPDFErzeugungsServicesFuerUnterbeauftragung>().Object, new Mock<IMailServices>().Object);
             bsfa.SetzeUnterbeauftragungServices(unterbeauftragungsServices as IUnterbeauftragungServicesFuerBuchhaltung);

@@ -86,11 +86,9 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
         }
 
         /// <summary>
-        /// Erzeugt Frachteinheiten (TEU, FEU) für Sendungspositionen.
-        /// 
+        /// Erzeugt Frachteinheiten (TEU, FEU) für Sendungspositionen
         /// Frachteinheit = Container (TEU = 20-Fuß-Container, FEU = 40-Fuß-Container)
         /// Sendungsposition = Ware
-        /// 
         /// Optimale Beladung zu finden ist NP-Hart Problem. Das sollen wir jawohl kaum lösen??
         /// http://stackoverflow.com/questions/6988300/fill-volume-algorithm
         /// </summary>
@@ -100,25 +98,36 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
             Contract.Requires(sps.Count > 0);
 
             var lfe = new List<Frachteinheit>();
-            
-            var restKapazität = 0m;
+            decimal[] werte = new decimal[2]; //[kapazitaet, volumen]
+            Dictionary<Frachteinheit, decimal[]> map = new Dictionary<Frachteinheit, decimal[]>();
+
             Frachteinheit fe = null;
-            foreach (var sp in sps)
+            var restKapazitaet = 0m;
+            var restVolumen = 0m;
+            IList<Sendungsposition> spsSortedByVolume = sps.OrderByDescending(s => s.Volumen).ToList<Sendungsposition>();
+
+            foreach (var sp in spsSortedByVolume)
             {
-                if (sp.Bruttogewicht > FEU.MAXZULADUNG_TONS)
+                if (sp.Bruttogewicht > FEU.MAXZULADUNG_TONS || sp.Volumen > FEU.MAX_VOLUME)
                 {
                     // Ware zu schwer; kann nicht transportiert werden.
                     job.Meldungen.Add(new TransportplanungMeldung(
                         TransportplanungMeldungTag.FrachteinheitenBildungNichtMöglich,
-                        "Das Bruttogewicht der Sendungsposition " + sp.SendungspositionsNr + " ist zu hoch."));
+                        "Das Bruttogewicht oder das Volumen der Sendungsposition " + sp.SendungspositionsNr + " ist zu hoch."));
                     return new List<Frachteinheit>();
                 }
 
-                // Falls noch Restkapazität vorhanden und nicht die erste zu erstellende Frachteinheit
-                if (restKapazität - sp.Bruttogewicht < 0 && fe != null)
+                foreach (KeyValuePair<Frachteinheit, decimal[]> kvp in map)
                 {
-                    lfe.Add(fe);
-                    fe = null;
+                    Frachteinheit moeglicheFe = kvp.Key;
+                    var restKp = kvp.Value[0];
+                    var restVl = kvp.Value[1];
+                    if (restKp - sp.Bruttogewicht >= 0 && restVl - sp.Volumen >= 0)
+                    {
+                        fe = moeglicheFe;
+                        restKapazitaet = restKp;
+                        restVolumen = restVl;
+                    }
                 }
 
                 if (fe == null)
@@ -127,27 +136,29 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
                     if (sp.Bruttogewicht > TEU.MAXZULADUNG_TONS)
                     {
                         fe = new Frachteinheit(FrachteinheitTyp.FEU);
-                        restKapazität = FEU.MAXZULADUNG_TONS;
+                        restKapazitaet = FEU.MAXZULADUNG_TONS;
+                        restVolumen = FEU.MAX_VOLUME;
                     }
                     else
                     {
                         fe = new Frachteinheit(FrachteinheitTyp.TEU);
-                        restKapazität = TEU.MAXZULADUNG_TONS;
+                        restKapazitaet = TEU.MAXZULADUNG_TONS;
+                        restVolumen = TEU.MAX_VOLUME;
                     }
                 }
-                
-                fe.Sendungspositionen.Add(sp.SendungspositionsNr);
-                restKapazität = restKapazität - sp.Bruttogewicht;
-            }
 
-            // evtl. letzte erstellte Frachteinheit noch hinzunehmen
-            if (fe != null && fe.Sendungspositionen.Count > 0)
-            {
-                lfe.Add(fe);
+                werte = new decimal[2] { restKapazitaet - sp.Bruttogewicht, restVolumen - sp.Volumen };
+                fe.Sendungspositionen.Add(sp.SendungspositionsNr);
+                map.Add(fe, werte);
+                fe = null;
             }
 
             Contract.Ensures(lfe.Count > 0);
 
+            foreach (KeyValuePair<Frachteinheit, decimal[]> kvp in map)
+            {
+                lfe.Add(kvp.Key);
+            }
             return lfe;
         }
 

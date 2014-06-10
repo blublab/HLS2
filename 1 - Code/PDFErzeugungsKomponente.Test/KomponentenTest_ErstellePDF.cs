@@ -39,6 +39,7 @@ namespace Test.KomponentenTest.PDFErzeugungsKomponente
             tpSchritte.Add(new TransportplanSchrittDTO() { Kosten = 50 });
             tpSchritte.Add(new TransportplanSchrittDTO() { Kosten = 22 });
             decimal kosten = 0;
+            List<string> wege = new List<string>();
             foreach (TransportplanSchrittDTO tpsDTO in tpSchritte)
             {
                 kosten += tpsDTO.Kosten;
@@ -48,7 +49,7 @@ namespace Test.KomponentenTest.PDFErzeugungsKomponente
             Adresse kundenadresse = new Adresse() { Strasse = "ABC-Strasse", Hausnummer = "123", Land = "Nimmerland", PLZ = "xyz", Wohnort = "hinterm Baum" };
             gpDTO.Adressen.Add(kundenadresse.ToDTO());
 
-            pdf.ErstelleKundenrechnungPDF(krDTO, tpSchritte, gpDTO);
+            pdf.ErstelleKundenrechnungPDF(krDTO, tpSchritte, gpDTO, wege);
             ////Assert.IsTrue(File.Exists(file), "Datei existiert nicht");
 
             ////Adresse kundenadresse = new Adresse() { Strasse = "ABC-Strasse", Hausnummer = "123", Land = "Nimmerland", PLZ = "xyz", Wohnort = "hinterm Baum" }; 

@@ -12,6 +12,7 @@ namespace ApplicationCore.TransportplanungKomponente.DataAccessLayer
         public const decimal LEERGEWICHT_TONS = 2.250m;
         public const decimal MAXZULADUNG_TONS = 21.750m;
         public const decimal MAX_TONS = 24m;
+
         // Volumen in Kubikmetern, siehe
         // http://de.wikipedia.org/wiki/ISO-Container
         public const decimal MAX_VOLUME = 33.1m;

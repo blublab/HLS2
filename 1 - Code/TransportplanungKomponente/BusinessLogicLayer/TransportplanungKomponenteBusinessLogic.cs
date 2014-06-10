@@ -87,6 +87,12 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
 
         /// <summary>
         /// Erzeugt Frachteinheiten (TEU, FEU) für Sendungspositionen.
+        /// 
+        /// Frachteinheit = Container (TEU = 20-Fuß-Container, FEU = 40-Fuß-Container)
+        /// Sendungsposition = Ware
+        /// 
+        /// Optimale Beladung zu finden ist NP-Hart Problem. Das sollen wir jawohl kaum lösen??
+        /// http://stackoverflow.com/questions/6988300/fill-volume-algorithm
         /// </summary>
         /// <pre>sps.Count > 0</pre>
         private List<Frachteinheit> ErzeugeFrachteinheitenFür(IList<Sendungsposition> sps, TransportplanungJob job)

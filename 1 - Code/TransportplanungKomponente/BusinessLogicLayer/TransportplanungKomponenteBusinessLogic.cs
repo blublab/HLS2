@@ -93,12 +93,11 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
         {
             Contract.Requires(sps.Count > 0);
 
-            List<Frachteinheit> lfe = new List<Frachteinheit>();
+            var lfe = new List<Frachteinheit>();
             
-            // TODO: besserer Algorithmus nötig; Volumen der Fracht wird hier nicht beachtet, sondern nur das Gewicht.
-            decimal restKapazität = 0m;
-            Frachteinheit fe = null;  
-            foreach (Sendungsposition sp in sps)
+            var restKapazität = 0m;
+            Frachteinheit fe = null;
+            foreach (var sp in sps)
             {
                 if (sp.Bruttogewicht > FEU.MAXZULADUNG_TONS)
                 {
@@ -136,7 +135,7 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
             }
 
             // evtl. letzte erstellte Frachteinheit noch hinzunehmen
-            if (fe.Sendungspositionen.Count > 0)
+            if (fe != null && fe.Sendungspositionen.Count > 0)
             {
                 lfe.Add(fe);
             }
@@ -150,14 +149,13 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
         {
             Contract.Requires(sa != null);
 
-            List<Frachteinheit> fe = null;
-            fe = ErzeugeFrachteinheitenFür(sa.Sendungspositionen, job);
+            var fe = ErzeugeFrachteinheitenFür(sa.Sendungspositionen, job);
             if (job.Abort)
             {
                 return;
             }
 
-            List<List<Transportbeziehung>> p = transportnetzServices.GeneriereAllePfadeVonBis(sa.StartLokation, sa.ZielLokation);
+            var p = transportnetzServices.GeneriereAllePfadeVonBis(sa.StartLokation, sa.ZielLokation);
             if (p.Count == 0)
             {
                 job.Meldungen.Add(new TransportplanungMeldung(
@@ -168,17 +166,19 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
                 return;
             }
 
-            List<Transportplan> ltp = new List<Transportplan>();
-            foreach (List<Transportbeziehung> pfad in p)
+            var ltp = new List<Transportplan>();
+            foreach (var pfad in p)
             {
-                List<TransportplanSchritt> tps = ErzeugePlanFür(pfad, fe, sa.AbholzeitfensterStart, sa.AbholzeitfensterEnde);
+                var tps = ErzeugePlanFür(pfad, fe, sa.AbholzeitfensterStart, sa.AbholzeitfensterEnde);
 
                 if (tps != null)
                 {
-                    Transportplan tp = new Transportplan();
-                    tp.TransportplanSchritte = tps;
-                    tp.Frachteinheiten = fe.Select(_fe => (Frachteinheit)_fe.Clone()).ToList();
-                    tp.SaNr = sa.SaNr;
+                    var tp = new Transportplan
+                    {
+                        TransportplanSchritte = tps,
+                        Frachteinheiten = fe.Select(_fe => (Frachteinheit) _fe.Clone()).ToList(),
+                        SaNr = sa.SaNr
+                    };
                     tp.UpdateStatus(TransportplanStatusTyp.Geplant);
 
                     ltp.Add(tp);
@@ -188,7 +188,7 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
             Contract.Ensures(ltp != null);
 
             // Füge die erzeugten Transportpläne dem Repository hinzu
-            ltp.ForEach((tp) => { this.tp_REPO.Save(tp); });
+            ltp.ForEach(tp => tp_REPO.Save(tp));
         }
 
         private List<TransportplanSchritt> ErzeugePlanFür(

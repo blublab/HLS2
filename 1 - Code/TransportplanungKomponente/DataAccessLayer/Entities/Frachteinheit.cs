@@ -12,6 +12,9 @@ namespace ApplicationCore.TransportplanungKomponente.DataAccessLayer
         public const decimal LEERGEWICHT_TONS = 2.250m;
         public const decimal MAXZULADUNG_TONS = 21.750m;
         public const decimal MAX_TONS = 24m;
+        // Volumen in Kubikmetern, siehe
+        // http://de.wikipedia.org/wiki/ISO-Container
+        public const decimal MAX_VOLUME = 33.1m;
     }
 
     public sealed class FEU
@@ -19,6 +22,7 @@ namespace ApplicationCore.TransportplanungKomponente.DataAccessLayer
         public const decimal LEERGEWICHT_TONS = 3.780m;
         public const decimal MAXZULADUNG_TONS = 26.700m;
         public const decimal MAX_TONS = 30.480m;
+        public const decimal MAX_VOLUME = 67.5m;
     }
 
     public class Frachteinheit : ICloneable

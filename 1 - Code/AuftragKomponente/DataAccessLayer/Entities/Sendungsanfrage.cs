@@ -91,6 +91,7 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
     {
         public virtual int SendungspositionsNr { get; set; }
         public virtual decimal Bruttogewicht { get; set; }
+        public virtual decimal Volumen { get; set; }
 
         public Sendungsposition()
         {
@@ -98,10 +99,12 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
 
         public virtual SendungspositionDTO ToDTO()
         {
-            SendungspositionDTO spDTO = new SendungspositionDTO();
-            spDTO.SendungspositionsNr = this.SendungspositionsNr;
-            spDTO.Bruttogewicht = this.Bruttogewicht;
-            return spDTO;
+            return new SendungspositionDTO
+            {
+                SendungspositionsNr = this.SendungspositionsNr,
+                Bruttogewicht = this.Bruttogewicht,
+                Volumen = this.Volumen
+            };
         }
     }
 
@@ -129,6 +132,7 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
             this.Id(x => x.SendungspositionsNr);
 
             this.Map(x => x.Bruttogewicht);
+            this.Map(x => x.Volumen);
         }
     }
 }

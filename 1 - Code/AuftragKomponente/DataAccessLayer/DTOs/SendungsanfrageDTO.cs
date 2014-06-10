@@ -47,12 +47,14 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
     {
         public int SendungspositionsNr { get; set; }
         public decimal Bruttogewicht { get; set; }
+        public decimal Volumen { get; set; }
 
         public virtual Sendungsposition ToEntity()
         {
             Sendungsposition sp = new Sendungsposition();
             sp.SendungspositionsNr = this.SendungspositionsNr;
             sp.Bruttogewicht = this.Bruttogewicht;
+            sp.Volumen = this.Volumen;
             return sp;
         }
     }

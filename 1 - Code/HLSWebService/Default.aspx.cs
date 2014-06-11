@@ -12,7 +12,6 @@ namespace HLSWebService
     /// </summary>
     public partial class Default : Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
             long saNr = Request.Params["SaNr"] != null ? long.Parse(Request.Params["SaNr"]) : -1;

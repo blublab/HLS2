@@ -41,10 +41,12 @@ namespace HLSWebService
            var pdfFacade = new PDFErzeugungKomponenteFacade();
            var gps = new GeschaeftspartnerKomponenteFacade(persistenceService, transactionService);
            var unterbeauftragungsServices = new UnterbeauftragungKomponenteFacade(
-               persistenceService, transactionService, new Mock<IFrachtfuehrerServicesFürUnterbeauftragung>().Object,
+               persistenceService,
+               transactionService,
+               new Mock<IFrachtfuehrerServicesFürUnterbeauftragung>().Object,
                gps,
-               pdfFacade as IPDFErzeugungsServicesFuerUnterbeauftragung, new Mock<IMailServices>().Object);
-
+               pdfFacade as IPDFErzeugungsServicesFuerUnterbeauftragung,
+               new Mock<IMailServices>().Object);
            auftragServices = new AuftragKomponenteFacade(
                persistenceService,
                transactionService,
@@ -55,7 +57,6 @@ namespace HLSWebService
 
            var auftragsServicesFürTransportplanung = auftragServices as IAuftragServicesFürTransportplanung;
            Mock<IFrachtfuehrerServicesFürUnterbeauftragung> frachtfuehrerServicesMock = null;
- 
 
             ITransportplanungServices transportplanungsServices = new TransportplanungKomponenteFacade(
                persistenceService,
@@ -66,7 +67,6 @@ namespace HLSWebService
                new TimeServices());
             auftragsServicesFürTransportplanung.RegisterTransportplanungServiceFürAuftrag(
                 transportplanungsServices as ITransportplanungServicesFürAuftrag);
-
            CreateTestdata();
         }
 
@@ -122,9 +122,7 @@ namespace HLSWebService
             {
                 geschaeftspartnerServices.CreateGeschaeftspartner(ref gpDTOs[i]);
             }
-            // TODO: Sendungsanfragen erstellen.
             CreateSendungsanfragen(gpDTOs);
-
         }
 
         private void CreateSendungsanfragen(GeschaeftspartnerDTO[] gpDTO)

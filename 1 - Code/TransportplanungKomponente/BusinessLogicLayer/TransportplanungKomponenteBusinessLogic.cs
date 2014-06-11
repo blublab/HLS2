@@ -98,15 +98,9 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
             Contract.Requires(sps.Count > 0);
 
             var lfe = new List<Frachteinheit>();
-<<<<<<< HEAD
-            
-            var restKapazität = 0m;
-            var restVolumen = 0m;
-=======
             decimal[] werte = new decimal[2]; //[kapazitaet, volumen]
             Dictionary<Frachteinheit, decimal[]> map = new Dictionary<Frachteinheit, decimal[]>();
 
->>>>>>> 01814d1db575cd5bfe04a1b6094e451342a77a59
             Frachteinheit fe = null;
             var restKapazitaet = 0m;
             var restVolumen = 0m;
@@ -123,21 +117,7 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
                     return new List<Frachteinheit>();
                 }
 
-<<<<<<< HEAD
-                if (sp.Volumen > FEU.MAX_VOLUME)
-                {
-                    // Ware kann nicht transportiert werden.
-                    job.Meldungen.Add(new TransportplanungMeldung(
-                        TransportplanungMeldungTag.FrachteinheitenBildungNichtMöglich,
-                        "Das Volumen der Sendungsposition " + sp.SendungspositionsNr + " ist zu hoch."));
-                    return new List<Frachteinheit>();    
-                }
-
-                // Falls noch Restkapazität vorhanden und nicht die erste zu erstellende Frachteinheit
-                if ((restKapazität - sp.Bruttogewicht) < 0 && (restVolumen - sp.Volumen) >= 0 && fe != null)
-=======
                 foreach (KeyValuePair<Frachteinheit, decimal[]> kvp in map)
->>>>>>> 01814d1db575cd5bfe04a1b6094e451342a77a59
                 {
                     Frachteinheit moeglicheFe = kvp.Key;
                     var restKp = kvp.Value[0];
@@ -157,32 +137,16 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
                     if (sp.Bruttogewicht > TEU.MAXZULADUNG_TONS || sp.Volumen > TEU.MAX_VOLUME)
                     {
                         fe = new Frachteinheit(FrachteinheitTyp.FEU);
-<<<<<<< HEAD
-                        restKapazität = FEU.MAXZULADUNG_TONS;
-=======
                         restKapazitaet = FEU.MAXZULADUNG_TONS;
->>>>>>> 01814d1db575cd5bfe04a1b6094e451342a77a59
                         restVolumen = FEU.MAX_VOLUME;
                     }
                     else
                     {
                         fe = new Frachteinheit(FrachteinheitTyp.TEU);
-<<<<<<< HEAD
-                        restKapazität = TEU.MAXZULADUNG_TONS;
-                        restVolumen = TEU.MAX_VOLUME;
-                    }
-                }
-                
-                fe.Sendungspositionen.Add(sp.SendungspositionsNr);
-                restKapazität = restKapazität - sp.Bruttogewicht;
-                restVolumen = restVolumen - sp.Volumen;
-            }
-=======
                         restKapazitaet = TEU.MAXZULADUNG_TONS;
                         restVolumen = TEU.MAX_VOLUME;
                     }
                 }
->>>>>>> 01814d1db575cd5bfe04a1b6094e451342a77a59
 
                 werte = new decimal[2] { restKapazitaet - sp.Bruttogewicht, restVolumen - sp.Volumen };
                 fe.Sendungspositionen.Add(sp.SendungspositionsNr);
@@ -230,7 +194,7 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
                     var tp = new Transportplan
                     {
                         TransportplanSchritte = tps,
-                        Frachteinheiten = fe.Select(_fe => (Frachteinheit) _fe.Clone()).ToList(),
+                        Frachteinheiten = fe.Select(_fe => (Frachteinheit)_fe.Clone()).ToList(),
                         SaNr = sa.SaNr
                     };
                     tp.UpdateStatus(TransportplanStatusTyp.Geplant);

@@ -95,10 +95,10 @@ namespace Util.PersistenceServices.Implementations
                 {
                     // find all types that derive from ClassMap<>
                     IList<Type> types = mappingAssembly.GetTypes().Where(t =>
-                        t != typeof (AutoMapping<>)
+                        t != typeof(AutoMapping<>)
                         && t.BaseType != null
                         && t.BaseType.IsGenericType
-                        && t.BaseType.GetGenericTypeDefinition() == typeof (ClassMap<>)).ToList();
+                        && t.BaseType.GetGenericTypeDefinition() == typeof(ClassMap<>)).ToList();
 
                     // if there are any, we add their assembly
                     if (types.Count > 0)

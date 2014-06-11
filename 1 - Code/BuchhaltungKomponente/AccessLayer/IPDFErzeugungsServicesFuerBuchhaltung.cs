@@ -15,6 +15,6 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         /// Erstellt eine PDF Datei zu einer Kundenrechnung.
         /// </summary>
         /// <throws>ArgumentException, falls krDTO == null.</throws>
-        string ErstelleKundenrechnungPDF(KundenrechnungDTO krDTO, IList<TransportplanSchrittDTO> tpSchritte, GeschaeftspartnerDTO gpDTO);
+        string ErstelleKundenrechnungPDF(KundenrechnungDTO krDTO, IList<TransportplanSchrittDTO> tpSchritte, GeschaeftspartnerDTO gpDTO, List<string> wege);
     }
 }

@@ -74,7 +74,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PdfData\HLS-Logo.png" />
+    <Content Include="PdfData\HLS-Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

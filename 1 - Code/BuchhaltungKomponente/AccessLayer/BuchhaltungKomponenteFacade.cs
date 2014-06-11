@@ -3,6 +3,8 @@ using ApplicationCore.AuftragKomponente.DataAccessLayer;
 using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.AccessLayer;
 using ApplicationCore.GeschaeftspartnerKomponente.DataAccessLayer;
+using ApplicationCore.TransportnetzKomponente.AccessLayer;
+using ApplicationCore.TransportnetzKomponente.DataAccessLayer;
 using ApplicationCore.TransportplanungKomponente.AccessLayer;
 using ApplicationCore.TransportplanungKomponente.DataAccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
@@ -28,6 +30,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         private readonly IGeschaeftspartnerServices geschaeftspartnerService;
         private readonly IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServiceFuerBuchhaltung;
         private readonly IMailServices mailService;
+        private readonly ITransportnetzServices tpNetzService;
 
         public BuchhaltungKomponenteFacade(
                 IPersistenceServices persistenceService,
@@ -37,7 +40,8 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                 IAuftragServicesFuerBuchhaltung auftragServicesFuerBuchhaltung,
                 IGeschaeftspartnerServices geschaeftspartnerServices,
                 IPDFErzeugungsServicesFuerBuchhaltung pdfErzeugungsServicesFuerBuchhaltung,
-                IMailServices mailServices)
+                IMailServices mailServices,
+                ITransportnetzServices tpnetzServices)
         {
             Check.Argument(persistenceService != null, "persistenceService != null");
             Check.Argument(transactionService != null, "transactionService != null");
@@ -57,6 +61,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             this.geschaeftspartnerService = geschaeftspartnerServices;
             this.pdfErzeugungsServiceFuerBuchhaltung = pdfErzeugungsServicesFuerBuchhaltung;
             this.mailService = mailServices;
+            this.tpNetzService = tpnetzServices;
         }
 
         public void SetzeUnterbeauftragungServices(IUnterbeauftragungServicesFuerBuchhaltung unterbeauftragungServices)
@@ -112,6 +117,16 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                 kostenSumme += tpsDTO.Kosten;
             }
 
+            List<string> wege = new List<string>();
+            foreach (TransportAktivitaetDTO tpaDTO in tpSchritte)
+            {
+                long tpBeziehung = tpaDTO.FuerTransportAufTransportbeziehung;
+                TransportbeziehungDTO tpbDTO = tpNetzService.FindTransportbeziehung(tpBeziehung);
+                string start = tpbDTO.Start.ToString();
+                string ziel = tpbDTO.Ziel.ToString();
+                wege.Add(start + " - " + ziel);
+            }
+
             kr.Rechnungsbetrag = new WaehrungsType(kostenSumme);
             kr.Sendungsanfrage = saNr;
             SendungsanfrageDTO saDTO = auftragServiceFuerBuchhaltung.FindeSendungsanfrageUeberSaNr(saNr);
@@ -126,7 +141,7 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                     bh_REPO.SpeichereKundenrechnung(kr);
                 });
             KundenrechnungDTO krDTO = kr.ToDTO();
-            string pdfPath = pdfErzeugungsServiceFuerBuchhaltung.ErstelleKundenrechnungPDF(krDTO, tpSchritte, gpDTO);
+            string pdfPath = pdfErzeugungsServiceFuerBuchhaltung.ErstelleKundenrechnungPDF(krDTO, tpSchritte, gpDTO, wege);
             if (pdfPath != null)
             {
                 MailMessage msg = new MailMessage();

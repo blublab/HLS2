@@ -93,6 +93,10 @@
       <Project>{85abe358-27f3-4fa7-a9ab-1cd28dfa198d}</Project>
       <Name>TimeServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TransportnetzKomponente\TransportnetzKomponente.csproj">
+      <Project>{f286acd7-1c2a-434f-932e-66df0abfd19c}</Project>
+      <Name>TransportnetzKomponente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TransportplanungKomponente\TransportplanungKomponente.csproj">
       <Project>{fe0b1af0-6b33-49a9-badd-0163cd0d4543}</Project>
       <Name>TransportplanungKomponente</Name>

@@ -36,5 +36,13 @@ namespace ApplicationCore.AuftragKomponente.DataAccessLayer
 
             return lsa;
         }
+
+        public IList<Sendungsanfrage> FindAll()
+        {
+            var lsa =
+                (from sa in persistenceService.Query<Sendungsanfrage>()
+                    select sa).ToList();
+            return lsa;            
+        } 
     }
 }

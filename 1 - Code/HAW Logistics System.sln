@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application Core", "2 - Application Core", "{A0DAEC44-C6B5-4278-B1CA-8CDF87957061}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Client", "0 - Client", "{5B56155A-EA5D-4A6F-A514-4A6B6D079C94}"
@@ -113,6 +115,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFErzeugungsKomponente", "PDFErzeugungsKomponente\PDFErzeugungsKomponente.csproj", "{38C5E46D-B36A-4A3F-A77D-6F05B165F7C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFErzeugungsKomponente.Test", "PDFErzeugungsKomponente.Test\PDFErzeugungsKomponente.Test.csproj", "{DB20AED1-D887-419A-ABA5-2634989514CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLSWebService", "HLSWebService\HLSWebService.csproj", "{E10FBB81-446E-4D38-909E-D68341EC3C85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -252,6 +256,10 @@ Global
 		{DB20AED1-D887-419A-ABA5-2634989514CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB20AED1-D887-419A-ABA5-2634989514CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB20AED1-D887-419A-ABA5-2634989514CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E10FBB81-446E-4D38-909E-D68341EC3C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E10FBB81-446E-4D38-909E-D68341EC3C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E10FBB81-446E-4D38-909E-D68341EC3C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E10FBB81-446E-4D38-909E-D68341EC3C85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -290,5 +298,6 @@ Global
 		{C039C2B7-C671-460F-AD2D-7AA7EDF45810} = {DE6FAA2D-E4C6-49D8-8A7E-C535F7CE9331}
 		{F3BF8B0B-471D-40DB-8CF4-9A1F9B1C7A8E} = {DE6FAA2D-E4C6-49D8-8A7E-C535F7CE9331}
 		{84998286-261D-45B2-8441-E325F8688950} = {9D89FF08-DE18-40DB-9D41-85375D642DE4}
+		{E10FBB81-446E-4D38-909E-D68341EC3C85} = {9D89FF08-DE18-40DB-9D41-85375D642DE4}
 	EndGlobalSection
 EndGlobal

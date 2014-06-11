@@ -22,6 +22,12 @@ namespace ApplicationCore.AuftragKomponente.AccessLayer
         void StopAngebotsGültigkeitsPrüfungPeriodicTask();
 
         /// <summary>
+        /// Liefert alle Sendungsanfragen zurück.
+        /// </summary>
+        /// <returns>Eine Liste aller Sendungsanfragen.</returns>
+        IList<SendungsanfrageDTO> GetSendungsanfragen();
+        
+        /// <summary>
         /// Sucht eine Sendungsanfrage nach SaNr.
         /// </summary>
         /// <returns>Sendungsanfrage; null, falls nicht gefunden.</returns>

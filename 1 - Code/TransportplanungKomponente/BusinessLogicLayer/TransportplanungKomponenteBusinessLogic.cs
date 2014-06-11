@@ -102,6 +102,7 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
             var lfe = new List<Frachteinheit>();
             
             var restKapazität = 0m;
+            var restVolumen = 0m;
             Frachteinheit fe = null;
             foreach (var sp in sps)
             {
@@ -114,8 +115,17 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
                     return new List<Frachteinheit>();
                 }
 
+                if (sp.Volumen > FEU.MAX_VOLUME)
+                {
+                    // Ware kann nicht transportiert werden.
+                    job.Meldungen.Add(new TransportplanungMeldung(
+                        TransportplanungMeldungTag.FrachteinheitenBildungNichtMöglich,
+                        "Das Volumen der Sendungsposition " + sp.SendungspositionsNr + " ist zu hoch."));
+                    return new List<Frachteinheit>();    
+                }
+
                 // Falls noch Restkapazität vorhanden und nicht die erste zu erstellende Frachteinheit
-                if (restKapazität - sp.Bruttogewicht < 0 && fe != null)
+                if ((restKapazität - sp.Bruttogewicht) < 0 && (restVolumen - sp.Volumen) >= 0 && fe != null)
                 {
                     lfe.Add(fe);
                     fe = null;
@@ -123,21 +133,25 @@ namespace ApplicationCore.TransportplanungKomponente.BusinessLogicLayer
 
                 if (fe == null)
                 {
-                    // Neue Frachteinheit anlegen, Typ (TEU, FEU) ist abhängig von Gewicht der Sendungsposition
-                    if (sp.Bruttogewicht > TEU.MAXZULADUNG_TONS)
+                    // Neue Frachteinheit anlegen, Typ (TEU, FEU) ist abhängig von Gewicht und dem
+                    // Volumen der Sendungsposition.
+                    if (sp.Bruttogewicht > TEU.MAXZULADUNG_TONS || sp.Volumen > TEU.MAX_VOLUME)
                     {
                         fe = new Frachteinheit(FrachteinheitTyp.FEU);
                         restKapazität = FEU.MAXZULADUNG_TONS;
+                        restVolumen = FEU.MAX_VOLUME;
                     }
                     else
                     {
                         fe = new Frachteinheit(FrachteinheitTyp.TEU);
                         restKapazität = TEU.MAXZULADUNG_TONS;
+                        restVolumen = TEU.MAX_VOLUME;
                     }
                 }
                 
                 fe.Sendungspositionen.Add(sp.SendungspositionsNr);
                 restKapazität = restKapazität - sp.Bruttogewicht;
+                restVolumen = restVolumen - sp.Volumen;
             }
 
             // evtl. letzte erstellte Frachteinheit noch hinzunehmen

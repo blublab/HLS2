@@ -63,6 +63,25 @@ namespace ApplicationCore.AuftragKomponente.AccessLayer
             perdiodicGültigkeitsprüfungTaskCancellationTokenSource.Cancel();
         }
 
+        public IList<SendungsanfrageDTO> GetSendungsanfragen()
+        {
+            IList<Sendungsanfrage> lsa = null;
+            transactionService.ExecuteTransactional(() =>
+            {
+                    lsa = this.sa_REPO.FindAll();
+            });
+            if (lsa == null)
+            {
+                return null;
+            }
+            IList<SendungsanfrageDTO> lsadto = new List<SendungsanfrageDTO>();
+            foreach (var l in lsa)
+            {
+                lsadto.Add(l.ToDTO());
+            }
+            return lsadto;
+        }
+
         public SendungsanfrageDTO FindSendungsanfrage(int saNr)
         {
             Check.OperationCondition(this.transportplanungsServiceInitialized == true, "AuftragsKomponente wurde nicht korrekt initialisiert. Rückverbindung zur Komponente TransportPlanung muss hergestellt sein (Methode RegisterTransportplanungServiceFürAuftrag).");

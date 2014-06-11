@@ -90,17 +90,26 @@ namespace Util.PersistenceServices.Implementations
                      && !assembly.FullName.StartsWith("Microsoft")).ToList();
             foreach (Assembly mappingAssembly in allAssemblies)
             {
-                // find all types that derive from ClassMap<>
-                IList<Type> types = mappingAssembly.GetTypes().Where(t =>
-                       t != typeof(AutoMapping<>)
-                    && t.BaseType != null
-                    && t.BaseType.IsGenericType
-                    && t.BaseType.GetGenericTypeDefinition() == typeof(ClassMap<>)).ToList();
-
-                // if there are any, we add their assembly
-                if (types.Count > 0)
+                Log.Info("Reflecting over assembly " + mappingAssembly.FullName);
+                try
                 {
-                    fluentConfiguration = fluentConfiguration.Mappings(m => m.FluentMappings.AddFromAssembly(mappingAssembly));
+                    // find all types that derive from ClassMap<>
+                    IList<Type> types = mappingAssembly.GetTypes().Where(t =>
+                        t != typeof (AutoMapping<>)
+                        && t.BaseType != null
+                        && t.BaseType.IsGenericType
+                        && t.BaseType.GetGenericTypeDefinition() == typeof (ClassMap<>)).ToList();
+
+                    // if there are any, we add their assembly
+                    if (types.Count > 0)
+                    {
+                        fluentConfiguration =
+                            fluentConfiguration.Mappings(m => m.FluentMappings.AddFromAssembly(mappingAssembly));
+                    }
+                }
+                catch (ReflectionTypeLoadException e)
+                {
+                    throw new Exception(mappingAssembly.FullName, e.LoaderExceptions.First());
                 }
             }
 

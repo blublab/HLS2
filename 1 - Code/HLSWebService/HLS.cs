@@ -105,10 +105,7 @@ namespace HLSWebService
 
         public IList<KundenrechnungDTO> GetKundenrechnungen(int rechnungsNr)
         {
-            return rechnungsNr < 0
-                ? buchhaltungServices.GetKundenrechnungen()
-                : buchhaltungServices.GetKundenrechnungen()
-                .Where(s => s.RechnungsNr == rechnungsNr).ToList();
+            return rechnungen;
         } 
 
         private void CreateTestdata()
@@ -126,7 +123,7 @@ namespace HLSWebService
                         new AdresseDTO()
                         {
                             Hausnummer = "123",
-                            Land = "de",
+                            Land = "Deutschland",
                             PLZ = "22089",
                             Wohnort = "Hamburg",
                             Strasse = "Musterstraße"
@@ -144,10 +141,46 @@ namespace HLSWebService
                         new AdresseDTO()
                         {
                             Hausnummer = "456",
-                            Land = "de",
+                            Land = "Deutschland",
                             PLZ = "10020",
                             Wohnort = "Berlin",
                             Strasse = "Schusterweg"
+                        }
+                    }
+                },
+
+                new GeschaeftspartnerDTO()
+                {
+                    Nachname = "Sarstedt",
+                    Vorname = "Stefan",
+                    Email = new EMailType("stefan.sarstedt@haw-hamburg.de"),
+                    Adressen = new[]
+                    {
+                        new AdresseDTO()
+                        {
+                            Hausnummer = "7",
+                            Land = "Deutschland",
+                            PLZ = "22099",
+                            Wohnort = "Hamburg",
+                            Strasse = "Berliner Tor"
+                        }
+                    }
+                },
+
+                new GeschaeftspartnerDTO()
+                {
+                    Nachname = "江",
+                    Vorname = "泽民",
+                    Email = new EMailType("zemin.jiang@prc.cn"),
+                    Adressen = new[]
+                    {
+                        new AdresseDTO()
+                        {
+                            Hausnummer = "10",
+                            Land = "中国",
+                            PLZ = "102300",
+                            Wohnort = "北京市",
+                            Strasse = "西安门"
                         }
                     }
                 }
@@ -159,18 +192,28 @@ namespace HLSWebService
             var saDTOs = CreateSendungsanfragen(gpDTOs);
 
             // Kundenrechnungen erstellen.
-   //         CreateKundenrechnungen(gpDTOs, saDTOs);
+            rechnungen = CreateKundenrechnungen(gpDTOs, saDTOs);
         }
 
+        private IList<KundenrechnungDTO> rechnungen;
+ 
         private SendungsanfrageDTO[] CreateSendungsanfragen(GeschaeftspartnerDTO[] gpDTO)
         {
             var hamburgLokation = new LokationDTO("Hamburg", TimeSpan.Parse("10"), 10);
             var bremerhavenLokation = new LokationDTO("Bremerhaven", TimeSpan.Parse("15"), 15);
             var shanghaiLokation = new LokationDTO("Shanghai", TimeSpan.Parse("10"), 10);
+            var hongkongLokation = new LokationDTO("Hong-Kong", TimeSpan.Parse("20"), 12);
+            var tokioLokation = new LokationDTO("Tokio", TimeSpan.Parse("15"), 15);
+            var rotterdamLokation = new LokationDTO("Rotterdam", TimeSpan.Parse("15"), 14);
+            var singapurLokation = new LokationDTO("Singapur", TimeSpan.Parse("8"), 18);
 
             transportnetzServices.CreateLokation(ref hamburgLokation);
             transportnetzServices.CreateLokation(ref bremerhavenLokation);
             transportnetzServices.CreateLokation(ref shanghaiLokation);
+            transportnetzServices.CreateLokation(ref hongkongLokation);
+            transportnetzServices.CreateLokation(ref tokioLokation);
+            transportnetzServices.CreateLokation(ref rotterdamLokation);
+            transportnetzServices.CreateLokation(ref singapurLokation);
 
             var saDTO = new SendungsanfrageDTO();
             saDTO.Sendungspositionen.Add(new SendungspositionDTO());
@@ -190,36 +233,73 @@ namespace HLSWebService
             saDTO2.AuftrageberNr = gpDTO[1].GpNr;
             auftragServices.CreateSendungsanfrage(ref saDTO2);
 
-            return new[] { saDTO, saDTO2 };
+            var saDTO3 = new SendungsanfrageDTO();
+            saDTO3.Sendungspositionen.Add(new SendungspositionDTO());
+            saDTO3.AbholzeitfensterStart = DateTime.Parse("20.07.2014");
+            saDTO3.AbholzeitfensterEnde = DateTime.Parse("20.08.2014");
+            saDTO3.StartLokation = rotterdamLokation.LokNr;
+            saDTO3.ZielLokation = hongkongLokation.LokNr;
+            saDTO3.AuftrageberNr = gpDTO[2].GpNr;
+            auftragServices.CreateSendungsanfrage(ref saDTO3);
+
+            var saDTO4 = new SendungsanfrageDTO();
+            saDTO4.Sendungspositionen.Add(new SendungspositionDTO());
+            saDTO4.AbholzeitfensterStart = DateTime.Parse("26.07.2014");
+            saDTO4.AbholzeitfensterEnde = DateTime.Parse("30.08.2014");
+            saDTO4.StartLokation = singapurLokation.LokNr;
+            saDTO4.ZielLokation = tokioLokation.LokNr;
+            saDTO4.AuftrageberNr = gpDTO[3].GpNr;
+            auftragServices.CreateSendungsanfrage(ref saDTO4);
+
+            return new[] { saDTO, saDTO2, saDTO3, saDTO4 };
         }
 
-        public void CreateKundenrechnungen(GeschaeftspartnerDTO[] gpDTO, SendungsanfrageDTO[] saDTO)
+        public KundenrechnungDTO[] CreateKundenrechnungen(GeschaeftspartnerDTO[] gpDTO, SendungsanfrageDTO[] saDTO)
         {
             var krDTOs = new[]
             {
                 new KundenrechnungDTO()
                 {
-                    Rechnungsbetrag = new WaehrungsType(120m),
+                    Rechnungsbetrag = new WaehrungsType(1200m),
                     RechnungBezahlt = true,
-                    Sendungsanfrage = 1,
-                    Rechnungsadresse = 10,
-                    RechnungsNr = -1
+                    Sendungsanfrage = saDTO[0].SaNr,
+                    Rechnungsadresse = gpDTO[0].Adressen[0].Id,
+                    RechnungsNr = 1
                 },
                 new KundenrechnungDTO()
                 {
-                    Rechnungsbetrag = new WaehrungsType(450m),
+                    Rechnungsbetrag = new WaehrungsType(4500m),
                     RechnungBezahlt = false,
-                    Sendungsanfrage = 2,
-                    Rechnungsadresse = 13,
-                    RechnungsNr = -1
+                    Sendungsanfrage = saDTO[1].SaNr,
+                    Rechnungsadresse = gpDTO[1].Adressen[0].Id,
+                    RechnungsNr = 2
+                },
+                new KundenrechnungDTO()
+                {
+                    Rechnungsbetrag = new WaehrungsType(1000m),
+                    RechnungBezahlt = false,
+                    Sendungsanfrage = saDTO[2].SaNr,
+                    Rechnungsadresse = gpDTO[2].Adressen[0].Id,
+                    RechnungsNr = 3
+                },
+                new KundenrechnungDTO()
+                {
+                    Rechnungsbetrag = new WaehrungsType(3800m),
+                    RechnungBezahlt = false,
+                    Sendungsanfrage = saDTO[3].SaNr,
+                    Rechnungsadresse = gpDTO[3].Adressen[0].Id,
+                    RechnungsNr = 4
                 }
             };
 
             for (int i = 0; i < krDTOs.Length; i++)
             {
                 KundenrechnungDTO krDTO = krDTOs[i];
-                buchhaltungServices.CreateKundenrechnung(ref krDTO);
+
+//                buchhaltungServices.CreateKundenrechnung(ref krDTO);
             }
+
+            return krDTOs;
         }
 
         public LokationDTO FindLokation(long lokNr)

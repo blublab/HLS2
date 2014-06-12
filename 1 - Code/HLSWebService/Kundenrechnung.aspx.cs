@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI;
 using Newtonsoft.Json;
 
@@ -18,12 +19,14 @@ namespace HLSWebService
             IList<object> rechnungen = new List<object>();
             foreach (var af in hls.GetKundenrechnungen(krNr))
             {
+                var sa = hls.GetSendungsanfragen(af.Sendungsanfrage).First();
+                var ag = hls.FindGeschaeftspartner(sa.AuftrageberNr);
                 var anon = new
                 {
                     RnNr = af.RechnungsNr,
                     Bezahlt = af.RechnungBezahlt,
                     Betrag = af.Rechnungsbetrag,
-                    SaNr = af.Sendungsanfrage
+                    Kunde = ag.Nachname + ", " + ag.Vorname + " (Kunden-Nr. " + ag.GpNr + ")"
                 };
                 rechnungen.Add(anon);
             }

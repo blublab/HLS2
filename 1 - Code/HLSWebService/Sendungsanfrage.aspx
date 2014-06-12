@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="HLSWebService.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Sendungsanfrage.aspx.cs" Inherits="HLSWebService.Default" %>
 
 <!DOCTYPE html>
 

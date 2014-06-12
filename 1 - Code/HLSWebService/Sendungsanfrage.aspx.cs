@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.UI;
-using log4net;
 using Newtonsoft.Json;
 
 namespace HLSWebService
@@ -14,12 +12,7 @@ namespace HLSWebService
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            long saNr = Request.Params["SaNr"] != null ? long.Parse(Request.Params["SaNr"]) : -1;
-            
-            if (Application["HLS"] == null)
-            {
-                Application["HLS"] = new HLS();
-            }
+            long saNr = long.Parse(RouteData.Values["saNr"].ToString());
             HLS hls = Application["HLS"] as HLS;
 
             IList<object> anfragen = new List<object>();

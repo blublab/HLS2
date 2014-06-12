@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Util.PersistenceServices.Interfaces;
 
 namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
@@ -44,6 +41,19 @@ namespace ApplicationCore.BuchhaltungKomponente.DataAccessLayer
         public Kundenrechnung GetKundenrechnungById(int krNr)
         {
             return persistenceService.GetById<Kundenrechnung, int>(krNr);
+        }
+
+        public IList<KundenrechnungDTO> GetKundenrechnungen()
+        {
+            var lsa =
+                (from sa in persistenceService.Query<Kundenrechnung>()
+                 select sa).ToList();
+            IList<KundenrechnungDTO> krdto = new List<KundenrechnungDTO>();
+            foreach (var l in lsa)
+            {
+                krdto.Add(l.ToDTO());
+            }
+            return krdto;            
         }
 
         public void SpeichereZahlungseingang(Zahlungseingang ze)

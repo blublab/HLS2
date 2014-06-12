@@ -51,20 +51,35 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.aspx" />
+    <Content Include="Kundenrechnung.aspx" />
+    <Content Include="Sendungsanfrage.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="HLS.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="Kundenrechnung.aspx.cs">
+      <DependentUpon>Kundenrechnung.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="Kundenrechnung.aspx.designer.cs">
+      <DependentUpon>Kundenrechnung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sendungsanfrage.aspx.cs">
+      <DependentUpon>Sendungsanfrage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sendungsanfrage.aspx.designer.cs">
+      <DependentUpon>Sendungsanfrage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -83,6 +98,10 @@
       <Project>{7B60032A-0D25-4A06-9D04-83FD1FF1E946}</Project>
       <Name>AuftragKomponente</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BankAdapter\BankAdapter.csproj">
+      <Project>{852D9A71-6C0C-49C3-BBA0-6C059C2C07F0}</Project>
+      <Name>BankAdapter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BuchhaltungKomponente\BuchhaltungKomponente.csproj">
       <Project>{DC6B8EC0-CFFF-4986-9A3D-5ECFEC903BD8}</Project>
       <Name>BuchhaltungKomponente</Name>
@@ -90,6 +109,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{841AF5C4-1281-49F3-853F-3E08CD08AA6A}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FrachtfuehrerAdapter\FrachtfuehrerAdapter.csproj">
+      <Project>{82E80ABD-0D9F-447C-9D20-4B967664EA2D}</Project>
+      <Name>FrachtfuehrerAdapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\GeschaeftspartnerKomponente\GeschaeftspartnerKomponente.csproj">
       <Project>{18292C25-D2D5-4537-BB46-92EC366B1F85}</Project>

@@ -99,6 +99,40 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
                 });
         }
 
+        public void CreateKundenrechnung(ref KundenrechnungDTO krDTO)
+        {
+            Check.Argument(krDTO != null, "krDTO != null");
+            Check.Argument(krDTO.RechnungsNr == -1, "krDTO.RechnungsNr == -1");
+            Check.OperationCondition(!transactionService.IsTransactionActive, "Keine aktive Transaktion erlaubt.");
+
+            Kundenrechnung kr = krDTO.ToEntity();
+            transactionService.ExecuteTransactional(
+                () =>
+                {
+                    this.bh_REPO.SpeichereKundenrechnung(kr);
+                });
+            krDTO = this.FindKundenrechnung(kr.RechnungsNr);
+        }
+
+        public KundenrechnungDTO FindKundenrechnung(int krNr)
+        {
+            Check.Argument(krNr > 0, "krNr > 0");
+
+            Kundenrechnung kr = null;
+            transactionService.ExecuteTransactionalIfNoTransactionProvided(
+                () =>
+                {
+                    kr = this.bh_REPO.GetKundenrechnungById(krNr);
+                });
+
+            if (kr == null)
+            {
+                return null;
+            }
+
+            return kr.ToDTO();
+        }
+
         public KundenrechnungDTO ErstelleKundenrechnung(int tpNr, int saNr)
         {
             Check.Argument(tpNr > 0, "TpNr > 0");
@@ -153,6 +187,12 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
             }
             return kr.ToDTO();
         }
+
+        public IList<KundenrechnungDTO> GetKundenrechnungen()
+        {
+            return bh_REPO.GetKundenrechnungen();
+        }
+
         #endregion IBuchhaltungServices
 
         #region IBuchhaltungServicesFuerFrachtfuehrerAdapter

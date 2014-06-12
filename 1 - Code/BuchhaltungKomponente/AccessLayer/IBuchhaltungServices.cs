@@ -1,4 +1,6 @@
-﻿using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
+﻿using System.Collections;
+using System.Collections.Generic;
+using ApplicationCore.BuchhaltungKomponente.DataAccessLayer;
 using ApplicationCore.UnterbeauftragungKomponente.AccessLayer;
 
 namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
@@ -33,9 +35,22 @@ namespace ApplicationCore.BuchhaltungKomponente.AccessLayer
         /// <summary>
         /// Erstellt Kundenrechnung.
         /// </summary>
+        /// <throws>rechnungsNr != -1</throws>
+        /// <transaction>Keine aktiven Transaktionen erlaubt.</transaction>
+        void CreateKundenrechnung(ref KundenrechnungDTO krDTO);
+
+        /// <summary>
+        /// Erstellt Kundenrechnung.
+        /// </summary>
         /// <throws>ArgumentException, falls tpNr <= 0</throws>
         /// <throws>ArgumentException, falls SaNr <= 0</throws>
         /// <transaction>Keine aktiven Transaktionen erlaubt.</transaction>
         KundenrechnungDTO ErstelleKundenrechnung(int tpNr, int saNr);
+
+        /// <summary>
+        /// Liefert eine Liste aller Kundenrechnungen zurück.
+        /// </summary>
+        /// <transaction>Keine aktiven Transaktionen erlaubt.</transaction>
+        IList<KundenrechnungDTO> GetKundenrechnungen();
     }
 }

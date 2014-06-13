@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="app_name">HLSMobile</string>
+    <string name="action_beenden">Beenden</string>
+    <string name="action_sendungsanfragen">Sendungsanfragen</string>
+    <string android:id="@+id/string1" android:layout_width="wrap_content" android:layout_height="wrap_content" name="action_kundenrechnung">Kundenrechnungen</string>
+
+</resources>

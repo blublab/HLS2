@@ -134,7 +134,8 @@ public class Util {
 			Sendungsanfrage sa = new Sendungsanfrage(o.getInt("SaNr"), o
 					.getJSONObject("Start").getString("Name"), o.getJSONObject(
 					"Ziel").getString("Name"), o.getString("Status"),
-					auftraggeber);
+					o.getString("AbholzeitStart"), o.getString("AbholzeitEnde"),
+					o.getString("GueltigBis"), auftraggeber);
 			list.add(sa);
 		}
 		return list;

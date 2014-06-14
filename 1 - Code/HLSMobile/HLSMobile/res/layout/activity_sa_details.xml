@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${packageName}.${activityClass}" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <TextView
+            android:id="@+id/tvSendungsanfrage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView1"
+            android:background="#eeeeee"
+            android:fitsSystemWindows="false"
+            android:paddingLeft="5dp"
+            android:paddingTop="15dp"
+            android:text="Sendungsanfrage #789"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#555555" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#eeeeee"
+            android:src="@drawable/ic_sa" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:text="Start- u. Ziellokation"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0066AF" />
+
+    <TextView
+        android:id="@+id/tvStartZiel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:text="Hamburg - Shanghai"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:text="Status"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0066AF" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="0dp"
+        android:paddingLeft="5dp"
+        android:text="Erfasst"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#007700" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:text="Gültig Bis"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0066AF" />
+
+    <TextView
+        android:id="@+id/tvGueltigBis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="0dp"
+        android:paddingLeft="5dp"
+        android:text="04.08.14 10:00 UTC"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/TextView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:text="Abholzeitraum"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0066AF" />
+
+    <TextView
+        android:id="@+id/tvAbholzeitraum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:text="14.07.14 16:00 UTC - 04.08.14 10:00 UTC"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/TextView04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:text="Geschäftspartner"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0066AF" />
+
+    <TextView
+        android:id="@+id/tvGeschaeftspartner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:text="Partner-Nr. #123\n\nHans Wurst\nMusterstr. 123\n20099 Hamburg, Deutschland"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</LinearLayout>

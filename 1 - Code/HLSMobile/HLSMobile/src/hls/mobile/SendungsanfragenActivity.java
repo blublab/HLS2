@@ -4,10 +4,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +27,16 @@ public class SendungsanfragenActivity extends Activity {
 		final ListViewAdapter lvAdapter = new ListViewAdapter(list);
 	    ListView lv = (ListView)findViewById(R.id.listView1);
 	    lv.setAdapter(lvAdapter);
+	    
+	    lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				Sendungsanfrage sa = lvAdapter.getItem(position);				
+				Intent simple = new Intent(SendungsanfragenActivity.this, SaDetailsActivity.class);
+				simple.putExtra("Sendungsanfrage", sa);
+				startActivity(simple);				
+			}});
     }
     
     public class ListViewAdapter extends BaseAdapter {
@@ -56,7 +69,7 @@ public class SendungsanfragenActivity extends Activity {
 				arg1 = inflater.inflate(R.layout.listitem_sendungsanfragen, arg2,false);
 			}    		
 			TextView tv1 = (TextView)arg1.findViewById(R.id.textView1);
-			TextView tv2 = (TextView)arg1.findViewById(R.id.textView2);
+			TextView tv2 = (TextView)arg1.findViewById(R.id.tvStartZiel);
 			
 			Sendungsanfrage sa = anfragen.get(arg0);
 			

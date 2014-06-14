@@ -56,7 +56,7 @@ public class KundenrechnungenActivity extends Activity {
 				arg1 = inflater.inflate(R.layout.listitem_kundenrechnungen, arg2,false);
 			}    	
 			TextView tv1 = (TextView)arg1.findViewById(R.id.textView1);
-			TextView tv2 = (TextView)arg1.findViewById(R.id.textView2);
+			TextView tv2 = (TextView)arg1.findViewById(R.id.tvStartZiel);
 			
 			Kundenrechnung kr = rechnungen.get(arg0);
 			

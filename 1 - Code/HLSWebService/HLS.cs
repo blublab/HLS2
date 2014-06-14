@@ -199,28 +199,30 @@ namespace HLSWebService
  
         private SendungsanfrageDTO[] CreateSendungsanfragen(GeschaeftspartnerDTO[] gpDTO)
         {
-            var hamburgLokation = new LokationDTO("Hamburg", TimeSpan.Parse("10"), 10);
-            var bremerhavenLokation = new LokationDTO("Bremerhaven", TimeSpan.Parse("15"), 15);
-            var shanghaiLokation = new LokationDTO("Shanghai", TimeSpan.Parse("10"), 10);
-            var hongkongLokation = new LokationDTO("Hong-Kong", TimeSpan.Parse("20"), 12);
-            var tokioLokation = new LokationDTO("Tokio", TimeSpan.Parse("15"), 15);
-            var rotterdamLokation = new LokationDTO("Rotterdam", TimeSpan.Parse("15"), 14);
-            var singapurLokation = new LokationDTO("Singapur", TimeSpan.Parse("8"), 18);
-
-            transportnetzServices.CreateLokation(ref hamburgLokation);
-            transportnetzServices.CreateLokation(ref bremerhavenLokation);
-            transportnetzServices.CreateLokation(ref shanghaiLokation);
-            transportnetzServices.CreateLokation(ref hongkongLokation);
-            transportnetzServices.CreateLokation(ref tokioLokation);
-            transportnetzServices.CreateLokation(ref rotterdamLokation);
-            transportnetzServices.CreateLokation(ref singapurLokation);
+            var loks = new Dictionary<string, LokationDTO>()
+            {
+                { "Hamburg",        new LokationDTO("Hamburg", TimeSpan.Parse("10"), 10)        },
+                { "Bremerhaven",    new LokationDTO("Bremerhaven", TimeSpan.Parse("15"), 15)    },
+                { "Shanghai",       new LokationDTO("Shanghai", TimeSpan.Parse("10"), 10)       },
+                { "Hongkong",       new LokationDTO("Hongkong", TimeSpan.Parse("20"), 12)       },
+                { "Tokio",          new LokationDTO("Tokio", TimeSpan.Parse("15"), 15)          },
+                { "Rotterdam",      new LokationDTO("Rotterdam", TimeSpan.Parse("15"), 14)      },
+                { "Singapur",       new LokationDTO("Singapur", TimeSpan.Parse("8"), 18)        }  
+            };
+            foreach (var key in new List<string>(loks.Keys))
+            {
+                var dto = loks[key];
+                transportnetzServices.CreateLokation(ref dto);
+                loks[key] = dto;
+            }
 
             var saDTO = new SendungsanfrageDTO();
             saDTO.Sendungspositionen.Add(new SendungspositionDTO());
-            saDTO.AbholzeitfensterStart = DateTime.Parse("29.07.2013");
-            saDTO.AbholzeitfensterEnde = DateTime.Parse("04.08.2013");
-            saDTO.StartLokation = hamburgLokation.LokNr;
-            saDTO.ZielLokation = bremerhavenLokation.LokNr;
+            saDTO.AbholzeitfensterStart = DateTime.Parse("29.06.2014");
+            saDTO.AbholzeitfensterEnde = DateTime.Parse("04.07.2014");
+            saDTO.AngebotGültigBis = new DateTime(2014, 8, 4, 14, 0, 0);
+            saDTO.StartLokation = loks["Hamburg"].LokNr;
+            saDTO.ZielLokation = loks["Bremerhaven"].LokNr;
             saDTO.AuftrageberNr = gpDTO[0].GpNr;
             auftragServices.CreateSendungsanfrage(ref saDTO);
 
@@ -228,8 +230,8 @@ namespace HLSWebService
             saDTO2.Sendungspositionen.Add(new SendungspositionDTO());
             saDTO2.AbholzeitfensterStart = DateTime.Parse("24.07.2014");
             saDTO2.AbholzeitfensterEnde = DateTime.Parse("09.08.2014");
-            saDTO2.StartLokation = shanghaiLokation.LokNr;
-            saDTO2.ZielLokation = hamburgLokation.LokNr;
+            saDTO2.StartLokation = loks["Shanghai"].LokNr;
+            saDTO2.ZielLokation = loks["Hamburg"].LokNr;
             saDTO2.AuftrageberNr = gpDTO[1].GpNr;
             auftragServices.CreateSendungsanfrage(ref saDTO2);
 
@@ -237,8 +239,8 @@ namespace HLSWebService
             saDTO3.Sendungspositionen.Add(new SendungspositionDTO());
             saDTO3.AbholzeitfensterStart = DateTime.Parse("20.07.2014");
             saDTO3.AbholzeitfensterEnde = DateTime.Parse("20.08.2014");
-            saDTO3.StartLokation = rotterdamLokation.LokNr;
-            saDTO3.ZielLokation = hongkongLokation.LokNr;
+            saDTO3.StartLokation = loks["Rotterdam"].LokNr;
+            saDTO3.ZielLokation = loks["Hongkong"].LokNr;
             saDTO3.AuftrageberNr = gpDTO[2].GpNr;
             auftragServices.CreateSendungsanfrage(ref saDTO3);
 
@@ -246,8 +248,8 @@ namespace HLSWebService
             saDTO4.Sendungspositionen.Add(new SendungspositionDTO());
             saDTO4.AbholzeitfensterStart = DateTime.Parse("26.07.2014");
             saDTO4.AbholzeitfensterEnde = DateTime.Parse("30.08.2014");
-            saDTO4.StartLokation = singapurLokation.LokNr;
-            saDTO4.ZielLokation = tokioLokation.LokNr;
+            saDTO4.StartLokation = loks["Singapur"].LokNr;
+            saDTO4.ZielLokation = loks["Tokio"].LokNr;
             saDTO4.AuftrageberNr = gpDTO[3].GpNr;
             auftragServices.CreateSendungsanfrage(ref saDTO4);
 

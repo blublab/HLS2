@@ -25,6 +25,7 @@
         </activity>
         <activity android:name="SendungsanfragenActivity"></activity>
         <activity android:name="KundenrechnungenActivity"></activity>
+        <activity android:name="SaDetailsActivity"></activity>
     </application>
 
 </manifest>

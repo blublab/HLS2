@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web.UI;
 using Newtonsoft.Json;
 
@@ -24,6 +25,12 @@ namespace HLSWebService
                     Start = hls.FindLokation(af.StartLokation),
                     Ziel = hls.FindLokation(af.ZielLokation),
                     Status = af.Status.ToString(),
+                    AbholzeitStart = af.AbholzeitfensterStart.ToUniversalTime()
+                        .ToString("dd.MM.yy HH:MM") + " UTC",
+                    AbholzeitEnde = af.AbholzeitfensterEnde.ToUniversalTime()
+                        .ToString("dd.MM.yy HH:MM") + " UTC",
+                    GueltigBis = af.AngebotGültigBis.ToUniversalTime()
+                        .ToString("dd.MM.yy HH:MM") + " UTC",
                     Auftrageber = hls.FindGeschaeftspartner(af.AuftrageberNr)
                 };
                 anfragen.Add(anon);
